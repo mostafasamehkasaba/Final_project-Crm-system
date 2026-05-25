@@ -16,8 +16,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   const pathname = usePathname();
 
   return (
-    <div className="flex h-screen overflow-hidden">   
-      {/* Sidebar */}
+    <div className="flex  overflow-hidden">   
+     
       <div className="w-72 bg-white border-r shadow-sm flex flex-col flex-shrink-0">
         <div className="p-6 border-b">
           <h1 className="text-2xl font-bold text-blue-600">RealEstate CRM</h1>
@@ -51,7 +51,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         </div>
       </div>
 
-      {/* Main Content */}
+      
       <div className="flex-1 overflow-auto bg-gray-50">
         <div className="p-8">
           {children}

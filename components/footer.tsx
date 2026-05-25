@@ -1,7 +1,8 @@
 import Link from 'next/link'
 import React from 'react'
-import { FaFacebookSquare, FaInstagram } from "react-icons/fa";
-import { FaSquareXTwitter } from "react-icons/fa6";
+import { FaFacebookSquare,  } from "react-icons/fa";
+import { FiInstagram } from "react-icons/fi";
+import { BsTwitterX } from "react-icons/bs";
 import { FaBuilding } from "react-icons/fa";
 const Footer = () => {
   return (
@@ -30,7 +31,7 @@ const Footer = () => {
             <Link href='/' className='hover:text-orange-400 transition-colors duration-200'>الصفحة الرئيسية</Link>
             <Link href='/about' className='hover:text-orange-400 transition-colors duration-200'>نبذة عنا</Link>
             <Link href='/categoris' className='hover:text-orange-400 transition-colors duration-200'>التصنيفات</Link>
-            <Link href='/contact-us' className='hover:text-orange-400 transition-colors duration-200'>تواصل معنا</Link>
+            <Link href='/contactUs' className='hover:text-orange-400 transition-colors duration-200'>تواصل معنا</Link>
           </div>
         </div>
 
@@ -69,8 +70,8 @@ const Footer = () => {
 
         <div className='flex gap-5 text-2xl text-gray-400'>
           <a href="#" className='hover:text-blue-500 transition-colors duration-200'><FaFacebookSquare /></a>
-          <a href="#" className='hover:text-pink-500 transition-colors duration-200'><FaInstagram /></a>
-          <a href="#" className='hover:text-white transition-colors duration-200'><FaSquareXTwitter /></a>
+          <a href="#" className='hover:text-pink-500 transition-colors duration-200'><FiInstagram /></a>
+          <a href="#" className='hover:text-white transition-colors duration-200'><BsTwitterX /></a>
         </div>        
       </div>
 
