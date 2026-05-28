@@ -2,19 +2,10 @@ import type { Metadata } from "next";
 import { Cairo, Inter } from "next/font/google";
 import "./globals.css";
 
-<<<<<<< HEAD
-
-=======
->>>>>>> c4485813f52247aa1f0ceb0c7b5f22710cb34898
 const cairo = Cairo({
   subsets: ["arabic"],
   variable: "--font-cairo",
 });
-
-<<<<<<< HEAD
-
-=======
->>>>>>> c4485813f52247aa1f0ceb0c7b5f22710cb34898
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
