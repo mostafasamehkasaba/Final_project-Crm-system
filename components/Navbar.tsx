@@ -8,7 +8,9 @@ const Navbar = () => {
         <div className="flex gap-4">
           <span>الرئيسية</span>
           <span>العقارات</span>
+          <span>نبذة عنا</span>
           <span>المفضلة</span>
+          
         </div>
       </nav>
       </div>
