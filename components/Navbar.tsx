@@ -4,7 +4,6 @@ import { Menu, X } from "lucide-react";
 import { useState } from "react";
 import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
-
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -36,8 +35,6 @@ import { useContext } from "react";
 import { UserContext } from "../app/(site)/(Context)/Context";
 import Image from "next/image";
 import Link from "next/link";
-
-// داخل الـ Navbar component:
 
 interface MenuItem {
   title: string;
@@ -97,11 +94,11 @@ const Navbar = ({
     <header
       dir="rtl"
       className={cn(
-        "sticky  z-50  bg-background/80 backdrop-blur-md border-b",
+        "sticky top-0 z-50 bg-background/80 backdrop-blur-md border-b",
         className,
       )}
     >
-      <div className="container mx-auto">
+      <div className="container mx-auto px-4">
         {/* ───── Desktop ───── */}
         <nav className="hidden lg:flex items-center justify-between h-16">
           {/* Logo */}
@@ -124,7 +121,7 @@ const Navbar = ({
           {/* Links */}
           <NavigationMenu>
             <NavigationMenuList className="gap-6">
-              {menu.reverse().map((item) => renderMenuItem(item, pathname))}
+              {[...menu].reverse().map((item) => renderMenuItem(item, pathname))}
             </NavigationMenuList>
           </NavigationMenu>
 
@@ -202,7 +199,7 @@ const Navbar = ({
 
               <div className="flex flex-col gap-2">
                 <Accordion type="single" collapsible className="w-full">
-                  {menu
+                  {[...menu]
                     .reverse()
                     .map((item) =>
                       renderMobileMenuItem(item, pathname, () =>
@@ -289,7 +286,7 @@ const renderMenuItem = (item: MenuItem, pathname: string) => {
       <NavigationMenuLink
         href={item.url}
         className={cn(
-          "inline-flex h-9 items-center justify-center rounded-md py-2 text-sm font-medium transition-colors",
+          "inline-flex h-9 items-center justify-center rounded-md py-2 text-sm font-medium transition-colors px-3",
           "hover:bg-muted hover:text-foreground focus:outline-none",
           isActive
             ? "bg-primary/10 text-primary font-semibold"
@@ -308,8 +305,6 @@ const renderMobileMenuItem = (
   pathname: string,
   onClose: () => void,
 ) => {
-  const isActive = pathname === item.url;
-
   if (item.items) {
     return (
       <AccordionItem key={item.title} value={item.title} className="border-b-0">
@@ -333,6 +328,7 @@ const renderMobileMenuItem = (
     );
   }
 
+  const isActive = pathname === item.url;
   return (
     <Link
       key={item.title}
