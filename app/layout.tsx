@@ -13,9 +13,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-
-  title: "Real Estate Project", 
-
+  title: "Real Estate Project",
 
   description: "Best properties in Egypt",
 };
@@ -27,6 +25,7 @@ export default function RootLayout({
 }>) {
   return (
 
+
     <html lang="ar" dir="rtl"> 
       <body className={`${cairo.className} ${inter.variable} font-cairo antialiased`} suppressHydrationWarning>
         {children} 
@@ -34,4 +33,3 @@ export default function RootLayout({
     </html>
   );
 }
-

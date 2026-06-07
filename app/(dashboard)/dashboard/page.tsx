@@ -1,3 +1,4 @@
+
 "use client"
 import React from "react";
 import { CiDollar } from "react-icons/ci";
@@ -246,3 +247,5 @@ export default function Dashboardpage() {
     </div>
   );
 }
+
+
