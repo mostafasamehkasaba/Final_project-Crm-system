@@ -12,9 +12,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-
-  title: "Real Estate Project", 
-
+  title: "Real Estate Project",
 
   description: "Best properties in Egypt",
 };
@@ -25,12 +23,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-
-    <html lang="ar" dir="rtl"> 
-      <body className={`${cairo.variable} ${inter.variable} font-cairo antialiased`} suppressHydrationWarning>
-        {children} 
+    <html lang="ar" dir="rtl" suppressHydrationWarning>
+      <body
+        className={`${cairo.variable} ${inter.variable} font-cairo antialiased`}
+        suppressHydrationWarning
+      >
+        {children}
       </body>
     </html>
   );
 }
-
