@@ -1,9 +1,11 @@
 "use client";
 
-import { Menu, X } from "lucide-react";
+import { Heart, Menu, X } from "lucide-react";
 import { useState } from "react";
 import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@mui/material";
+import { useFavorites } from "@/app/(site)/favorites/(FavoritesContext)/FavoritesContext";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -83,7 +85,9 @@ const Navbar = ({
   const [sheetOpen, setSheetOpen] = useState(false);
 
   const { UserToken, setUserToken } = useContext(UserContext)!;
+  const { favoriteProperties } = useFavorites();
 
+  const favoritesCount = favoriteProperties.length;
   const handleLogout = () => {
     localStorage.removeItem("userToken2");
     setUserToken(null);
@@ -127,6 +131,22 @@ const Navbar = ({
 
           {/* Auth */}
           <div className="flex items-center gap-2">
+            <Link
+              href="/favorites"
+              className="relative flex items-center justify-center rounded-full p-2 hover:bg-muted transition-colors"
+            >
+              <Badge
+                badgeContent={favoritesCount}
+                sx={{
+                  "& .MuiBadge-badge": {
+                    backgroundColor: "#ef4444",
+                    color: "white",
+                  },
+                }}
+              >
+                <Heart className="h-5 w-5" />
+              </Badge>
+            </Link> 
             {UserToken ? (
               <Button
                 variant="destructive"
@@ -207,6 +227,26 @@ const Navbar = ({
                       ),
                     )}
                 </Accordion>
+                <Link
+                  href="/favorites"
+                  onClick={() => setSheetOpen(false)}
+                  className="flex items-center justify-between rounded-md px-3 py-2 text-sm font-semibold transition-colors hover:bg-muted"
+                >
+                  <div className="flex items-center gap-2">
+                    <Heart className="h-4 w-4" />
+                    <span>المفضلة</span>
+                  </div>
+
+                  <Badge
+                    badgeContent={favoritesCount}
+                    sx={{
+                      "& .MuiBadge-badge": {
+                        backgroundColor: "#ef4444",
+                        color: "white",
+                      },
+                    }}
+                  />
+                </Link>
 
                 <div className="flex flex-col gap-2 mt-4 pt-4 border-t">
                   {UserToken ? (

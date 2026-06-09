@@ -1,57 +1,105 @@
-import { MapPin, Bath, BedDouble, Maximize2 } from "lucide-react";
-import Image from "next/image";
-import { Property } from "@/types/properites";
+"use client";
 
-export default function PropertyCard({ property }: { property: Property }) {
+import Image from "next/image";
+import Link from "next/link";
+import { Heart, Star } from "lucide-react";
+
+import { IProperty } from "@/interfaces/property.interface";
+import { useFavorites } from "@/app/(site)/favorites/(FavoritesContext)/FavoritesContext";
+
+interface PropertyCardProps {
+  property: IProperty;
+}
+
+function PropertyCard({ property }: PropertyCardProps) {
+  const {
+    addToFavorites,
+    removeFromFavorites,
+    isFavorite,
+  } = useFavorites();
+
+  const propertyIsFavorite = isFavorite(property._id);
+
+  const handleFavoriteButtonClick = (
+    event: React.MouseEvent<HTMLButtonElement>
+  ): void => {
+    event.preventDefault();
+    event.stopPropagation();
+
+    if (propertyIsFavorite) {
+      removeFromFavorites(property._id);
+      return;
+    }
+
+    addToFavorites(property);
+  };
+
   return (
-    <div className=" w-80 rounded-2xl overflow-hidden bg-white shadow-sm hover:shadow-md transition-shadow">
-      
-      <div className="relative h-56 w-full">
-        <Image
-          src={property.image}
-          alt={property.title}
-          fill
-          className="object-cover"
-        />
-        <span className="absolute top-3 right-3 bg-white/90 text-xs font-medium px-3 py-1 rounded-full flex items-center gap-1">
-          <MapPin className="w-3 h-3" />
-          {property.location}
-        </span>
+    <div className="bg-white rounded-2xl overflow-hidden shadow-md w-full max-w-[280px]">
+      <div className="relative">
+        <Link href={`/products/${property._id}`}>
+          <Image
+            src={property.imageCover}
+            alt={property.title}
+            width={280}
+            height={200}
+            loading="lazy"
+            className="w-full h-[180px] object-cover"
+          />
+        </Link>
+
+        <button
+          type="button"
+          aria-label={
+            propertyIsFavorite
+              ? "Remove from favorites"
+              : "Add to favorites"
+          }
+          onClick={handleFavoriteButtonClick}
+          className="absolute top-3 right-3 bg-white/80 backdrop-blur-sm rounded-full p-1.5 shadow hover:bg-white transition-colors"
+        >
+          <Heart
+            className={
+              propertyIsFavorite
+                ? "w-4 h-4 text-red-500 fill-red-500 transition-colors"
+                : "w-4 h-4 text-gray-500 hover:text-red-500 transition-colors"
+            }
+          />
+        </button>
       </div>
 
       <div className="p-4">
-        
-        <div className="flex items-center gap-4 text-sm text-neutral-500 mb-2">
-          <span className="flex items-center gap-1">
-            <Maximize2 className="w-3.5 h-3.5" />
-            {property.area} متر
-          </span>
-          <span className="flex items-center gap-1">
-            <BedDouble className="w-3.5 h-3.5" />
-            {property.beds}
-          </span>
-          <span className="flex items-center gap-1">
-            <Bath className="w-3.5 h-3.5" />
-            {property.baths}
-          </span>
+        <div className="flex items-center justify-between mb-1">
+          <Link href={`/products/${property._id}`}>
+            <h3 className="font-semibold text-gray-900 text-sm line-clamp-1">
+              {property.title}
+            </h3>
+          </Link>
+
+          <div className="flex items-center gap-1 shrink-0 ml-2">
+            <Star className="w-3.5 h-3.5 text-yellow-400 fill-yellow-400" />
+            <span className="text-xs font-semibold text-gray-700">
+              {property.ratingsAverage}
+            </span>
+          </div>
         </div>
 
-        
-        <h3 className="font-semibold text-lg text-neutral-900">
-          {property.title}
-        </h3>
-
-    
-        <p className="text-sm text-neutral-500 mt-1 line-clamp-2">
-          {property.description}
+        <p className="text-orange-500 font-bold text-lg mb-3">
+          ${property.price.toLocaleString()}
         </p>
 
-       
-        <p className="mt-3 font-semibold text-neutral-900">
-          {property.price.toLocaleString()} جنيه
-        </p>
-
+        <Link href={`/products/${property._id}`}>
+          <button
+            type="button"
+            className="w-full bg-orange-500 hover:bg-orange-600 active:bg-orange-700 text-white text-sm font-semibold py-2.5 rounded-xl transition-colors flex items-center justify-center gap-2"
+          >
+            Details
+            <span aria-hidden="true">→</span>
+          </button>
+        </Link>
       </div>
     </div>
   );
 }
+
+export default PropertyCard;
