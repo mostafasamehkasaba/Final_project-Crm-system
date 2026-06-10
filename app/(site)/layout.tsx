@@ -1,6 +1,7 @@
 import Footer from "@/components/footer";
-import Navbar from "@/components/Navbar";
+import Navbar from "@/components/navbar/Navbar";
 import UserContextProvider from "./(Context)/Context";
+import { ThemeProvider } from "@/components/theme-provider";
 
 export default function SiteLayout({
   children,
@@ -9,12 +10,18 @@ export default function SiteLayout({
 }) {
   return (
     <>
-      <UserContextProvider>
-        <Navbar />
-        <main>{children}</main>
-        <Footer/>
-      </UserContextProvider>
+      <ThemeProvider
+        attribute="class"
+        defaultTheme="system"
+        enableSystem
+        disableTransitionOnChange
+      >
+        <UserContextProvider>
+          <Navbar />
+          <main>{children}</main>
+          <Footer />
+        </UserContextProvider>
+      </ThemeProvider>
     </>
   );
 }
-

@@ -22,7 +22,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { PanelLeftIcon } from "lucide-react";
+import { ChevronLeft, ChevronRight, PanelLeftIcon } from "lucide-react";
 
 const SIDEBAR_COOKIE_NAME = "sidebar_state";
 const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7;
@@ -255,23 +255,28 @@ function SidebarTrigger({
   onClick,
   ...props
 }: React.ComponentProps<typeof Button>) {
-  const { toggleSidebar } = useSidebar();
-
+  const { toggleSidebar, state } = useSidebar();
+  const isOpen = state === "expanded";
   return (
     <Button
       data-sidebar="trigger"
       data-slot="sidebar-trigger"
       variant="ghost"
-      size="icon-sm"
-      className={cn(className)}
+      size="icon-lg"
+      style={{ cursor: "pointer" }}
+      className={cn("p-2 rounded-full bg-gray-200 w-auto h-auto ", className)}
       onClick={(event) => {
         onClick?.(event);
         toggleSidebar();
       }}
       {...props}
     >
-      <PanelLeftIcon />
-      <span className="sr-only">Toggle Sidebar</span>
+      {isOpen ? (
+        <ChevronLeft className="h-4 w-4 text-gray-700  transition-transform duration-200" />
+      ) : (
+        <ChevronRight className="h-4 w-4 text-gray-700  transition-transform duration-200" />
+      )}
+      {/* <PanelLeftIcon /> */}
     </Button>
   );
 }

@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { MdMarkEmailRead, MdPlace } from "react-icons/md";
 import { FaPhoneVolume } from "react-icons/fa6";
-import { Button } from './ui/button'
+import { Button } from '../ui/button'
 import { motion ,Variants } from "motion/react"; 
 import {
   Form,
