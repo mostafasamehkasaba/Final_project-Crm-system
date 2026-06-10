@@ -1,246 +1,324 @@
 "use client";
 
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import styles from "./HeroSlider.module.css";
+
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import Container from "@mui/material/Container";
+import Stack from "@mui/material/Stack";
+import Typography from "@mui/material/Typography";
+
+interface SlideItem {
+  id: number;
+  image: string;
+  tag: string;
+  title: string;
+  subtitle: string;
+  ctaPrimary: string;
+  ctaPrimaryHref: string;
+  ctaSecondary?: string;
+  ctaSecondaryHref?: string;
+}
+
+const slides: SlideItem[] = [
+  {
+    id: 1,
+    image: "/images/hero/slide-1.jpg",
+    tag: "كومباوند فاخر",
+    title: "حياة راقية في قلب القاهرة الجديدة",
+    subtitle: "مجمع بلوم فيلدز — التجمع الخامس",
+    ctaPrimary: "تصفح الوحدات",
+    ctaPrimaryHref: "/properites",
+    ctaSecondary: "تواصل معنا",
+    ctaSecondaryHref: "/contactUs",
+  },
+  {
+    id: 2,
+    image: "/images/hero/slide-2.jpg",
+    tag: "فيلات وتوين هاوس",
+    title: "مساحات فاخرة تليق بأسلوب حياتك",
+    subtitle: "كومباوند المقصد — العاصمة الإدارية",
+    ctaPrimary: "اكتشف الآن",
+    ctaPrimaryHref: "/properites?type=villa",
+    ctaSecondary: "احجز جولة",
+    ctaSecondaryHref: "/contactUs",
+  },
+  {
+    id: 3,
+    image: "/images/hero/slide-3.jpg",
+    tag: "شقق فندقية",
+    title: "استثمر بذكاء في أفضل المواقع",
+    subtitle: "برج النيل — وسط البلد الجديدة",
+    ctaPrimary: "تصفح العروض",
+    ctaPrimaryHref: "/properites?type=apartment",
+    ctaSecondary: "استشارة مجانية",
+    ctaSecondaryHref: "/contactUs",
+  },
+];
+
+const AUTO_PLAY_DURATION = 6000;
 
 export default function HeroSlider() {
-  const slides = [
-    {
-      id: 1,
-      image: "/images/hero/slide-1.jpg",
-      tag: "كومباوند فاخر",
-      title: "حياة راقية في قلب القاهرة الجديدة",
-      subtitle: "مجمع بلوم فيلدز — التجمع الخامس",
-      ctaPrimary: "تصفح الوحدات",
-      ctaPrimaryHref: "/properties",
-      ctaSecondary: "تواصل معنا",
-      ctaSecondaryHref: "/contact",
-    },
-    {
-      id: 2,
-      image: "/images/hero/slide-2.jpg",
-      tag: "فيلات وتوين هاوس",
-      title: "مساحات فاخرة تليق بأسلوب حياتك",
-      subtitle: "كومباوند المقصد — العاصمة الإدارية",
-      ctaPrimary: "اكتشف الآن",
-      ctaPrimaryHref: "/properties?type=villa",
-      ctaSecondary: "احجز جولة",
-      ctaSecondaryHref: "/contact",
-    },
-    {
-      id: 3,
-      image: "/images/hero/slide-3.jpg",
-      tag: "شقق فندقية",
-      title: "استثمر بذكاء في أفضل المواقع",
-      subtitle: "برج النيل — وسط البلد الجديدة",
-      ctaPrimary: "تصفح العروض",
-      ctaPrimaryHref: "/properties?type=apartment",
-      ctaSecondary: "استشارة مجانية",
-      ctaSecondaryHref: "/contact",
-    },
-  ];
+  const [currentSlide, setCurrentSlide] = useState<number>(0);
 
-  const autoPlayInterval = 5000;
-  const [current, setCurrent] = useState(0);
-  const [isTransitioning, setIsTransitioning] = useState(false);
-  const [isPaused, setIsPaused] = useState(false);
-  const [progressKey, setProgressKey] = useState(0);
-  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-  const goTo = useCallback(
-    (index: number) => {
-      if (isTransitioning) return;
-      setIsTransitioning(true);
-      setProgressKey((k) => k + 1);
-
-      setTimeout(() => {
-        setCurrent((index + slides.length) % slides.length);
-        setIsTransitioning(false);
-      }, 600);
-    },
-    [isTransitioning, slides.length]
+  const activeSlide = useMemo(
+    () => slides[currentSlide],
+    [currentSlide]
   );
 
-  const goNext = useCallback(
-    () => goTo((current + 1) % slides.length),
-    [current, goTo, slides.length]
-  );
-
-  const goPrev = useCallback(
-    () => goTo((current - 1 + slides.length) % slides.length),
-    [current, goTo, slides.length]
-  );
+  const nextSlide = useCallback(() => {
+    setCurrentSlide((prev) => (prev + 1) % slides.length);
+  }, []);
 
   useEffect(() => {
-    if (isPaused) return;
-    timerRef.current = setTimeout(goNext, autoPlayInterval);
-    return () => {
-      if (timerRef.current) clearTimeout(timerRef.current);
-    };
-  }, [current, isPaused, goNext, autoPlayInterval]);
+    const interval = setInterval(nextSlide, AUTO_PLAY_DURATION);
 
-  useEffect(() => {
-    const handleKey = (e: KeyboardEvent) => {
-      if (e.key === "ArrowLeft") goNext();
-      if (e.key === "ArrowRight") goPrev();
-    };
-    window.addEventListener("keydown", handleKey);
-    return () => window.removeEventListener("keydown", handleKey);
-  }, [goNext, goPrev]);
-
-  const slide = slides[current];
+    return () => clearInterval(interval);
+  }, [nextSlide]);
 
   return (
-    <section
-      className={styles.slider}
-      aria-label="عرض الكومباوندات المميزة"
-      onMouseEnter={() => setIsPaused(true)}
-      onMouseLeave={() => setIsPaused(false)}
+    <Box
+      component="section"
+      aria-label="منصة العقارات الفاخرة"
+      sx={{
+        position: "relative",
+        minHeight: "100vh",
+        width: "100%",
+        overflow: "hidden",
+      }}
     >
-      <div className={styles.track} aria-hidden="true">
-        {slides.map((s, i) => (
-          <div
-            key={s.id}
-            className={`${styles.slide} ${i === current ? styles.slideActive : ""}`}
-          >
-            <Image
-              src={s.image}
-              alt={s.title}
-              fill
-              priority={i === 0}
-              quality={90}
-              className={styles.slideImage}
-              sizes="100vw"
-            />
-            <div className={styles.overlay} />
-          </div>
-        ))}
-      </div>
-
-      <div className={styles.content}>
-        <div
-          key={current}
-          className={`${styles.contentInner} ${
-            isTransitioning ? styles.contentOut : styles.contentIn
-          }`}
+      {slides.map((slide, index) => (
+        <Box
+          key={slide.id}
+          sx={{
+            position: "absolute",
+            inset: 0,
+            opacity: index === currentSlide ? 1 : 0,
+            transform:
+              index === currentSlide ? "scale(1)" : "scale(1.05)",
+            transition:
+              "opacity 1.2s ease, transform 6s ease",
+            zIndex: index === currentSlide ? 1 : 0,
+          }}
         >
-          <span className={styles.tag}>{slide.tag}</span>
-          <h1 className={styles.title}>{slide.title}</h1>
-          <p className={styles.subtitle}>{slide.subtitle}</p>
-          <div className={styles.ctas}>
-            <Link href={slide.ctaPrimaryHref} className={styles.ctaPrimary}>
-              {slide.ctaPrimary}
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth={2}
-                className={styles.ctaIcon}
-                aria-hidden="true"
+          <Image
+            src={slide.image}
+            alt={slide.title}
+            fill
+            priority={index === 0}
+            quality={100}
+            sizes="100vw"
+            style={{
+              objectFit: "cover",
+            }}
+          />
+
+          <Box
+            sx={{
+              position: "absolute",
+              inset: 0,
+              background:
+                "linear-gradient(to bottom, rgba(0,0,0,0.4), rgba(0,0,0,0.75))",
+            }}
+          />
+        </Box>
+      ))}
+
+      <Container
+        maxWidth="xl"
+        sx={{
+          position: "relative",
+          zIndex: 5,
+          minHeight: "100vh",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <Box
+          sx={{
+            width: "100%",
+            textAlign: "center",
+            color: "#ffffff",
+            py: {
+              xs: 14,
+              md: 18,
+            },
+          }}
+        >
+          <Typography
+            sx={{
+              display: "inline-flex",
+              alignItems: "center",
+              justifyContent: "center",
+              px: 3,
+              py: 1,
+              mb: 4,
+              borderRadius: "999px",
+              border: "1px solid rgba(255,255,255,0.15)",
+              backgroundColor: "rgba(255,255,255,0.08)",
+              backdropFilter: "blur(12px)",
+              color: "#b7791f",
+              fontWeight: 700,
+              fontSize: {
+                xs: "0.85rem",
+                md: "1rem",
+              },
+              letterSpacing: 1,
+            }}
+          >
+            {activeSlide.tag}
+          </Typography>
+
+          <Typography
+            component="h1"
+            sx={{
+              fontWeight: 900,
+              lineHeight: 1.1,
+              maxWidth: "1100px",
+              mx: "auto",
+              mb: 3,
+              fontSize: "clamp(3rem, 8vw, 6.5rem)",
+            }}
+          >
+            {activeSlide.title.split(" ").map((word, index) => (
+              <Box
+                key={`${word}-${index}`}
+                component="span"
+                sx={{
+                  color:
+                    index === activeSlide.title.split(" ").length - 1
+                      ? "#b7791f"
+                      : "#ffffff",
+                  ml: 1,
+                }}
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M19 12H5m7-7-7 7 7 7"
-                />
-              </svg>
+                {word}
+              </Box>
+            ))}
+          </Typography>
+
+          <Typography
+            sx={{
+              maxWidth: "800px",
+              mx: "auto",
+              mb: 6,
+              color: "rgba(255,255,255,0.82)",
+              lineHeight: 1.9,
+              fontWeight: 400,
+              fontSize: {
+                xs: "1rem",
+                md: "1.35rem",
+              },
+            }}
+          >
+            {activeSlide.subtitle}
+          </Typography>
+
+          <Stack
+            direction="row"
+            spacing={2}
+            sx={{
+              justifyContent: "center",
+              alignItems: "center",
+              flexWrap: "wrap",
+            }}
+          >
+            <Link
+              href={activeSlide.ctaPrimaryHref}
+              passHref
+              style={{ textDecoration: "none" }}
+            >
+              <Button
+                variant="contained"
+                size="large"
+                sx={{
+                  minWidth: 220,
+                  height: 58,
+                  borderRadius: "999px",
+                  backgroundColor: "#b7791f",
+                  color: "#ffffff",
+                  fontWeight: 800,
+                  fontSize: "1rem",
+                  boxShadow:
+                    "0 10px 30px rgba(183, 121, 31, 0.35)",
+                  transition: "all 0.3s ease",
+                  "&:hover": {
+                    backgroundColor: "#966217",
+                    transform: "translateY(-3px)",
+                  },
+                }}
+              >
+                {activeSlide.ctaPrimary}
+              </Button>
             </Link>
-            {slide.ctaSecondary && slide.ctaSecondaryHref && (
+
+            {activeSlide.ctaSecondary &&
+            activeSlide.ctaSecondaryHref ? (
               <Link
-                href={slide.ctaSecondaryHref}
-                className={styles.ctaSecondary}
+                href={activeSlide.ctaSecondaryHref}
+                passHref
+                style={{ textDecoration: "none" }}
               >
-                {slide.ctaSecondary}
+                <Button
+                  variant="outlined"
+                  size="large"
+                  sx={{
+                    minWidth: 220,
+                    height: 58,
+                    borderRadius: "999px",
+                    borderColor: "rgba(255,255,255,0.3)",
+                    color: "#ffffff",
+                    fontWeight: 700,
+                    fontSize: "1rem",
+                    backdropFilter: "blur(10px)",
+                    backgroundColor: "rgba(255,255,255,0.05)",
+                    transition: "all 0.3s ease",
+                    "&:hover": {
+                      borderColor: "#ffffff",
+                      backgroundColor: "rgba(255,255,255,0.12)",
+                    },
+                  }}
+                >
+                  {activeSlide.ctaSecondary}
+                </Button>
               </Link>
-            )}
-          </div>
-        </div>
-      </div>
+            ) : null}
+          </Stack>
+        </Box>
+      </Container>
 
-      <div className={styles.progressBar} aria-hidden="true">
-        <div
-          key={progressKey}
-          className={`${styles.progressFill} ${
-            isPaused ? styles.progressPaused : ""
-          }`}
-          style={
-            { "--duration": `${autoPlayInterval}ms` } as React.CSSProperties
-          }
-        />
-      </div>
-
-      <div className={styles.counter} aria-live="polite" aria-atomic="true">
-        <span className={styles.counterCurrent}>
-          {String(current + 1).padStart(2, "0")}
-        </span>
-        <span className={styles.counterSep}>/</span>
-        <span className={styles.counterTotal}>
-          {String(slides.length).padStart(2, "0")}
-        </span>
-      </div>
-
-      <div className={styles.controls} aria-label="تحكم في السلايدر">
-        <button
-          onClick={goPrev}
-          className={styles.controlBtn}
-          aria-label="السلايد السابق"
-          disabled={isTransitioning}
-        >
-          <svg
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth={1.5}
-            aria-hidden="true"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M9 18l6-6-6-6"
-            />
-          </svg>
-        </button>
-        <button
-          onClick={goNext}
-          className={styles.controlBtn}
-          aria-label="السلايد التالي"
-          disabled={isTransitioning}
-        >
-          <svg
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth={1.5}
-            aria-hidden="true"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M15 18l-6-6 6-6"
-            />
-          </svg>
-        </button>
-      </div>
-
-      <div className={styles.dots} role="tablist" aria-label="اختر السلايد">
-        {slides.map((s, i) => (
-          <button
-            key={s.id}
-            role="tab"
-            aria-selected={i === current}
-            aria-label={`السلايد ${i + 1}: ${s.tag}`}
-            className={`${styles.dot} ${i === current ? styles.dotActive : ""}`}
-            onClick={() => goTo(i)}
+      <Stack
+        direction="row"
+        spacing={1.5}
+        sx={{
+          position: "absolute",
+          bottom: 40,
+          left: "50%",
+          transform: "translateX(-50%)",
+          zIndex: 10,
+        }}
+      >
+        {slides.map((slide, index) => (
+          <Box
+            key={slide.id}
+            onClick={() => setCurrentSlide(index)}
+            sx={{
+              width: index === currentSlide ? 42 : 12,
+              height: 12,
+              borderRadius: "999px",
+              cursor: "pointer",
+              transition: "all 0.35s ease",
+              backgroundColor:
+                index === currentSlide
+                  ? "#b7791f"
+                  : "rgba(255,255,255,0.45)",
+            }}
           />
         ))}
-      </div>
-
-      <div className={styles.scrollHint} aria-hidden="true">
-        <span className={styles.scrollText}>اكتشف المزيد</span>
-        <div className={styles.scrollLine} />
-      </div>
-    </section>
+      </Stack>
+    </Box>
   );
 }
