@@ -7,10 +7,7 @@ import slide from "../../../public/premium_photo-1680553489384-8e3230dd1073.avif
 import { IProperty } from "@/interfaces/property.interface";
 
 export default async function Home() {
-  const result = await getProperties();
-
-  // إذا لم تكن data موجودة، استخدم مصفوفة فارغة
-  const properties: IProperty[] = result?.data ?? [];
+  const properties: IProperty[] = await getProperties();
 
   const slides = [
     { id: 1, src: slide.src, href: "/product/1" },
@@ -22,6 +19,7 @@ export default async function Home() {
 
   return (
     <div>
+      {/* HERO */}
       <section
         className="relative min-h-screen bg-cover bg-center flex items-center justify-center"
         style={{ backgroundImage: "url('/screen.png')" }}
@@ -55,6 +53,7 @@ export default async function Home() {
         </div>
       </section>
 
+      {/* CONTENT */}
       <section className="flex justify-center">
         <div className="container bg-gray-100">
           <Title
@@ -77,6 +76,7 @@ export default async function Home() {
             subtitle="اكتشف وحدتك المستقبليه سارع بالحجز"
           />
 
+          {/* PRODUCTS */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
             {properties.length > 0 ? (
               properties.map((property) => (
