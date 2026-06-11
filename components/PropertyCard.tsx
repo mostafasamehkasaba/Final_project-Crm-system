@@ -39,8 +39,9 @@ function PropertyCard({ property }: PropertyCardProps) {
       <div className="relative">
         <Link href={`/products/${property._id}`}>
           <Image
-            src={property.imageCover}
-            alt={property.title}
+            /* الحل هنا: إذا كانت imageCover فارغة، سيتم استخدام الصورة الاحتياطية تلقائياً */
+            src={property.imageCover || "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=280&q=80"}
+            alt={property.title || "Property Image"}
             width={280}
             height={200}
             loading="lazy"
@@ -85,7 +86,7 @@ function PropertyCard({ property }: PropertyCardProps) {
         </div>
 
         <p className="text-orange-500 font-bold text-lg mb-3">
-          ${property.price.toLocaleString()}
+          ${property.price ? property.price.toLocaleString() : "0"}
         </p>
 
         <Link href={`/products/${property._id}`}>

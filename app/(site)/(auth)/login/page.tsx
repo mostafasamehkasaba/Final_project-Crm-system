@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useRouter } from "next/navigation";
-import { User, Mail, Phone, Lock, UserPlus } from "lucide-react";
+import { Mail, Lock, LogIn, Building2 } from "lucide-react";
 import {
   Form,
   FormControl,
@@ -17,6 +17,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useContext } from "react";
 import { UserContext } from "../../(Context)/Context";
+import Link from "next/link";
 
 const formSchema = z.object({
   email: z.string().email("البريد الإلكتروني غير صحيح"),
@@ -25,18 +26,16 @@ const formSchema = z.object({
 
 type FormValues = z.infer<typeof formSchema>;
 
-export default function RegisterForm() {
+export default function LoginForm() {
   const router = useRouter();
-
-  let { setUserToken } = useContext(UserContext);
+  const { setUserToken } = useContext(UserContext);
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      email: "",
-      password: "",
-    },
+    defaultValues: { email: "", password: "" },
   });
+
+  const isLoading = form.formState.isSubmitting;
 
   async function onSubmit(values: FormValues) {
     try {
@@ -60,92 +59,136 @@ export default function RegisterForm() {
       localStorage.setItem("userToken2", data.token);
       setUserToken(data.token);
       router.push("/");
-      console.log("Login");
-    } catch (error) {
-      form.setError("root", {
-        message: "حدث خطأ، يرجى المحاولة لاحقاً",
-      });
+    } catch {
+      form.setError("root", { message: "حدث خطأ، يرجى المحاولة لاحقاً" });
     }
   }
 
   return (
     <div
-      className="w-full max-w-lg py-5 mx-auto"
+      className="min-h-screen flex mt-10 justify-center bg-background px-4 "
       dir="rtl"
-      style={{ fontFamily: "'IBM Plex Sans Arabic', sans-serif" }}
     >
-      <div className="card shadow-sm">
-        <div className="card-body p-4">
-          <h2 className="mb-10 text-center">تسجيل الدخول </h2>
+      <div className="w-full max-w-md">
+        {/* Logo */}
+        <div className="flex flex-col items-center gap-3 mb-8">
+          <div className="w-12 h-12 bg-green-700 rounded-xl flex items-center justify-center">
+            <Building2 className="size-6 text-white" />
+          </div>
+          <div className="text-center">
+            <h1 className="text-xl font-bold tracking-tight">تسجيل الدخول</h1>
+            <p className="text-sm text-muted-foreground mt-1">
+              أهلاً بعودتك، سجل دخولك للمتابعة
+            </p>
+          </div>
+        </div>
 
+        {/* Card */}
+        <div className="bg-background border border-border rounded-2xl p-6 shadow-sm">
           <Form {...form}>
-            {form.formState.errors.root && (
-              <p className="text-sm text-red-500 text-center">
-                {form.formState.errors.root.message}
-              </p>
-            )}
-
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-              {/* البريد الإلكتروني */}
+              {/* Root error */}
+              {form.formState.errors.root && (
+                <div className="bg-destructive/10 border border-destructive/20 text-destructive text-sm rounded-lg px-4 py-3 text-center">
+                  {form.formState.errors.root.message}
+                </div>
+              )}
+
+              {/* البريد */}
               <FormField
                 control={form.control}
                 name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>البريد الإلكتروني</FormLabel>
+                    <FormLabel className="text-sm font-medium">
+                      البريد الإلكتروني
+                    </FormLabel>
                     <FormControl>
                       <div className="relative">
                         <Mail
-                          size={16}
+                          size={15}
                           className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none"
                         />
                         <Input
                           placeholder="example@gmail.com"
-                          className="pr-9"
+                          className="pr-9 h-10"
                           {...field}
                         />
                       </div>
                     </FormControl>
-                    <FormMessage />
+                    <FormMessage className="text-xs" />
                   </FormItem>
                 )}
               />
 
+              {/* كلمة المرور */}
               <FormField
                 control={form.control}
                 name="password"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>كلمة المرور</FormLabel>
+                    <div className="flex items-center justify-between">
+                      <FormLabel className="text-sm font-medium">
+                        كلمة المرور
+                      </FormLabel>
+                      <Link
+                        href="/forgot-password"
+                        className="text-xs text-green-700 hover:underline"
+                      >
+                        نسيت كلمة المرور؟
+                      </Link>
+                    </div>
                     <FormControl>
                       <div className="relative">
                         <Lock
-                          size={16}
+                          size={15}
                           className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none"
                         />
                         <Input
                           type="password"
                           placeholder="••••••••"
-                          className="pr-9"
+                          className="pr-9 h-10"
                           {...field}
                         />
                       </div>
                     </FormControl>
-                    <FormMessage />
+                    <FormMessage className="text-xs" />
                   </FormItem>
                 )}
               />
 
+              {/* Submit */}
               <Button
                 type="submit"
-                className="w-full bg-black hover:bg-zinc-800 text-white gap-2"
+                disabled={isLoading}
+                className="w-full h-10 bg-green-700 hover:bg-green-800 text-white rounded-full gap-2 mt-2"
               >
-                <UserPlus size={16} />
-                تسجيل الدخول
+                {isLoading ? (
+                  <span className="flex items-center gap-2">
+                    <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                    جاري الدخول...
+                  </span>
+                ) : (
+                  <>
+                    <LogIn size={15} />
+                    تسجيل الدخول
+                  </>
+                )}
               </Button>
             </form>
           </Form>
         </div>
+
+        {/* Register link */}
+        <p className="text-center text-sm text-muted-foreground mt-5">
+          ليس لديك حساب؟{" "}
+          <Link
+            href="/register"
+            className="text-green-700 font-medium hover:underline"
+          >
+            إنشاء حساب جديد
+          </Link>
+        </p>
       </div>
     </div>
   );

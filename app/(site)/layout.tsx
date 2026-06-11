@@ -1,7 +1,8 @@
 import Footer from "@/components/footer";
-import Navbar from "@/components/Navbar";
+import Navbar from "@/components/navbar/Navbar";
 import UserContextProvider from "./(Context)/Context";
 import { FavoritesProvider } from "@/app/(site)/favorites/(FavoritesContext)/FavoritesContext";
+import { ThemeProvider } from "@/components/theme-provider";
 
 export default function SiteLayout({
   children,
@@ -9,12 +10,19 @@ export default function SiteLayout({
   children: React.ReactNode;
 }) {
   return (
-    <UserContextProvider>
-      <FavoritesProvider>
-        <Navbar />
-        <main>{children}</main>
-        <Footer />
-      </FavoritesProvider>
-    </UserContextProvider>
+    <ThemeProvider
+      attribute="class"
+      defaultTheme="system"
+      enableSystem
+      disableTransitionOnChange
+    >
+      <UserContextProvider>
+        <FavoritesProvider>
+          <Navbar />
+          <main>{children}</main>
+          <Footer />
+        </FavoritesProvider>
+      </UserContextProvider>
+    </ThemeProvider>
   );
 }
