@@ -27,7 +27,7 @@ export default function Dashboardpage() {
   const [activeTab, setActiveTab] = useState("day");
 
   return (
-    <div className="w-full min-h-screen p-4" dir="rtl">
+    <div className="w-full min-h-screen p-2" dir="rtl">
       <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pt-5">
         <div className="w-full lg:w-[80%]">
           <h1 className="font-bold text-2xl">لوحة التحكم</h1>

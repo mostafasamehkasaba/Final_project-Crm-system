@@ -27,7 +27,7 @@ import Link from "next/link";
 export default function NavbarDash() {
   return (
     <div className="flex items-center">
-      <SidebarTrigger className="mt-2" />
+      <SidebarTrigger className="mt-2 mr-4" />
       <div className="flex flex-1 items-center justify-between p-2 mt-2">
         <Input
           placeholder="بحث في العملاء، المنتجات، الفواتير..."
@@ -44,7 +44,7 @@ export default function NavbarDash() {
             <DropdownMenuContent
               align="end"
               className="w-48 mt-1 rounded-xl"
-              dir="rtl"
+              // dir="rtl"
             >
               <DropdownMenuItem className="gap-3 py-2.5 cursor-pointer">
                 <FilePlus className="size-4 text-green-700" />
@@ -98,7 +98,7 @@ export default function NavbarDash() {
             <DropdownMenuContent
               align="end"
               className="w-52 mt-1 rounded-xl"
-              dir="rtl"
+              // dir="rtl"
             >
               {/* User info header */}
               <div className="flex items-center gap-2 px-3 py-2.5 border-b border-gray-100 dark:border-gray-800">
