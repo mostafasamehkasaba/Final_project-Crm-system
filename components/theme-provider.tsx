@@ -14,10 +14,13 @@ export function ThemeProvider({
     setMounted(true);
   }, []);
 
-  // إذا لم يتم التحميل على المتصفح بعد، نمرر المحتوى بدون الـ Provider لتجنب تعارض السيرفر
-  if (!mounted) {
-    return <>{children}</>;
-  }
+  
 
-  return <NextThemesProvider {...props}>{children}</NextThemesProvider>;
+  return (
+    <NextThemesProvider {...props}>
+      <div style={{ opacity: mounted ? 1 : 0 }}>
+        {children}
+      </div>
+    </NextThemesProvider>
+  );
 }

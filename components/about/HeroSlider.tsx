@@ -62,6 +62,11 @@ const AUTO_PLAY_DURATION = 6000;
 
 export default function HeroSlider() {
   const [currentSlide, setCurrentSlide] = useState<number>(0);
+  const [mounted, setMounted] = useState<boolean>(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const activeSlide = useMemo(
     () => slides[currentSlide],
@@ -77,6 +82,10 @@ export default function HeroSlider() {
 
     return () => clearInterval(interval);
   }, [nextSlide]);
+
+  if (!mounted) {
+    return null;
+  }
 
   return (
     <Box
