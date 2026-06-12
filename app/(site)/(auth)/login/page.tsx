@@ -28,7 +28,8 @@ type FormValues = z.infer<typeof formSchema>;
 
 export default function LoginForm() {
   const router = useRouter();
-  const { setUserToken } = useContext(UserContext);
+  const context = useContext(UserContext);
+  const setUserToken = context?.setUserToken;
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),

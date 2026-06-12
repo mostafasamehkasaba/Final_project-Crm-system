@@ -1,30 +1,21 @@
 import "../globals.css";
-import { SidebarProvider } from "@/components/ui/sidebar";
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/app-sidebar";
 
-import { ThemeProvider } from "../../components/theme-provider";
-import NavbarDash from "./NavbarDash";
-
-export default function RootLayout({
+export default function DashboardLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   return (
-    <ThemeProvider
-      attribute="class"
-      defaultTheme="system"
-      enableSystem
-      // storageKey="theme"
-      disableTransitionOnChange
-    >
-      <SidebarProvider>
-        <AppSidebar />
-        <main className="flex-1 w-full">
-          <NavbarDash />
-          {children}
-        </main>
-      </SidebarProvider>
-    </ThemeProvider>
+    <SidebarProvider>
+      <AppSidebar />
+      <main className="bg-zinc-100 flex-1 flex flex-col min-h-screen">
+        <div className="p-4">
+          <SidebarTrigger />
+        </div>
+        <div className="flex-1 p-6">{children}</div>
+      </main>
+    </SidebarProvider>
   );
 }

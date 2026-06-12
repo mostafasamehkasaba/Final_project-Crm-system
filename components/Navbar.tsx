@@ -74,6 +74,7 @@ const Navbar = ({
     { title: "من نحن", url: "/about" },
     { title: "العقارات", url: "/products" },
     { title: "اتصل بنا", url: "/contactUs" },
+    { title: "بوابة الدفع", url: "/kkk" }, // تم الإبقاء على تعديل مصطفى هنا بنجاح
   ],
   auth = {
     login: { title: "تسجيل الدخول", url: "/login" },
@@ -88,6 +89,7 @@ const Navbar = ({
   const { favoriteProperties } = useFavorites();
 
   const favoritesCount = favoriteProperties.length;
+
   const handleLogout = () => {
     localStorage.removeItem("userToken2");
     setUserToken(null);
@@ -131,6 +133,7 @@ const Navbar = ({
 
           {/* Auth */}
           <div className="flex items-center gap-2">
+            {/* تم الحفاظ على أيقونة المفضلة الخاصة بك لنسخة الـ Desktop */}
             <Link
               href="/favorites"
               className="relative flex items-center justify-center rounded-full p-2 hover:bg-muted transition-colors"
@@ -147,6 +150,7 @@ const Navbar = ({
                 <Heart className="h-5 w-5" />
               </Badge>
             </Link> 
+
             {UserToken ? (
               <Button
                 variant="destructive"
@@ -227,6 +231,8 @@ const Navbar = ({
                       ),
                     )}
                 </Accordion>
+
+                {/* تم الحفاظ على قسم المفضلة الخاص بك لنسخة الـ Mobile */}
                 <Link
                   href="/favorites"
                   onClick={() => setSheetOpen(false)}

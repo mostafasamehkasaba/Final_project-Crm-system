@@ -1,6 +1,6 @@
-"use client";
-import DropDowns from "./Residential apartments/dropDowns";
-import { Filters } from "@/interfaces/filters";
+"use client"
+import DropDowns from './dropDowns';
+import { Filters } from '@/interfaces/filters';  
 
 interface SearchBarProps {
   filters: Filters;

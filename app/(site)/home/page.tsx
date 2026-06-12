@@ -1,23 +1,13 @@
 import getProperties from "@/app/services/getProperties.services";
 import PropertyCard from "@/components/homeComponent/propertyCard";
 import ThreeDImageCarousel from "@/components/homeComponent/sliders/sliderItem";
+import Title from "@/components/titleItem/title";
 import slide from "../../../public/premium_photo-1680553489384-8e3230dd1073.avif";
 
 import { IProperty } from "@/interfaces/property.interface";
-import Title from "@/components/titleItem/title";
 
 export default async function Home() {
-  const result = await getProperties();
-
-  if (!Array.isArray(result)) {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <p className="text-red-500 text-xl">فشل تحميل العقارات، حاول مرة أخرى</p>
-      </div>
-    );
-  }
-
-  const properties: IProperty[] = result;
+  const properties: IProperty[] = await getProperties();
 
   const slides = [
     { id: 1, src: slide.src, href: "/product/1" },
@@ -28,45 +18,53 @@ export default async function Home() {
   ];
 
   return (
-    <>
-      {/* hero section */}
+    <div>
+      {/* HERO */}
       <section
         className="relative min-h-screen bg-cover bg-center flex items-center justify-center"
         style={{ backgroundImage: "url('/screen.png')" }}
       >
         <div className="absolute inset-0 bg-black/60" />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/60 to-black/40" />
+
         <div className="relative z-10 container text-center text-white px-4">
           <p className="uppercase tracking-[0.3em] text-orange-400 mb-4">
             عقارات مصر
           </p>
-          <h1 className="text-4xl md:text-6xl font-bold leading-tight mb-6">
-            اكتشف وحدتك المستقبلية
+
+          <h1 className="text-5xl md:text-7xl font-bold leading-tight mb-6">
+            اكتشف وحدتك <br />
+            <span className="text-orange-500">المستقبلية</span>
           </h1>
-          <p className="max-w-2xl mx-auto text-sm md:text-lg text-gray-200 mb-8">
+
+          <p className="max-w-3xl mx-auto text-lg text-gray-300 leading-8 mb-10">
             أفضل المشاريع العقارية بأفضل الأسعار والمواقع المميزة داخل مصر
           </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <button className="px-8 py-3 bg-orange-500 hover:bg-orange-600 transition rounded-lg font-medium">
-              تواصل معنا
+
+          <div className="flex gap-5 justify-center">
+            <button className="bg-orange-500 hover:bg-orange-600 px-8 py-4 rounded-xl font-semibold shadow-xl">
+              تصفح المشاريع
             </button>
-            <button className="px-8 py-3 border border-white hover:bg-white hover:text-black transition rounded-lg font-medium">
+
+            <button className="border border-white px-8 py-4 rounded-xl hover:bg-white hover:text-black transition">
               من نحن
             </button>
           </div>
         </div>
       </section>
 
-      <section className="py-6">
-        <div className="container">
+      {/* CONTENT */}
+      <section className="flex justify-center">
+        <div className="container bg-gray-100">
           <Title
             label="عقارات مصر"
             mainTitle="مشاريعنا"
             subtitle="اكتشف وحدتك المستقبليه سارع بالحجز"
           />
-          <div className="sliderSection p-24 m-6">
+
+          <div className="sliderSection">
             <ThreeDImageCarousel
               slides={slides}
-              className="my-12 max-w-6xl mx-auto bg-gradient-to-r from-amber-600 to-amber-800 rounded-xl p-6"
               autoplay={true}
               delay={3}
             />
@@ -78,10 +76,14 @@ export default async function Home() {
             subtitle="اكتشف وحدتك المستقبليه سارع بالحجز"
           />
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-8 gap-y-15 mb-15">
+          {/* PRODUCTS */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
             {properties.length > 0 ? (
               properties.map((property) => (
-                <PropertyCard key={property._id} property={property} />
+                <PropertyCard
+                  key={property._id}
+                  property={property}
+                />
               ))
             ) : (
               <p className="col-span-4 text-center text-gray-500">
@@ -91,6 +93,6 @@ export default async function Home() {
           </div>
         </div>
       </section>
-    </>
+    </div>
   );
 }

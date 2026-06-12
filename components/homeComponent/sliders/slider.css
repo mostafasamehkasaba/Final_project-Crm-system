@@ -1,169 +1,167 @@
 .cascade-slider_container {
   position: relative;
-  max-width: 1000px;
+  width: 100%;
+  max-width: 1200px;
+  height: 520px;
   margin: 0 auto;
+  overflow: hidden;
   z-index: 20;
   user-select: none;
   -webkit-user-select: none;
   touch-action: pan-y;
 }
 
+/* SLIDES WRAPPER */
 .cascade-slider_slides {
   position: relative;
   height: 100%;
 }
 
+/* BASE ITEM */
 .cascade-slider_item {
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translateY(-50%) translateX(-50%) scale(0.3);
-  transition: all 1s ease;
+  transform: translate(-50%, -50%) scale(0.3);
+  transition: all 0.9s ease;
   opacity: 0;
-  z-index: 1;
   cursor: grab;
+  width: 340px;
+  height: 420px;
 }
-.cascade-slider_item.now {
-  cursor: default;
-}
+
 .cascade-slider_item:active {
   cursor: grabbing;
 }
 
-/* Slide Positioning Classes (Core 3D Logic - MUST REMAIN IN CSS) */
-.cascade-slider_item.next {
-  left: 50%;
-  transform: translateY(-50%) translateX(-120%) scale(0.6);
-  opacity: 1;
-  z-index: 4;
+/* IMAGE */
+.cascade-slider_slides img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 32px;
+  display: block;
 }
-.cascade-slider_item.prev {
-  left: 50%;
-  transform: translateY(-50%) translateX(20%) scale(0.6);
-  opacity: 1;
-  z-index: 4;
-}
+
+/* ACTIVE CARD */
 .cascade-slider_item.now {
-  top: 50%;
-  left: 50%;
-  transform: translateY(-50%) translateX(-50%) scale(1);
+  transform: translate(-50%, -50%) scale(1);
   opacity: 1;
   z-index: 5;
 }
 
-/* Arrows - Structural CSS remains for positioning/size */
+/* SIDE ITEMS (DESKTOP DEFAULT) */
+.cascade-slider_item.next {
+  transform: translate(-120%, -50%) scale(0.65);
+  opacity: 1;
+  z-index: 4;
+}
+
+.cascade-slider_item.prev {
+  transform: translate(20%, -50%) scale(0.65);
+  opacity: 1;
+  z-index: 4;
+}
+
+/* EXTRA LAYERS */
+.cascade-slider_item.next2,
+.cascade-slider_item.prev2 {
+  opacity: 0.4;
+}
+
+/* ARROWS */
 .cascade-slider_arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  width: 45px;
+  height: 45px;
   display: flex;
   align-items: center;
   justify-content: center;
-  position: absolute;
-  top: 50%;
+  border-radius: 999px;
   cursor: pointer;
-  z-index: 6;
-  transform: translate(0, -50%);
-  width: 40px;
-  height: 40px;
-  transition: all 0.3s ease;
-  /* Tailwind will handle color/bg */
 }
 
-/* Arrow Positioning Fix (Responsive CSS) */
-@media screen and (max-width: 575px) {
-  .cascade-slider_arrow-left {
-    left: 5px;
-  }
-  .cascade-slider_arrow-right {
-    right: 5px;
-  }
-}
-@media screen and (min-width: 576px) {
-  .cascade-slider_arrow-left {
-    left: -4%;
-  }
-  .cascade-slider_arrow-right {
-    right: -4%;
-  }
+.cascade-slider_arrow-left {
+  left: 10px;
 }
 
-/* Images */
-.cascade-slider_slides img {
-  max-width: 150px;
-  height: auto;
-  border-radius: 35px;
-  display: block;
-  transition: filter 1s ease;
-}
-/* Tailwind handles the grayscale filter on hover if desired, but keeping the state-based one is better */
-.cascade-slider_item:not(.now) img {
-  filter: grayscale(0.95);
+.cascade-slider_arrow-right {
+  right: 10px;
 }
 
-/* --- Media Queries (Minimized to only include structural layout changes) --- */
-@media screen and (min-width: 414px) {
+/* ===================== */
+/* 📱 MOBILE (1 CARD ONLY)
+/* ===================== */
+@media (max-width: 767px) {
   .cascade-slider_container {
-    height: 40vh;
+    height: 380px;
   }
-  .cascade-slider_slides img {
-    max-width: 200px;
+
+  .cascade-slider_item {
+    width: 260px;
+    height: 320px;
   }
-}
-@media screen and (min-width: 576px) {
-  .cascade-slider_container {
-    height: 60vh;
-  }
-  .cascade-slider_slides img {
-    max-width: 270px;
-  }
-}
-@media screen and (min-width: 768px) {
-  .cascade-slider_item.next {
-    transform: translateY(-50%) translateX(-125%) scale(0.6);
-  }
-  .cascade-slider_item.prev {
-    transform: translateY(-50%) translateX(25%) scale(0.6);
-  }
-  .cascade-slider_slides img {
-    max-width: 250px;
-  }
-}
-@media screen and (min-width: 991px) {
-  .cascade-slider_item.next {
-    transform: translateY(-50%) translateX(-115%) scale(0.55);
-    z-index: 4;
-  }
-  .cascade-slider_item.prev {
-    transform: translateY(-50%) translateX(15%) scale(0.55);
-    z-index: 4;
-  }
-  .cascade-slider_item.next2 {
-    transform: translateY(-50%) translateX(-150%) scale(0.37);
-    z-index: 1;
-  }
+
+  .cascade-slider_item.next,
+  .cascade-slider_item.prev,
+  .cascade-slider_item.next2,
   .cascade-slider_item.prev2 {
-    transform: translateY(-50%) translateX(50%) scale(0.37);
-    z-index: 2;
-  }
-  .cascade-slider_slides img {
-    max-width: 300px;
-  }
-  .cascade-slider_container {
-    height: 37vh;
+    opacity: 0;
+    pointer-events: none;
   }
 }
-@media screen and (min-width: 1100px) {
+
+/* ===================== */
+/* 📱 TABLET (3 CARDS)
+/* ===================== */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .cascade-slider_container {
+    height: 460px;
+  }
+
+  .cascade-slider_item {
+    width: 300px;
+    height: 380px;
+  }
+
   .cascade-slider_item.next {
-    transform: translateY(-50%) translateX(-130%) scale(0.55);
+    transform: translate(-105%, -50%) scale(0.75);
   }
+
   .cascade-slider_item.prev {
-    transform: translateY(-50%) translateX(30%) scale(0.55);
+    transform: translate(5%, -50%) scale(0.75);
   }
-  .cascade-slider_item.next2 {
-    transform: translateY(-50%) translateX(-180%) scale(0.37);
-  }
+
+  .cascade-slider_item.next2,
   .cascade-slider_item.prev2 {
-    transform: translateY(-50%) translateX(80%) scale(0.37);
+    opacity: 0;
   }
-  .cascade-slider_slides img {
-    max-width: 350px;
+}
+
+/* ===================== */
+/* 💻 DESKTOP (FULL 3D)
+/* ===================== */
+@media (min-width: 1024px) {
+  .cascade-slider_container {
+    height: 550px;
+  }
+
+  .cascade-slider_item.next {
+    transform: translate(-125%, -50%) scale(0.7);
+  }
+
+  .cascade-slider_item.prev {
+    transform: translate(25%, -50%) scale(0.7);
+  }
+
+  .cascade-slider_item.next2 {
+    transform: translate(-185%, -50%) scale(0.45);
+  }
+
+  .cascade-slider_item.prev2 {
+    transform: translate(85%, -50%) scale(0.45);
   }
 }
