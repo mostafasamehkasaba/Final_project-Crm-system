@@ -1,6 +1,4 @@
 import type { Metadata } from "next";
-import Box from "@mui/material/Box";
-
 import HeroSlider from "@/components/about/HeroSlider";
 import OurStory from "@/components/about/OurStory";
 import Statistics from "@/components/about/Statistics";
@@ -30,21 +28,15 @@ export const metadata: Metadata = {
 
 export default function AboutPage() {
   return (
-    <Box
-      component="main"
+    <main
       dir="rtl"
-      sx={{
-        width: "100%",
-        overflow: "hidden",
-        display: "flex",
-        flexDirection: "column",
-      }}
+      className="w-full overflow-hidden flex flex-col"
     >
       <HeroSlider />
       <OurStory />
       <Statistics />
       <Features />
       <Testimonials />
-    </Box>
+    </main>
   );
 }

@@ -12,12 +12,9 @@
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
     "@hookform/resolvers": "^5.4.0",
-<<<<<<< HEAD
     "@mui/icons-material": "^9.1.0",
     "@mui/material": "^9.1.0",
-=======
     "@recharts/devtools": "^0.0.14",
->>>>>>> 8968c754e690680ba43894cf01c671c0842fccc0
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "lucide-react": "^1.16.0",
