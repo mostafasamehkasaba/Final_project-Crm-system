@@ -2,7 +2,7 @@
 import Image from 'next/image'
 import React from 'react'
 import hero from "@/public/images/contactUs-images/hero.jpg"
-import ContactUsForm from '@/components/contactUsForm'
+import ContactUsForm from '@/components/contactUs/contactUsForm'
 import { motion } from "motion/react";
 
 const ContactUs = () => {

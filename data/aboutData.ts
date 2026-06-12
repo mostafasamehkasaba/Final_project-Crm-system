@@ -1,4 +1,26 @@
-export const aboutData = {
+interface TestimonialItem {
+  id: number;
+  name: string;
+  role: string;
+  avatar: string;
+  rating: 1 | 2 | 3 | 4 | 5;
+  text: string;
+  compound: string;
+  date: string;
+}
+
+interface TestimonialsSection {
+  tag: string;
+  title: string;
+  subtitle: string;
+  testimonials: TestimonialItem[];
+}
+
+interface AboutData {
+  testimonials: TestimonialsSection;
+}
+
+export const aboutData: AboutData = {
   testimonials: {
     tag: "آراء عملائنا",
     title: "ماذا يقول من وثقوا بنا",

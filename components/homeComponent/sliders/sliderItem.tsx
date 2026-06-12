@@ -6,6 +6,7 @@ npm i lightswind@latest*/
 import { ArrowLeftCircle, ArrowRightCircle } from "lucide-react";
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import "./slider.css";
+import Image from "next/image";
 // --- Type Definitions ---
 interface Slide {
   id: number;
@@ -162,7 +163,7 @@ export const ThreeDImageCarousel: React.FC<ThreeDImageCarouselProps> = ({
       {/* 2. SLIDER HTML STRUCTURE */}
       <div
         className={`cascade-slider_container ${className} bg-transparent 
-                min-w-[600px]`}
+               `}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleExit}
         onMouseDown={onMouseDown}
@@ -177,18 +178,58 @@ export const ThreeDImageCarousel: React.FC<ThreeDImageCarouselProps> = ({
               className={`cascade-slider_item ${getSlideClasses(index, activeIndex, total, itemCount)}`}
               data-slide-number={index}
             >
-              {/* <a href={slide.href}>
-               
-              </a> */}
-              <img
+              {/* <Image
                 src={slide.src}
                 alt={`Slide ${index + 1}`}
+                width={200}
+                height={200}
                 // Fallback for image loading
                 onError={(e) => {
                   e.currentTarget.onerror = null;
                   e.currentTarget.src = `https://placehold.co/350x200/4F46E5/ffffff?text=Slide%20${index + 1}`;
                 }}
-              />
+              /> */}
+              <div className="relative overflow-hidden rounded-[32px] shadow-2xl">
+                <Image
+                  src={slide.src}
+                  alt={`Slide ${index + 1}`}
+                  width={300}
+                  height={400}
+                  className=" object-cover"
+                />
+
+                {/* Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
+
+                {/* Content */}
+                <div className="absolute bottom-0 left-0 p-8 text-white">
+                  {/* <span className="text-orange-400 text-sm tracking-[3px] uppercase">
+                    New Cairo
+                  </span>
+
+                  <h3 className="mt-2 text-3xl font-bold">
+                    Palm Hills Compound
+                  </h3>
+
+                  <p className="mt-2 text-zinc-300">
+                    Starting from 8,500,000 EGP
+                  </p> */}
+
+                  {/* <button
+                    className="
+      mt-6
+      rounded-full
+      bg-orange-500
+      px-6 py-3
+      font-medium
+      transition
+      hover:bg-orange-600
+    "
+                  >
+                    View Details
+                  </button> */}
+                </div>
+              </div>
             </div>
           ))}
         </div>
@@ -197,17 +238,17 @@ export const ThreeDImageCarousel: React.FC<ThreeDImageCarouselProps> = ({
         {total > 1 && (
           <>
             <span
-              className="cascade-slider_arrow cascade-slider_arrow-left rounded-full bg-black/30 text-white p-2 hover:bg-black/60 transition-colors duration-300"
+              className="cascade-slider_arrow cascade-slider_arrow-left rounded-full bg-orange-500 text-white p-2 hover:bg-orange-600 transition-colors duration-300"
               onClick={(e) => {
                 e.stopPropagation();
                 navigate("prev");
               }}
               data-action="prev"
             >
-              <ArrowLeftCircle size={30} />
+              <ArrowLeftCircle className="  " size={30} />
             </span>
             <span
-              className="cascade-slider_arrow cascade-slider_arrow-right rounded-full bg-black/30 text-white p-2 hover:bg-black/60 transition-colors duration-300"
+              className="cascade-slider_arrow cascade-slider_arrow-right rounded-full bg-orange-500 text-white p-2 hover:bg-orange-600  transition-colors duration-300"
               onClick={(e) => {
                 e.stopPropagation();
                 navigate("next");

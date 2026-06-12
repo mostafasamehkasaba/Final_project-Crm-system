@@ -1,0 +1,32 @@
+[33mbd08d74[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmostafa[m[33m, [m[1;31morigin/mostafa[m[33m)[m HEAD@{0}: commit (merge): Merge branch 'ahmed-no3man' of https://github.com/mostafasamehkasaba/Final_project-Crm-system into mostafa
+[33m7120c5a[m HEAD@{1}: commit: merge with asllem
+[33ma0df058[m HEAD@{2}: commit (merge): Merge branch 'sayed' of https://github.com/mostafasamehkasaba/Final_project-Crm-system into mostafa
+[33mb9a3db8[m HEAD@{3}: commit (merge): Merge branch 'mahmoud' of https://github.com/mostafasamehkasaba/Final_project-Crm-system into mostafa
+[33m02c9fa2[m HEAD@{4}: commit: .
+[33mab96733[m HEAD@{5}: commit (merge): Merge branch 'sayed' of https://github.com/mostafasamehkasaba/Final_project-Crm-system into mostafa
+[33me1f0b07[m HEAD@{6}: commit (merge): pull changes from sayed
+[33mb77c450[m HEAD@{7}: commit: create mainpage
+[33mf442e9a[m HEAD@{8}: commit: add pagination
+[33m1935bf3[m HEAD@{9}: commit (merge): Merge branch 'ahmed-about' of https://github.com/mostafasamehkasaba/Final_project-Crm-system into mostafa
+[33m78bc3a2[m HEAD@{10}: commit (merge): Resolve Navbar conflict
+[33m0f56bd0[m HEAD@{11}: commit: save local changes
+[33m027c9d7[m HEAD@{12}: pull origin mahmoud: updating HEAD
+[33m027c9d7[m HEAD@{13}: commit: ...
+[33m59a7eb1[m HEAD@{14}: commit: ..
+[33mae44d98[m HEAD@{15}: commit: add changes
+[33mb23226d[m HEAD@{16}: commit (merge): Merge branch 'sayed' of https://github.com/mostafasamehkasaba/Final_project-Crm-system into mostafa
+[33m5e253db[m HEAD@{17}: pull origin mahmoud: Fast-forward
+[33m7bc49da[m HEAD@{18}: commit: .
+[33m62a03d4[m HEAD@{19}: commit: add contact-page by mostafa
+[33me68aef2[m HEAD@{20}: commit: add contactUs Page and install shadcn ui
+[33mb031c5f[m HEAD@{21}: commit: inital
+[33mde27471[m HEAD@{22}: commit: create footer
+[33m509b05a[m[33m ([m[1;31morigin/homePage[m[33m, [m[1;32mmain[m[33m)[m HEAD@{23}: checkout: moving from homePage to mostafa
+[33m509b05a[m[33m ([m[1;31morigin/homePage[m[33m, [m[1;32mmain[m[33m)[m HEAD@{24}: checkout: moving from main to homePage
+[33m509b05a[m[33m ([m[1;31morigin/homePage[m[33m, [m[1;32mmain[m[33m)[m HEAD@{25}: checkout: moving from homePage to main
+[33m509b05a[m[33m ([m[1;31morigin/homePage[m[33m, [m[1;32mmain[m[33m)[m HEAD@{26}: checkout: moving from homePage to homePage
+[33m509b05a[m[33m ([m[1;31morigin/homePage[m[33m, [m[1;32mmain[m[33m)[m HEAD@{27}: checkout: moving from home-page to homePage
+[33m509b05a[m[33m ([m[1;31morigin/homePage[m[33m, [m[1;32mmain[m[33m)[m HEAD@{28}: checkout: moving from main to home-page
+[33m509b05a[m[33m ([m[1;31morigin/homePage[m[33m, [m[1;32mmain[m[33m)[m HEAD@{29}: commit: add the final project
+[33m2703d13[m HEAD@{30}: Branch: renamed refs/heads/master to refs/heads/main
+[33m2703d13[m HEAD@{32}: commit (initial): Initial commit from Create Next App

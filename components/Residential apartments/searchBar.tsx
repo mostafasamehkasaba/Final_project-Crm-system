@@ -1,5 +1,5 @@
 "use client"
-import DropDowns from './Residential apartments/dropDowns';
+import DropDowns from './dropDowns';
 import { Filters } from '@/interfaces/filters';  
 
 interface SearchBarProps {
@@ -9,9 +9,14 @@ interface SearchBarProps {
   setSearchText: (text: string) => void;
 }
 
-export default function SearchBar({ filters, setFilters, searchText, setSearchText }: SearchBarProps) {
+export default function SearchBar({
+  filters,
+  setFilters,
+  searchText,
+  setSearchText,
+}: SearchBarProps) {
   return (
-    <div className='w-full py-6'>
+    <div className="w-full py-6">
       <DropDowns
         filters={filters}
         setFilters={setFilters}
