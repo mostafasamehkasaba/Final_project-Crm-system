@@ -2,9 +2,10 @@ import type { Metadata } from "next";
 import { Cairo, Inter } from "next/font/google";
 import "./globals.css";
 
+
 const cairo = Cairo({
-  subsets: ["arabic"],
-  variable: "--font-cairo",
+  subsets: ["arabic", "latin"],
+  weight: ["300", "400", "500", "600", "700"],
 });
 const inter = Inter({
   subsets: ["latin"],
@@ -12,9 +13,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-
-  title: "Real Estate Project", 
-
+  title: "Real Estate Project",
 
   description: "Best properties in Egypt",
 };
@@ -26,11 +25,11 @@ export default function RootLayout({
 }>) {
   return (
 
+
     <html lang="ar" dir="rtl"> 
-      <body className={`${cairo.variable} ${inter.variable} font-cairo antialiased`} suppressHydrationWarning>
+      <body className={`${cairo.className} ${inter.variable} font-cairo antialiased`} suppressHydrationWarning>
         {children} 
       </body>
     </html>
   );
 }
-

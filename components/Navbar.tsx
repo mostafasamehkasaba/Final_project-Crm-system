@@ -72,6 +72,7 @@ const Navbar = ({
     { title: "من نحن", url: "/about" },
     { title: "العقارات", url: "/products" },
     { title: "اتصل بنا", url: "/contactUs" },
+    { title: "بوابة الدفع", url: "/kkk" },
   ],
   auth = {
     login: { title: "تسجيل الدخول", url: "/login" },
@@ -121,7 +122,9 @@ const Navbar = ({
           {/* Links */}
           <NavigationMenu>
             <NavigationMenuList className="gap-6">
-              {[...menu].reverse().map((item) => renderMenuItem(item, pathname))}
+              {[...menu]
+                .reverse()
+                .map((item) => renderMenuItem(item, pathname))}
             </NavigationMenuList>
           </NavigationMenu>
 
