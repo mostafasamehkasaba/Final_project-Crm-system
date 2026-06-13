@@ -38,8 +38,13 @@ const menuItems = [
   { icon: LayoutDashboard, label: "لوحة التحكم", href: "/dashboard" },
   {
     icon: Layers,
-    label: "التصنيفات",
-    href: "/categories",
+    label: "المبيعات",
+    href: "/sales",
+    children: [
+      { label: "العملاء", href: "/clients" },
+      { label: "الفواتير", href: "/invoices" },
+      { label: "المدفوعات", href: "/payments" },
+    ],
   },
   {
     icon: ShoppingBag,
