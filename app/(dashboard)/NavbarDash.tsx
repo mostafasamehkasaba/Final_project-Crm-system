@@ -26,9 +26,9 @@ import Link from "next/link";
 
 export default function NavbarDash() {
   return (
-    <div className="flex items-center mt-4">
+    <div className="flex items-center">
       <SidebarTrigger className="mt-2 mr-4" />
-      <div className="flex flex-1 items-center justify-between p-2 mt-2">
+      <div className="flex flex-1 items-center justify-between p-2 my-1">
         <Input
           placeholder="بحث في العملاء، المنتجات، الفواتير..."
           className="focus-visible:ring-2 focus-visible:border-0 focus-visible:ring-green-700 w-100"

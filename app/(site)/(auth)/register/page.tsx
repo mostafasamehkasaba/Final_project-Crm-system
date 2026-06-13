@@ -39,7 +39,13 @@ type FormValues = z.infer<typeof formSchema>;
 
 export default function RegisterForm() {
   const router = useRouter();
-  const { setUserToken } = useContext(UserContext);
+  const userContext = useContext(UserContext);
+
+  if (!userContext) {
+    throw new Error("UserContext must be used within UserContext.Provider");
+  }
+
+  const { setUserToken } = userContext;
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),

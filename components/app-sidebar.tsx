@@ -46,6 +46,7 @@ const menuItems = [
       { label: "المدفوعات", href: "/payments" },
     ],
   },
+
   {
     icon: ShoppingBag,
     label: "المنتجات",
