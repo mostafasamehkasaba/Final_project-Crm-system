@@ -43,6 +43,12 @@ export default function PropertyCard({ property }: { property: Property }) {
         <p className="mt-3 font-semibold text-neutral-900">
           {property.price.toLocaleString()} جنيه
         </p>
+        <div className="mt-5 cursor-pointer ps-4 py-1 bg-green-700 hover:bg-green-800 text-white font-semibold rounded-2xl">
+          <Link href={`products/${property.id}`}>تفاصيل العقار</Link>
+        </div>
+        <div className="mt-2 cursor-pointer ps-4 py-1 bg-yellow-700 hover:bg-yellow-800 text-white font-semibold rounded-2xl">
+          <Link href={`products/update/${property.id}`}>تعديل العقار</Link>
+        </div>
       </div>
     </div>
   );

@@ -1,4 +1,6 @@
-import getPropertyById from "@/app/services/getPropertyById.services";
+export const dynamic = "force-dynamic";
+
+import getPropertyById from "@/services/getPropertyById.services";
 import Image from "next/image";
 
 export default async function ProductDetails({

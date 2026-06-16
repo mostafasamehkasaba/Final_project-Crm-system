@@ -9,7 +9,7 @@ export default function PropertyList({
 }) {
   if (properties.length === 0) {
     return (
-      <div className="col-span-3 flex flex-col items-center justify-center  mt-20 gap-3">
+      <div className="col-span-3 flex flex-col items-center justify-center  gap-3">
         <p className="text-neutral-400 text-lg">لا توجد نتائج</p>
       </div>
     );

@@ -51,11 +51,11 @@ const menuItems = [
     icon: ShoppingBag,
     label: "المنتجات",
     href: "/products",
-    children: [
-      { label: "الشقق السكنية", href: "/residentialapartments" },
-      { label: "الفلل", href: "/villas" },
-      { label: "العقارات السياحية", href: "/touristrealestate" },
-    ],
+    // children: [
+    //   { label: "الشقق السكنية", href: "/residentialapartments" },
+    //   { label: "الفلل", href: "/villas" },
+    //   { label: "العقارات السياحية", href: "/touristrealestate" },
+    // ],
   },
   { icon: TrendingUp, label: "الأرباح والخسائر", href: "/profitandloss" },
   { icon: Settings, label: "الإعدادات", href: "/settings" },

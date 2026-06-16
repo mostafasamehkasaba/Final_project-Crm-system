@@ -1,4 +1,4 @@
-import getProperties from "@/app/services/getProperties.services";
+import getProperties from "@/services/getProperties.services";
 import PropertyCard from "@/components/homeComponent/propertyCard";
 import ThreeDImageCarousel from "@/components/homeComponent/sliders/sliderItem";
 import Title from "@/components/titleItem/title";
@@ -63,11 +63,7 @@ export default async function Home() {
           />
 
           <div className="sliderSection">
-            <ThreeDImageCarousel
-              slides={slides}
-              autoplay={true}
-              delay={3}
-            />
+            <ThreeDImageCarousel slides={slides} autoplay={true} delay={3} />
           </div>
 
           <Title
@@ -80,10 +76,7 @@ export default async function Home() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
             {properties.length > 0 ? (
               properties.map((property) => (
-                <PropertyCard
-                  key={property._id}
-                  property={property}
-                />
+                <PropertyCard key={property._id} property={property} />
               ))
             ) : (
               <p className="col-span-4 text-center text-gray-500">
