@@ -17,7 +17,12 @@ export default function DashboardLayout({
 
         <main className="bg-zinc-100 flex-1 flex flex-col min-h-screen">
           <NavbarDash />
-          <div className="flex-1">{children}</div>
+          <div className="flex-1">
+            <InvoiceProvider>
+            {children}
+
+            </InvoiceProvider>  
+            </div>
         </main>
       </SidebarProvider>
     </ThemeProvider>
