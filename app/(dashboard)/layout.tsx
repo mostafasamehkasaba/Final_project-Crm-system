@@ -1,15 +1,32 @@
+"use client"; // الحماية الأولى: قلب الملف لـ Client Component لإدارة الـ Lifecycle
+
+import React, { useEffect, useState } from "react";
 import "../globals.css";
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { SidebarProvider } from "@/components/ui/sidebar";
 import { ThemeProvider } from "next-themes";
 import { AppSidebar } from "@/components/app-sidebar";
 import NavbarDash from "./NavbarDash";
-import InvoiceProvider from "./(context)/InvoiceContext";
+import { InvoiceProvider } from "./(context)/InvoiceContext"; // تأكد من طريقة الـ Export (أقواس لو named)
 
 export default function DashboardLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return (
+      <div className="bg-zinc-100 min-h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-green-600"></div>
+      </div>
+    );
+  }
+
   return (
     <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
       <SidebarProvider>
@@ -19,10 +36,9 @@ export default function DashboardLayout({
           <NavbarDash />
           <div className="flex-1">
             <InvoiceProvider>
-            {children}
-
-            </InvoiceProvider>  
-            </div>
+              {children}
+            </InvoiceProvider>
+          </div>
         </main>
       </SidebarProvider>
     </ThemeProvider>

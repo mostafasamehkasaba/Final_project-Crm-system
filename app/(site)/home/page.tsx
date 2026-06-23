@@ -2,7 +2,7 @@ import getProperties from "@/services/getProperties.services";
 import PropertyCard from "@/components/homeComponent/propertyCard";
 import ThreeDImageCarousel from "@/components/homeComponent/sliders/sliderItem";
 import Title from "@/components/titleItem/title";
-import slide from "../../../public/premium_photo-1680553489384-8e3230dd1073.avif";
+import slide from "../../../public/premium_photo-1680553489384-8e3230dd1073.png";
 
 import { IProperty } from "@/interfaces/property.interface";
 

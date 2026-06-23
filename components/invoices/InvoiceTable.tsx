@@ -2,11 +2,11 @@
 
 import React from "react";
 import { flexRender, getCoreRowModel, useReactTable } from "@tanstack/react-table";
-import { InvoiceData } from "../../interfaces/invoice"
+import { IInvoice } from "../../interfaces/invoice"
 import { columns } from "./columdtata";
 
 interface InvoiceTableProps {
-  data: InvoiceData[];
+  data: IInvoice[];
 }
 
 export default function InvoiceTable({ data }: InvoiceTableProps) {

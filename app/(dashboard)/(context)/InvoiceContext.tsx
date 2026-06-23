@@ -1,35 +1,83 @@
-"use client"
-import React, { createContext, useContext, useState } from "react";
-import { Invoice, mockInvoices } from "../../../data/inviocedata";
+"use client";
+import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
+import { getAllInvoices } from '@/services/invoice';
+import { IInvoice } from '@/interfaces/invoice';
 
-type InvoiceContextType = {
-  invoices: Invoice[]
-  addInvoice: (invoice: Invoice) => void
-  deleteInvoice: (id: string) => void
+interface InvoiceContextType {
+  invoices: IInvoice[];
+  loading: boolean;
+  fetchInvoices: () => Promise<void>;
 }
 
-const InvoiceContext = createContext<InvoiceContextType | null>(null)
+const InvoiceContext = createContext<InvoiceContextType | undefined>(undefined);
 
-export default function InvoiceProvider({ children }: { children: React.ReactNode }) {
-  const [invoices, setInvoices] = useState<Invoice[]>(mockInvoices)
+export function InvoiceProvider({ children }: { children: React.ReactNode }) {
+  const [invoices, setInvoices] = useState<IInvoice[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
 
-  const addInvoice = (invoice: Invoice) => {
-    setInvoices(prev => [invoice, ...prev])
-  }
+  // 1. خلينا الـ fetchInvoices دالة خارجية نقدر ننده عليها يدوياً عند الحاجة (مثلا بعد مسح أو إضافة فاتورة)
+  const fetchInvoices = useCallback(async () => {
+    try {
+      setLoading(true);
+      const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
+      if (!token) return;
 
-  const deleteInvoice = (id: string) => {
-    setInvoices(prev => prev.filter(inv => inv.id !== id))
-  }
+      const response = await getAllInvoices(token);
+      if (response && Array.isArray(response)) {
+        setInvoices(response as IInvoice[]);
+      } else if (response && response.data && Array.isArray(response.data)) {
+        setInvoices(response.data as IInvoice[]);
+      }
+    } catch (error) {
+      console.error("Failed to load invoices manually:", error);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    let isMounted = true; // لمنع تحديث الحالة لو الكومبوننت اتعمله unmount في النص
+
+    const loadInitialData = async () => {
+      try {
+        const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
+        if (!token) {
+          if (isMounted) setLoading(false);
+          return;
+        }
+
+        const response = await getAllInvoices(token);
+        
+        if (isMounted) {
+          if (response && Array.isArray(response)) {
+            setInvoices(response as IInvoice[]);
+          } else if (response && response.data && Array.isArray(response.data)) {
+            setInvoices(response.data as IInvoice[]);
+          }
+        }
+      } catch (error) {
+        console.error("Failed to load initial invoices:", error);
+      } finally {
+        if (isMounted) setLoading(false);
+      }
+    };
+
+    loadInitialData();
+
+    return () => {
+      isMounted = false; // تنظيف الـ Hook (Cleanup Function)
+    };
+  }, []);
 
   return (
-    <InvoiceContext.Provider value={{ invoices, addInvoice, deleteInvoice }}>
+    <InvoiceContext.Provider value={{ invoices, loading, fetchInvoices }}>
       {children}
     </InvoiceContext.Provider>
-  )
+  );
 }
 
-export const useInvoices = () => {
-  const ctx = useContext(InvoiceContext)
-  if (!ctx) throw new Error('useInvoices must be used within InvoiceProvider')
-  return ctx
+export function useInvoices() {
+  const context = useContext(InvoiceContext);
+  if (!context) throw new Error("useInvoices must be used within an InvoiceProvider");
+  return context;
 }
