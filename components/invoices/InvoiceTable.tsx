@@ -3,13 +3,15 @@
 import React from "react";
 import { flexRender, getCoreRowModel, useReactTable } from "@tanstack/react-table";
 import { IInvoice } from "../../interfaces/invoice"
-import { columns } from "./columdtata";
+import { getColumns } from "./columdtata";
 
 interface InvoiceTableProps {
   data: IInvoice[];
+  onDelete :()=> void
 }
 
-export default function InvoiceTable({ data }: InvoiceTableProps) {
+export default function InvoiceTable({ data,onDelete }: InvoiceTableProps) {
+  const columns = getColumns(onDelete);
   const table = useReactTable({
     data,
     columns,

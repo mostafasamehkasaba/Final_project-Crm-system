@@ -1,6 +1,6 @@
 import { IInvoice } from "@/interfaces/invoice";
 
-const BASE_URL = "https://back-end-crm-project.vercel.app/api/invoices";
+const BASE_URL = "https://back-end-crm-project.vercel.app/api/invoice";
 
 // 1. تعريف الـ Interface الخاص بالبيانات المرسلة لإنشاء الفاتورة (بديل any)
 export interface ICreateInvoiceBody {
@@ -16,7 +16,7 @@ export interface ICreateInvoiceBody {
 // 2. جلب كل الفواتير (GET)
 export const getAllInvoices = async (token: string) => {
     try {
-        const res = await fetch(`${BASE_URL}/getAllInvoices`, {
+        const res = await fetch(`${BASE_URL}/`, {
             method: "GET",
             headers: {
                 "Authorization": `Bearer ${token}`
@@ -29,11 +29,26 @@ export const getAllInvoices = async (token: string) => {
         throw error;
     }
 };
-
+// جلب فاتورة واحدة (GET)
+export const getInvoiceById = async (id: string, token: string) => {
+    try {
+        const res = await fetch(`${BASE_URL}/${id}`, {
+            method: "GET",
+            headers: {
+                "Authorization": `Bearer ${token}`
+            }
+        });
+        const data = await res.json();
+        return data;
+    } catch (error) {
+        console.error("Error in getInvoiceById:", error);
+        throw error;
+    }
+};
 // 3. إنشاء فاتورة جديدة بـ Type صريح ومحمي (POST)
 export const createInvoice = async (invoiceData: ICreateInvoiceBody, token: string) => {
     try {
-        const response = await fetch(`${BASE_URL}`, { 
+        const response = await fetch(`${BASE_URL}/addInvoice`, { 
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -56,7 +71,7 @@ export const createInvoice = async (invoiceData: ICreateInvoiceBody, token: stri
 };
 
 // 4. تحديث فاتورة (PATCH)
-export const updateInvoice = async (id: string, body: Partial<IInvoice>, token: string) => {
+export const updateInvoice = async (id: string, body: Partial<ICreateInvoiceBody>, token: string) => {
     try {
         const res = await fetch(`${BASE_URL}/${id}`, {
             method: "PATCH",
@@ -77,17 +92,15 @@ export const updateInvoice = async (id: string, body: Partial<IInvoice>, token: 
 
 // 5. حذف فاتورة (DELETE)
 export const deleteInvoice = async (id: string, token: string) => {
-    try {
-        const res = await fetch(`${BASE_URL}/${id}`, {
-            method: "DELETE",
-            headers: {
-                "Authorization": `Bearer ${token}`,
-            }
-        });
+    const res = await fetch(`${BASE_URL}/${id}`, {
+        method: "DELETE",
+        headers: { "Authorization": `Bearer ${token}` }
+    });
+
+    if (!res.ok) {
         const data = await res.json();
-        return data;
-    } catch (error) {
-        console.error("Error in deleteInvoice:", error);
-        throw error;
+        throw new Error(data.message || "حدث خطأ أثناء الحذف");
     }
+
+    return { success: true }; // ✅ مش بنقرأ JSON خالص
 };

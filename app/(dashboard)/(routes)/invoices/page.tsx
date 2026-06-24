@@ -20,7 +20,7 @@ export default function InvoicesList() {
   const [activeStatus, setActiveStatus] = useState("all");
 
 
-const {invoices,loading} = useInvoices()
+const {invoices,loading,fetchInvoices} = useInvoices()
  
   const overdueStatuses = ["UNPAID", "OVERDUE"] as const;
 
@@ -45,25 +45,20 @@ const {invoices,loading} = useInvoices()
     },
   ];
 
-  const filteredInvoices = invoices.filter((invoice) => {
-    const matchesStatus =
-      activeStatus === "all" ||
-      (activeStatus === "OVERDUE"
-        ? overdueStatuses.includes(
-            invoice.status as typeof overdueStatuses[number]
-          )
-        : invoice.status === activeStatus);
+const filteredInvoices = invoices.filter((invoice) => {
+  const matchesStatus =
+    activeStatus === "all" ||
+    (activeStatus === "OVERDUE"
+      ? overdueStatuses.includes(invoice.status as typeof overdueStatuses[number])
+      : invoice.status === activeStatus);
 
-    const query = searchQuery.toLowerCase();
-
-    
-
-    // const matchesSearch =
-    //   invoice.invoiceNumber.toLowerCase().includes(query) ||
-    //   invoice.customerName.toLowerCase().includes(query);
-
-    return matchesStatus;
-  });
+  const query = searchQuery.toLowerCase();
+  const matchesSearch =
+  invoice.invoiceNumber?.toLowerCase().includes(query) ||
+  invoice.customer_id?.notes?.toLowerCase().includes(query) ||
+  invoice._id?.toLowerCase().includes(query);
+  return matchesStatus && matchesSearch;
+});
 
   if (loading) {
     return (
@@ -179,7 +174,7 @@ const {invoices,loading} = useInvoices()
       {/* Table */}
       <div className="bg-white rounded-b-xl shadow-sm">
         {filteredInvoices.length > 0 ? (
-          <InvoiceTable data={filteredInvoices} />
+          <InvoiceTable data={filteredInvoices}  onDelete={fetchInvoices}/>
         ) : (
           <div className="min-h-[300px] flex flex-col items-center justify-center text-gray-400 p-8 border-x border-b border-gray-100 rounded-b-xl">
             <div className="p-6 border-2 border-dashed border-gray-100 rounded-full mb-4">

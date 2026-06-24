@@ -1,47 +1,75 @@
 "use client";
-import React, { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { createInvoice } from '@/services/invoice';
-import CustomerSelect from "@/components/CustomerSelect"
+import React, { useState, useEffect } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { createInvoice, updateInvoice, getInvoiceById } from '@/services/invoice';
+import CustomerSelect from "@/components/CustomerSelect";
 import InvoiceSummary from '../invoiceSummary';
+import Cookies from 'js-cookie';
+import PropertySelect from '@/components/properitySelect.tsx/propeirtySelect';
+import InstallmentPlanSelect from '@/components/installmentPlanSelect/installmentPlanSelect';
 
 export default function NewInvoice() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const editId = searchParams.get('editId'); // ✅ لو موجود يبقى وضع تعديل
+  const isEditMode = !!editId;
 
   const [customerId, setCustomerId] = useState('');
   const [propertyId, setPropertyId] = useState('');
   const [paymentType, setPaymentType] = useState<'CASH' | 'INSTALLMENT'>('CASH');
   const [installmentPlanId, setInstallmentPlanId] = useState('');
-
   const [basePrice, setBasePrice] = useState(0);
   const [discount, setDiscount] = useState(0);
   const [tax, setTax] = useState(0);
+  const [loadingData, setLoadingData] = useState(false);
 
   const totalAmount = basePrice - discount + tax;
-  const simulatedPaid = paymentType === 'CASH' ? totalAmount : 0; // محاكاة بسيطة للعرض
+  const simulatedPaid = paymentType === 'CASH' ? totalAmount : 0;
   const simulatedRemaining = totalAmount - simulatedPaid;
 
-  const getCookie = (name: string) => {
-    if (typeof document === 'undefined') return null;
-    const value = `; ${document.cookie}`;
-    const parts = value.split(`; ${name}=`);
-    if (parts.length === 2) return parts.pop()?.split(';').shift();
-    return null;
-  };
+  // ✅ لو وضع تعديل — اجلب بيانات الفاتورة وملي الفورم
+  useEffect(() => {
+    if (!editId) return;
+
+    const loadInvoice = async () => {
+      setLoadingData(true);
+      try {
+        const token = Cookies.get('admin_token');
+        if (!token) return;
+
+        const res = await getInvoiceById(editId, token);
+        const invoice = res?.data || res;
+
+        if (invoice) {
+          setCustomerId(invoice.customer_id?._id || '');
+          setPropertyId(invoice.property_id?._id || '');
+          setPaymentType(invoice.paymentType || 'CASH');
+          setInstallmentPlanId(invoice.installmentPlan_id?._id || '');
+          setBasePrice(invoice.basePrice || 0);
+          setDiscount(invoice.discount || 0);
+          setTax(invoice.tax || 0);
+        }
+      } catch (error) {
+        console.error("Error loading invoice:", error);
+        alert('حدث خطأ أثناء تحميل بيانات الفاتورة');
+      } finally {
+        setLoadingData(false);
+      }
+    };
+
+    loadInvoice();
+  }, [editId]);
 
   const handleSave = async () => {
     if (!customerId || !propertyId) {
       return alert('من فضلك اختر العميل وادخل معرف العقار معاً');
     }
-
     if (paymentType === 'INSTALLMENT' && !installmentPlanId) {
       return alert('من فضلك ادخل معرف خطة التقسيط');
     }
 
-    const token = getCookie('token') || (typeof window !== 'undefined' ? localStorage.getItem('token') : null); 
-    if (!token) {
-      return alert('جلسة العمل غير صالحة، برجاء تسجيل الدخول أولاً');
-    }
+    const token = Cookies.get('admin_token');
+    if (!token) return alert('جلسة العمل غير صالحة، برجاء تسجيل الدخول أولاً');
 
     const invoiceBody = {
       customer_id: customerId,
@@ -54,11 +82,16 @@ export default function NewInvoice() {
     };
 
     try {
-      const response = await createInvoice(invoiceBody, token);
-      if (response) { 
-        alert('تم إنشاء الفاتورة العقارية وتحديث الأقساط بنجاح 🎉');
-        router.push('/invoices'); 
+      if (isEditMode && editId) {
+        // ✅ وضع تعديل
+        await updateInvoice(editId, invoiceBody, token);
+        alert('تم تحديث الفاتورة بنجاح ✅');
+      } else {
+        // ✅ وضع إنشاء
+        await createInvoice(invoiceBody, token);
+        alert('تم إنشاء الفاتورة بنجاح 🎉');
       }
+      router.push('/invoices');
     } catch (error: unknown) {
       console.error("Error saving invoice:", error);
       const message = error instanceof Error ? error.message : 'يرجى المحاولة مرة أخرى';
@@ -66,11 +99,25 @@ export default function NewInvoice() {
     }
   };
 
+  if (loadingData) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-slate-50">
+        <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-green-600"></div>
+        <span className="mr-3 text-gray-600 font-medium">جاري تحميل بيانات الفاتورة...</span>
+      </div>
+    );
+  }
+
   return (
     <div dir="rtl" className="min-h-screen bg-slate-50 p-4 md:p-8 font-sans text-sm">
       <div className="mb-6">
-        <h2 className="text-2xl font-bold text-gray-800">فاتورة عقارية جديدة</h2>
-        <p className="text-gray-500 mt-1">إنشاء فاتورة مبيعات لعقار محدد وتوليد الأقساط</p>
+        {/* ✅ العنوان بيتغير حسب الوضع */}
+        <h2 className="text-2xl font-bold text-gray-800">
+          {isEditMode ? 'تعديل الفاتورة' : 'فاتورة عقارية جديدة'}
+        </h2>
+        <p className="text-gray-500 mt-1">
+          {isEditMode ? 'تعديل بيانات الفاتورة الموجودة' : 'إنشاء فاتورة مبيعات لعقار محدد وتوليد الأقساط'}
+        </p>
       </div>
 
       <div className="flex flex-col gap-6 max-w-5xl">
@@ -80,25 +127,16 @@ export default function NewInvoice() {
             <span className="text-green-500">🧾</span>
             <h3 className="font-semibold text-gray-800">أطراف العقد والبيانات الأساسية</h3>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <CustomerSelect value={customerId} onChange={setCustomerId} />
 
-            <div>
-              <label className="block text-gray-600 mb-1">معرّف العقار (Property ID) <span className="text-red-500">*</span></label>
-              <input
-                type='text'
-                value={propertyId}
-                onChange={e => setPropertyId(e.target.value)}
-                placeholder='ادخل الـ ID الخاص بالعقار'
-                className="w-full border border-gray-300 rounded-md p-2 outline-none focus:border-green-500"
-              />
-            </div>
+            <PropertySelect value={propertyId} onChange={setPropertyId} />
 
             <div>
               <label className="block text-gray-600 mb-1">نظام السداد</label>
-              <select 
-                value={paymentType} 
+              <select
+                value={paymentType}
                 onChange={e => setPaymentType(e.target.value as 'CASH' | 'INSTALLMENT')}
                 className="w-full border border-gray-300 rounded-md p-2 outline-none focus:border-green-500 bg-white"
               >
@@ -107,28 +145,22 @@ export default function NewInvoice() {
               </select>
             </div>
 
-            {paymentType === 'INSTALLMENT' && (
-              <div>
-                <label className="block text-gray-600 mb-1">معرّف خطة التقسيط (Plan ID) <span className="text-red-500">*</span></label>
-                <input
-                  type='text'
-                  value={installmentPlanId}
-                  onChange={e => setInstallmentPlanId(e.target.value)}
-                  placeholder='ادخل الـ ID الخاص بخطة التقسيط'
-                  className="w-full border border-gray-300 rounded-md p-2 outline-none focus:border-green-500"
-                />
-              </div>
-            )}
+          {paymentType === 'INSTALLMENT' && (
+  <InstallmentPlanSelect
+    value={installmentPlanId}
+    onChange={setInstallmentPlanId}
+  />
+)}
           </div>
         </div>
 
-        {/* القسم الثاني: الماليات والملخص */}
+        {/* القسم الثاني: الماليات */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
             <h3 className="font-semibold text-gray-800 mb-4">تفاصيل الدفعة المالية</h3>
             <div className="space-y-4">
               <div>
-                <label className="block text-gray-600 mb-1">السعر الأساسي للعقار (basePrice)</label>
+                <label className="block text-gray-600 mb-1">السعر الأساسي للعقار</label>
                 <input
                   type="number"
                   value={basePrice}
@@ -137,7 +169,7 @@ export default function NewInvoice() {
                 />
               </div>
               <div>
-                <label className="block text-gray-600 mb-1">الخصم الممنوح (discount)</label>
+                <label className="block text-gray-600 mb-1">الخصم الممنوح</label>
                 <input
                   type="number"
                   value={discount}
@@ -146,7 +178,7 @@ export default function NewInvoice() {
                 />
               </div>
               <div>
-                <label className="block text-gray-600 mb-1">الرسوم / الضرائب العقارية (tax)</label>
+                <label className="block text-gray-600 mb-1">الرسوم / الضرائب</label>
                 <input
                   type="number"
                   value={tax}
@@ -157,7 +189,7 @@ export default function NewInvoice() {
             </div>
           </div>
 
-          <InvoiceSummary 
+          <InvoiceSummary
             basePrice={basePrice}
             discount={discount}
             tax={tax}
@@ -174,10 +206,10 @@ export default function NewInvoice() {
             onClick={handleSave}
             className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-md font-medium transition-colors cursor-pointer"
           >
-             حفظ وإرسال الفاتورة
+            {isEditMode ? '💾 حفظ التعديلات' : ' حفظ وإرسال الفاتورة'}
           </button>
-          <button 
-            onClick={() => router.back()} 
+          <button
+            onClick={() => router.back()}
             className="bg-white text-gray-600 border border-gray-300 hover:bg-gray-50 px-6 py-2 rounded-md font-medium transition-colors cursor-pointer"
           >
             إلغاء

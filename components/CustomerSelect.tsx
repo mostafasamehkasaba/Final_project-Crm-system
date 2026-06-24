@@ -34,7 +34,7 @@ export default function CustomerSelect({ value, onChange }: CustomerSelectProps)
     useEffect(() => {
         const getClients = async () => {
             try {
-                const token = getCookie('token') || (typeof window !== 'undefined' ? localStorage.getItem('token') : null);
+                const token = getCookie('admin_token') || (typeof window !== 'undefined' ? localStorage.getItem('token') : null);
 
                 const res = await fetch(BASE_URL, {
                     method: "GET",
@@ -61,12 +61,12 @@ export default function CustomerSelect({ value, onChange }: CustomerSelectProps)
         getClients();
     }, [])
 
-    const getClientLabel = (client: Client) => {
-        if (typeof client.user_id === 'object' && client.user_id?.name) {
-           return client.user_id.name;
-        }
-        return `عميل (${client.notes || 'بدون ملاحظات'}) - ID: ${client._id.substring(18)}`;
+  const getClientLabel = (client: Client) => {
+    if (typeof client.user_id === 'object' && client.user_id?.name) {
+        return client.user_id.name;
     }
+    return `عميل - ${client._id.substring(0, 8)}`;
+}
 
     return (
         <div>
