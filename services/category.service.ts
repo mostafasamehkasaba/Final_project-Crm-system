@@ -12,7 +12,7 @@ const getHeaders = () => {
   };
 };
 
-// 1. جلب جميع التصنيفات
+
 export async function getAllCategories(): Promise<any> {
   // 🌟 إذا كان رابط الجلب الناجح يختلف عن الـ API_URL الأساسي قم بتعديله هنا مباشرة
   const res = await fetch(`${API_URL}`, {
@@ -26,7 +26,6 @@ export async function getAllCategories(): Promise<any> {
   return res.json(); // سيرجع الـ Object كامل الذي يحتوي على success و data
 }
 
-// 2. إضافة تصنيف جديد
 export async function createCategory(payload: CreateCategoryPayload): Promise<Category> {
   const res = await fetch(`${API_URL}`, { 
     method: "POST",
