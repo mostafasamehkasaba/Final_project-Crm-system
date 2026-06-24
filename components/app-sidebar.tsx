@@ -65,80 +65,93 @@ export function AppSidebar() {
   const pathname = usePathname();
 
   return (
-    <Sidebar collapsible="icon" side="right" dir="rtl">
-      {/* ── Header ── */}
-      <SidebarHeader className="border-b border-sidebar-border p-4">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-green-700 text-white">
-              <Building2 className="h-5 w-5" />
+    <Sidebar
+      collapsible="icon"
+      side="right"
+      dir="rtl"
+      className="border-l border-slate-100 dark:border-slate-800"
+    >
+      {/* ── Header: تم ضبطه بارتفاع h-16 ليتطابق مع الـ Navbar ── */}
+      <SidebarHeader className="h-16 border-b border-slate-100 bg-white dark:bg-zinc-950 dark:border-slate-800 px-4 flex justify-center">
+        <div className="flex items-center justify-between w-full">
+          <div className="flex items-center gap-3 overflow-hidden">
+            {/* اللوجو الأيقوني الثابت */}
+            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-green-700 text-white shadow-sm shadow-green-700/20">
+              <Building2 className="h-4 w-4" />
             </div>
-            <div className="flex flex-col group-data-[collapsible=icon]:hidden">
-              <span className="font-bold text-sm leading-tight">
+            {/* نصوص الهيدر تختفي تلقائياً عند انكماش السايدبار */}
+            <div className="flex flex-col group-data-[collapsible=icon]:hidden text-right leading-tight truncate">
+              <span className="font-black text-xs text-slate-900 dark:text-white">
                 نظام إدارة CRM
               </span>
-              <span className="text-xs text-muted-foreground mt-0.5">
+              <span className="text-[10px] text-slate-400 mt-0.5">
                 لوحة المسؤول
               </span>
             </div>
           </div>
-          <div className="group-data-[collapsible=icon]:hidden">
+
+          {/* زر تبديل الوضع يختفي في وضع الأيقونة للحفاظ على الهيكل */}
+          <div className="group-data-[collapsible=icon]:hidden shrink-0">
             <ToggleMode />
           </div>
         </div>
       </SidebarHeader>
 
       {/* ── Content ── */}
-      <SidebarContent className="py-3">
-        <SidebarGroup>
-          <SidebarMenu className="px-2 space-y-0.5">
+      <SidebarContent className="py-4 bg-white dark:bg-zinc-950">
+        <SidebarGroup className="px-2">
+          <SidebarMenu className="space-y-1">
             {menuItems.map((item) =>
               item.children ? (
                 <Collapsible
-                  defaultOpen={true}
+                  defaultOpen={pathname.startsWith(item.href)}
                   key={item.label}
                   className="group/collapsible w-full"
                 >
-                  <SidebarMenuItem className="w-full">
+                  <SidebarMenuItem className="w-full list-none">
                     <CollapsibleTrigger asChild style={{ cursor: "pointer" }}>
                       <SidebarMenuButton
                         className={cn(
-                          "flex items-center justify-between w-full h-11 px-3 rounded-xl transition-all duration-200",
+                          "flex items-center justify-between w-full h-10 px-3 rounded-xl transition-all duration-200 text-xs font-bold",
                           pathname.startsWith(item.href)
-                            ? "bg-green-700 text-white"
-                            : "text-muted-foreground hover:bg-green-50 dark:hover:bg-green-950/30 hover:text-foreground",
+                            ? "bg-green-700 text-white hover:bg-green-700 hover:text-white shadow-sm shadow-green-700/10"
+                            : "text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-zinc-900 hover:text-slate-900 dark:hover:text-white",
                         )}
                       >
                         <div className="flex items-center gap-3">
-                          <item.icon className="w-5 h-5 shrink-0 stroke-[1.8]" />
-                          <span className="font-medium text-sm">
+                          <item.icon className="w-4 h-4 shrink-0 stroke-[2]" />
+                          <span className="group-data-[collapsible=icon]:hidden">
                             {item.label}
                           </span>
                         </div>
-                        <ChevronDown className="w-4 h-4 transition-transform duration-200 group-data-[state=open]/collapsible:rotate-180" />
+                        <ChevronDown className="w-3.5 h-3.5 transition-transform duration-200 group-data-[state=open]/collapsible:rotate-180 group-data-[collapsible=icon]:hidden shrink-0" />
                       </SidebarMenuButton>
                     </CollapsibleTrigger>
 
-                    <CollapsibleContent className="mt-0.5">
-                      <SidebarMenuSub className="flex flex-col gap-0.5 border-r-2 border-green-100 dark:border-green-900 mr-5 pr-2 py-1">
+                    <CollapsibleContent className="mt-1 group-data-[collapsible=icon]:hidden">
+                      {/* قائمة فرعية منسدلة بلون متناغم */}
+                      <SidebarMenuSub className="flex flex-col gap-1 border-r border-green-700/20 mr-4 pr-3 py-1">
                         {item.children.map((child) => (
-                          <SidebarMenuSubItem key={child.label}>
+                          <SidebarMenuSubItem
+                            key={child.label}
+                            className="list-none"
+                          >
                             <SidebarMenuSubButton asChild>
                               <Link
                                 href={child.href}
                                 className={cn(
-                                  "flex items-center w-full h-9 px-3 rounded-lg text-sm transition-all duration-200",
+                                  "flex items-center w-full h-8 px-3 rounded-lg text-[11px] transition-all duration-200 font-medium",
                                   pathname === child.href
-                                    ? "bg-green-700/10 text-green-700 dark:text-green-400 font-medium"
-                                    : "text-muted-foreground hover:bg-green-50 dark:hover:bg-green-950/30 hover:text-foreground",
+                                    ? "bg-green-50 dark:bg-green-950/20 text-green-700 dark:text-green-400 font-bold"
+                                    : "text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-zinc-900 hover:text-slate-900",
                                 )}
                               >
                                 <span
                                   className={cn(
-                                    "w-1.5 h-1.5 rounded-full me-2 shrink-0",
+                                    "w-1 h-1 rounded-full me-2 shrink-0 transition-transform",
                                     pathname === child.href
-                                      ? "bg-green-700"
-                                      : "bg-muted-foreground/40",
+                                      ? "bg-green-700 dark:bg-green-400 scale-125"
+                                      : "bg-slate-300 dark:bg-slate-700",
                                   )}
                                 />
                                 {child.label}
@@ -151,19 +164,21 @@ export function AppSidebar() {
                   </SidebarMenuItem>
                 </Collapsible>
               ) : (
-                <SidebarMenuItem key={item.label} className="w-full">
+                <SidebarMenuItem key={item.label} className="w-full list-none">
                   <SidebarMenuButton
                     className={cn(
-                      "flex items-center justify-start w-full h-11 px-3 gap-3 rounded-xl transition-all duration-200",
+                      "flex items-center justify-start w-full h-10 px-3 gap-3 rounded-xl transition-all duration-200 text-xs font-bold",
                       pathname === item.href
-                        ? "bg-green-700 text-white pointer-events-none"
-                        : "text-muted-foreground hover:bg-green-50 dark:hover:bg-green-950/30 hover:text-foreground",
+                        ? "bg-green-700 text-white hover:bg-green-700 hover:text-white shadow-sm shadow-green-700/10 pointer-events-none"
+                        : "text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-zinc-900 hover:text-slate-900 dark:hover:text-white",
                     )}
                     asChild
                   >
                     <Link href={item.href} className="flex items-center gap-3">
-                      <item.icon className="h-5 w-5 shrink-0 stroke-[1.8]" />
-                      <span className="font-medium text-sm">{item.label}</span>
+                      <item.icon className="h-4 w-4 shrink-0 stroke-[2]" />
+                      <span className="group-data-[collapsible=icon]:hidden">
+                        {item.label}
+                      </span>
                     </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
@@ -174,15 +189,17 @@ export function AppSidebar() {
       </SidebarContent>
 
       {/* ── Footer ── */}
-      <SidebarFooter className="border-t border-sidebar-border p-2">
+      <SidebarFooter className="border-t border-slate-100 dark:border-slate-800 p-2 bg-white dark:bg-zinc-950">
         <SidebarMenuItem className="w-full list-none">
           <SidebarMenuButton
-            className="flex items-center justify-start w-full h-11 px-3 gap-3 rounded-xl transition-all duration-200 text-red-500 hover:bg-red-50 dark:hover:bg-red-950/30 hover:text-red-600"
+            className="flex items-center justify-start w-full h-10 px-3 gap-3 rounded-xl transition-all duration-200 text-xs font-bold text-red-500 hover:bg-red-50 dark:hover:bg-red-950/20 hover:text-red-600"
             asChild
           >
             <Link href="/logout" className="flex items-center gap-3">
-              <LogOut className="h-5 w-5 shrink-0 stroke-[1.8]" />
-              <span className="font-medium text-sm">تسجيل الخروج</span>
+              <LogOut className="h-4 w-4 shrink-0 stroke-[2]" />
+              <span className="group-data-[collapsible=icon]:hidden">
+                تسجيل الخروج
+              </span>
             </Link>
           </SidebarMenuButton>
         </SidebarMenuItem>

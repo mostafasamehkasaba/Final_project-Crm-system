@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Cairo, Inter } from "next/font/google";
 import "./globals.css";
-
+import { ToastProvider } from "@/context/ToastContext"; // استيراد الـ Provider اللي عملناه
 const cairo = Cairo({
   subsets: ["arabic", "latin"],
   weight: ["300", "400", "500", "600", "700"],
@@ -28,7 +28,7 @@ export default function RootLayout({
         className={`${cairo.className} ${inter.variable} font-cairo antialiased`}
         suppressHydrationWarning
       >
-        {children}
+        <ToastProvider>{children}</ToastProvider>
       </body>
     </html>
   );

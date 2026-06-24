@@ -17,8 +17,8 @@ export default function PropertyList({
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 p-5">
-      {properties.map((p) => (
-        <PropertyCard key={p.id} property={p} />
+      {properties.map((p, idx) => (
+        <PropertyCard key={idx} property={p} />
       ))}
     </div>
   );

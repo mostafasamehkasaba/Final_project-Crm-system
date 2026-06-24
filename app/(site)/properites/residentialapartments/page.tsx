@@ -25,19 +25,18 @@ export default function ResidentialApartments() {
   // 🔍 Filtering
   const filtered = useMemo(() => {
     return properties.filter((p) => {
-      const matchType =
-        filters.type === "الكل" || p.type === filters.type;
+      const matchType = filters.type === "الكل" || p.type === filters.type;
 
-      const matchBeds =
-        filters.beds === "الكل" || p.beds === filters.beds;
+      // Some property objects may not have a `beds` field; check safely
+      const propBeds = (p as any).beds ?? (p as any).bedrooms;
+      const matchBeds = filters.beds === "الكل" || propBeds === filters.beds;
 
       const matchLocation =
         filters.location === "الكل" ||
         p.location.trim() === filters.location.trim();
 
       const matchBook =
-        filters.bookType === "الكل" ||
-        p.bookType === filters.bookType;
+        filters.bookType === "الكل" || p.bookType === filters.bookType;
 
       const matchSearch =
         searchText === "" ||
@@ -45,11 +44,7 @@ export default function ResidentialApartments() {
         p.location.includes(searchText);
 
       return (
-        matchType &&
-        matchBeds &&
-        matchLocation &&
-        matchBook &&
-        matchSearch
+        matchType && matchBeds && matchLocation && matchBook && matchSearch
       );
     });
   }, [filters, searchText]);
@@ -61,7 +56,7 @@ export default function ResidentialApartments() {
 
   const paginatedProperties = filtered.slice(
     startIndex,
-    startIndex + itemsPerPage
+    startIndex + itemsPerPage,
   );
 
   const onPageChange = (page: number) => {
@@ -74,7 +69,8 @@ export default function ResidentialApartments() {
       <div className="w-full flex flex-col gap-3 justify-center items-center font-bold h-[150px]">
         <h3 className="text-2xl">ابحث عن شقة أحلامك هنا</h3>
         <p className="w-full text-amber-950 text-center">
-          لأنك تستحق المساحة التي تمنحك الراحة والأمان، وفرنا لك تشكيلة واسعة من الشقق المميزة
+          لأنك تستحق المساحة التي تمنحك الراحة والأمان، وفرنا لك تشكيلة واسعة من
+          الشقق المميزة
         </p>
       </div>
 

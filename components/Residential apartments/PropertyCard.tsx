@@ -8,7 +8,7 @@ export default function PropertyCard({ property }: { property: Property }) {
     <div className="  rounded-2xl overflow-hidden bg-white shadow-sm hover:shadow-md transition-shadow">
       <div className="relative h-56 w-full">
         <Image
-          src={property.image}
+          src={property.images[0]}
           alt={property.title}
           fill
           className="object-cover"
@@ -27,11 +27,11 @@ export default function PropertyCard({ property }: { property: Property }) {
           </span>
           <span className="flex items-center gap-1">
             <BedDouble className="w-3.5 h-3.5" />
-            {property.beds}
+            {(property as any).beds ?? (property as any).bedrooms ?? "-"}
           </span>
           <span className="flex items-center gap-1">
             <Bath className="w-3.5 h-3.5" />
-            {property.baths}
+            {(property as any).baths ?? (property as any).bathrooms ?? "-"}
           </span>
         </div>
         <h3 className="font-semibold text-lg text-neutral-900">
