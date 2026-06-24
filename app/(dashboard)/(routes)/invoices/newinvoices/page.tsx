@@ -91,6 +91,7 @@ export default function NewInvoice() {
         await createInvoice(invoiceBody, token);
         alert('تم إنشاء الفاتورة بنجاح 🎉');
       }
+      router.refresh();
       router.push('/invoices');
     } catch (error: unknown) {
       console.error("Error saving invoice:", error);
