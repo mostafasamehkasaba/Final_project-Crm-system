@@ -102,5 +102,5 @@ export const deleteInvoice = async (id: string, token: string) => {
         throw new Error(data.message || "حدث خطأ أثناء الحذف");
     }
 
-    return { success: true }; // ✅ مش بنقرأ JSON خالص
+    return { success: true }; 
 };

@@ -7,6 +7,7 @@ import { ThemeProvider } from "next-themes";
 import { AppSidebar } from "@/components/app-sidebar";
 import NavbarDash from "./NavbarDash";
 import { InvoiceProvider } from "./(context)/InvoiceContext"; // تأكد من طريقة الـ Export (أقواس لو named)
+import { PaymentProvider } from "./(context)/payment";
 
 export default function DashboardLayout({
   children,
@@ -36,8 +37,10 @@ export default function DashboardLayout({
           <NavbarDash />
           <div className="flex-1">
             <InvoiceProvider>
-              {children}
-            </InvoiceProvider>
+  <PaymentProvider>
+    {children}
+  </PaymentProvider>
+</InvoiceProvider>
           </div>
         </main>
       </SidebarProvider>
