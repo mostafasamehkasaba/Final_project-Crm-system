@@ -1,4 +1,4 @@
-import { IPayment } from "@/interfaces/payment"; // أو حسب مسار الانترفيس بتاعك
+import { IPayment } from "@/interfaces/payment"; 
 
 const BASE_URL = "https://back-end-crm-project.vercel.app/api/payments";
 

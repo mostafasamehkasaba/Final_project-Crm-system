@@ -27,7 +27,6 @@ export default function NewInvoice() {
   const simulatedPaid = paymentType === 'CASH' ? totalAmount : 0;
   const simulatedRemaining = totalAmount - simulatedPaid;
 
-  // ✅ لو وضع تعديل — اجلب بيانات الفاتورة وملي الفورم
   useEffect(() => {
     if (!editId) return;
 
