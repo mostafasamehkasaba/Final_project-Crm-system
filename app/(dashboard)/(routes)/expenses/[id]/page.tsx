@@ -36,8 +36,8 @@ export default async function ExpenseDetailPage({ params }: Props) {
           </span>
         </div>
         <div className="flex justify-between items-center px-5 py-4">
-          <span className="text-sm text-muted-foreground">المورد</span>
-          <span className="text-sm font-medium">{expense.supplierName}</span>
+          <span className="text-sm text-muted-foreground">الوصف</span>
+          <span className="text-sm font-medium">{expense.description}</span>
         </div>
         <div className="flex justify-between items-center px-5 py-4">
           <span className="text-sm text-muted-foreground">النوع</span>
