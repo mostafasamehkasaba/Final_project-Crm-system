@@ -20,8 +20,8 @@ export default function ClientsPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [formData, setFormData] = useState({
-    user_id: '68503c9d9f4b6c9f4c7a1234',
-    property_id: '685040b29f4b6c9f4c7a5678',
+    user_id: '',
+    property_id: '',
     totalPrice: '',
     downPayment: '',
     notes: '',
