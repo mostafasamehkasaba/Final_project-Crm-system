@@ -1,7 +1,6 @@
 import Cookies from "js-cookie";
 import { Category, CreateCategoryPayload } from "@/types/category";
 
-// 💡 تأكد إذا كان الباك إند في الجلب يستخدم المفرد category أم الجمع categories
 const API_URL = "https://back-end-crm-project.vercel.app/api/category";
 
 const getHeaders = () => {
@@ -14,7 +13,7 @@ const getHeaders = () => {
 
 
 export async function getAllCategories(): Promise<any> {
-  // 🌟 إذا كان رابط الجلب الناجح يختلف عن الـ API_URL الأساسي قم بتعديله هنا مباشرة
+
   const res = await fetch(`${API_URL}`, {
     method: "GET",
     headers: getHeaders(),
@@ -23,11 +22,11 @@ export async function getAllCategories(): Promise<any> {
   if (!res.ok) {
     throw new Error("فشل في جلب التصنيفات من السيرفر");
   }
-  return res.json(); // سيرجع الـ Object كامل الذي يحتوي على success و data
+  return res.json();
 }
 
 export async function createCategory(payload: CreateCategoryPayload): Promise<Category> {
-  const res = await fetch(`${API_URL}`, { 
+  const res = await fetch(`${API_URL}/addcategory`, { 
     method: "POST",
     headers: getHeaders(),
     body: JSON.stringify(payload),
@@ -40,7 +39,6 @@ export async function createCategory(payload: CreateCategoryPayload): Promise<Ca
   return res.json();
 }
 
-// 3. حذف تصنيف
 export async function deleteCategory(id: string): Promise<void> {
   const res = await fetch(`${API_URL}/${id}`, {
     method: "DELETE",
@@ -52,10 +50,9 @@ export async function deleteCategory(id: string): Promise<void> {
   }
 }
 
-// 4. تعديل تصنيف حالي
 export async function updateCategory(id: string, payload: CreateCategoryPayload): Promise<Category> {
   const res = await fetch(`${API_URL}/${id}`, {
-    method: "PUT", // 💡 لو الباك إند بتاعك شغال PATCH عدلها هنا لـ PATCH
+    method: "PUT", 
     headers: getHeaders(),
     body: JSON.stringify(payload),
   });

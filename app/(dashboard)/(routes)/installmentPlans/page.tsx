@@ -17,7 +17,7 @@ export default async function InstallmentPlansPage() {
         </div>
         <Link
           href="/installmentPlans/create"
-          className="flex items-center gap-2 px-4 py-2 text-sm rounded-lg bg-foreground text-background hover:opacity-85 transition-opacity"
+          className="flex items-center gap-2 px-4 py-2 text-sm rounded-lg bg-green-700 hover:bg-green-800 text-white font-semibold transition-opacity"
         >
           + خطة جديدة
         </Link>
