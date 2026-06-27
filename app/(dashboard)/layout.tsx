@@ -8,6 +8,7 @@ import { AppSidebar } from "@/components/app-sidebar";
 import NavbarDash from "./NavbarDash";
 import { InvoiceProvider } from "./(context)/InvoiceContext"; // تأكد من طريقة الـ Export (أقواس لو named)
 import { PaymentProvider } from "./(context)/payment";
+import { ToastProvider } from "@/context/ToastContext";
 
 export default function DashboardLayout({
   children,
@@ -30,20 +31,23 @@ export default function DashboardLayout({
 
   return (
     <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-      <SidebarProvider>
-        <AppSidebar />
+  <SidebarProvider>
+    <AppSidebar />
 
-        <main className="bg-zinc-100 flex-1 flex flex-col min-h-screen">
-          <NavbarDash />
-          <div className="flex-1">
-            <InvoiceProvider>
-  <PaymentProvider>
-    {children}
-  </PaymentProvider>
-</InvoiceProvider>
-          </div>
-        </main>
-      </SidebarProvider>
-    </ThemeProvider>
+    <main className="bg-zinc-100 flex-1 flex flex-col min-h-screen">
+      <NavbarDash />
+
+      <div className="flex-1">
+        <ToastProvider>
+          <InvoiceProvider>
+            <PaymentProvider>
+              {children}
+            </PaymentProvider>
+          </InvoiceProvider>
+        </ToastProvider>
+      </div>
+    </main>
+  </SidebarProvider>
+</ThemeProvider>
   );
 }
