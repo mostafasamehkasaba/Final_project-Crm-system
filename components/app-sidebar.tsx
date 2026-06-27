@@ -30,13 +30,15 @@ import {
   ShoppingBag,
   HandCoins,
   Tags,
+  ReceiptText,
+  ShoppingCart,
 } from "lucide-react";
 import Link from "next/link";
 
 import ToggleMode from "./toggleMode";
 
 const menuItems = [
-  { icon: LayoutDashboard, label: "لوحة التحكم", href: "/dashboard" },
+  { icon: LayoutDashboard, label: "لوحة التحكم", href: "/controlPanel" },
   {
     icon: Layers,
     label: "المبيعات",
@@ -57,11 +59,6 @@ const menuItems = [
     icon: ShoppingBag,
     label: "المنتجات",
     href: "/products",
-    // children: [
-    //   { label: "الشقق السكنية", href: "/residentialapartments" },
-    //   { label: "الفلل", href: "/villas" },
-    //   { label: "العقارات السياحية", href: "/touristrealestate" },
-    // ],
   },
 
   {
@@ -69,6 +66,8 @@ const menuItems = [
     label: "خطط التقسيط",
     href: "/installmentPlans",
   },
+  { icon: ReceiptText, label: "فواتير المصروفات", href: "/expenses" },
+  { icon: ShoppingCart, label: "فواتير المشتريات", href: "/purchaseInvoices" },
 
   { icon: Settings, label: "الإعدادات", href: "/settings" },
 ];
@@ -83,15 +82,13 @@ export function AppSidebar() {
       dir="rtl"
       className="border-l border-slate-100 dark:border-slate-800"
     >
-      {/* ── Header: تم ضبطه بارتفاع h-16 ليتطابق مع الـ Navbar ── */}
-      <SidebarHeader className="h-16 border-b border-slate-100 bg-white dark:bg-zinc-950 dark:border-slate-800 px-4 flex justify-center">
+      <SidebarHeader className="h-16 border-b border-slate-100 bg-white dark:bg-zinc-950 dark:border-slate-800 px-2 flex justify-center">
         <div className="flex items-center justify-between w-full">
           <div className="flex items-center gap-3 overflow-hidden">
-            {/* اللوجو الأيقوني الثابت */}
             <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-green-700 text-white shadow-sm shadow-green-700/20">
               <Building2 className="h-4 w-4" />
             </div>
-            {/* نصوص الهيدر تختفي تلقائياً عند انكماش السايدبار */}
+
             <div className="flex flex-col group-data-[collapsible=icon]:hidden text-right leading-tight truncate">
               <span className="font-black text-xs text-slate-900 dark:text-white">
                 نظام إدارة CRM
@@ -102,14 +99,12 @@ export function AppSidebar() {
             </div>
           </div>
 
-          {/* زر تبديل الوضع يختفي في وضع الأيقونة للحفاظ على الهيكل */}
           <div className="group-data-[collapsible=icon]:hidden shrink-0">
             <ToggleMode />
           </div>
         </div>
       </SidebarHeader>
 
-      {/* ── Content ── */}
       <SidebarContent className="py-4 bg-white dark:bg-zinc-950">
         <SidebarGroup className="px-2">
           <SidebarMenu className="space-y-1">
@@ -141,7 +136,6 @@ export function AppSidebar() {
                     </CollapsibleTrigger>
 
                     <CollapsibleContent className="mt-1 group-data-[collapsible=icon]:hidden">
-                      {/* قائمة فرعية منسدلة بلون متناغم */}
                       <SidebarMenuSub className="flex flex-col gap-1 border-r border-green-700/20 mr-4 pr-3 py-1">
                         {item.children.map((child) => (
                           <SidebarMenuSubItem
@@ -200,7 +194,6 @@ export function AppSidebar() {
         </SidebarGroup>
       </SidebarContent>
 
-      {/* ── Footer ── */}
       <SidebarFooter className="border-t border-slate-100 dark:border-slate-800 p-2 bg-white dark:bg-zinc-950">
         <SidebarMenuItem className="w-full list-none">
           <SidebarMenuButton
