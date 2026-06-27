@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { Cairo, Inter } from "next/font/google";
 import "./globals.css";
-import { ToastProvider } from "@/context/ToastContext"; // استيراد الـ Provider اللي عملناه
+
+
 const cairo = Cairo({
   subsets: ["arabic", "latin"],
   weight: ["300", "400", "500", "600", "700"],
@@ -13,7 +14,6 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: "Real Estate Project",
-
   description: "Best properties in Egypt",
 };
 
@@ -23,12 +23,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ar" dir="rtl" suppressHydrationWarning>
-      <body
-        className={`${cairo.className} ${inter.variable} font-cairo antialiased`}
-        suppressHydrationWarning
-      >
-        <ToastProvider>{children}</ToastProvider>
+
+
+    <html lang="ar" dir="rtl"> 
+      <body className={`${cairo.className} ${inter.variable} font-cairo antialiased`} suppressHydrationWarning>
+        {children} 
       </body>
     </html>
   );
