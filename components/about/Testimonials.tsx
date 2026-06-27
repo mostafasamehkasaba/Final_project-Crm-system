@@ -1,8 +1,19 @@
 "use client";
 
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import Image from "next/image";
-import styles from "./Testimonials.module.css";
+import {
+  Box,
+  Typography,
+  IconButton,
+  Skeleton,
+  useMediaQuery,
+} from "@mui/material";
+import StarIcon from "@mui/icons-material/Star";
+import StarBorderIcon from "@mui/icons-material/StarBorder";
+import FormatQuoteIcon from "@mui/icons-material/FormatQuote";
+import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 
 interface Testimonial {
   id: number;
@@ -22,46 +33,145 @@ interface TestimonialsResponse {
   testimonials: Testimonial[];
 }
 
-function StarRating({ rating }: { rating: number }) {
+const StarRating = ({ rating }: { rating: number }) => {
   return (
-    <div className={styles.stars} aria-label={`تقييم ${rating} من 5`}>
-      {Array.from({ length: 5 }, (_, i) => (
-        <svg
-          key={i}
-          viewBox="0 0 24 24"
-          className={`${styles.star} ${i < rating ? styles.starFilled : styles.starEmpty}`}
-          aria-hidden="true"
-        >
-          <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-        </svg>
-      ))}
-    </div>
+    <Box sx={{ display: "flex", gap: 0.75 }}>
+      {Array.from({ length: 5 }, (_, i) =>
+        i < rating ? (
+          <StarIcon
+            key={i}
+            sx={{ fontSize: 18, color: "#c9a84c" }}
+          />
+        ) : (
+          <StarBorderIcon
+            key={i}
+            sx={{ fontSize: 18, color: "rgba(30, 30, 42, 0.45)" }}
+          />
+        )
+      )}
+    </Box>
   );
-}
+};
 
-function TestimonialCard({ testimonial, isActive }: { testimonial: Testimonial; isActive: boolean }) {
+const SkeletonCard = () => (
+  <Box
+    sx={{
+      background: "#ffffff",
+      borderRadius: 4,
+      padding: { xs: 3, sm: 4 },
+      border: "1px solid rgba(0, 0, 0, 0.05)",
+      boxShadow: "0 20px 35px -12px rgba(0, 0, 0, 0.05)",
+      display: "flex",
+      flexDirection: "column",
+      gap: 2.5,
+    }}
+  >
+    <FormatQuoteIcon sx={{ fontSize: 32, color: "#c9a84c", opacity: 0.4 }} />
+    <Box sx={{ display: "flex", gap: 0.75 }}>
+      {Array.from({ length: 5 }).map((_, i) => (
+        <Skeleton key={i} variant="circular" width={18} height={18} />
+      ))}
+    </Box>
+    <Skeleton variant="rounded" width="100%" height={80} />
+    <Skeleton variant="rounded" width={120} height={28} sx={{ borderRadius: 6 }} />
+    <Box sx={{ display: "flex", gap: 2, alignItems: "center", mt: 1 }}>
+      <Skeleton variant="circular" width={52} height={52} />
+      <Box sx={{ display: "flex", flexDirection: "column", gap: 0.5 }}>
+        <Skeleton variant="text" width={120} height={24} />
+        <Skeleton variant="text" width={160} height={20} />
+      </Box>
+    </Box>
+  </Box>
+);
+
+const TestimonialCard = ({ testimonial, isActive }: { testimonial: Testimonial; isActive: boolean }) => {
   return (
-    <article className={`${styles.card} ${isActive ? styles.cardActive : ""}`} aria-hidden={!isActive}>
-      <div className={styles.quoteIcon} aria-hidden="true">
-        <svg viewBox="0 0 40 32" fill="currentColor">
-          <path d="M0 32V19.2C0 8.533 6.4 2.133 19.2 0l2.133 3.733C14.4 5.333 10.667 8.533 9.6 13.333H16V32H0zm24 0V19.2C24 8.533 30.4 2.133 43.2 0l2.133 3.733C38.4 5.333 34.667 8.533 33.6 13.333H40V32H24z" />
-        </svg>
-      </div>
+    <Box
+      sx={{
+        background: "#ffffff",
+        borderRadius: 4,
+        padding: { xs: 3, sm: 4 },
+        border: "1px solid rgba(0, 0, 0, 0.05)",
+        boxShadow: "0 20px 35px -12px rgba(0, 0, 0, 0.05)",
+        display: "flex",
+        flexDirection: "column",
+        gap: 2.5,
+        transition: "opacity 0.5s cubic-bezier(0.2, 0.9, 0.4, 1.1), transform 0.5s cubic-bezier(0.2, 0.9, 0.4, 1.1)",
+        opacity: isActive ? 1 : 0,
+        transform: isActive ? "scale(1)" : "scale(0.98)",
+        pointerEvents: isActive ? "auto" : "none",
+        gridRow: 1,
+        gridColumn: 1,
+      }}
+    >
+      <FormatQuoteIcon sx={{ fontSize: 32, color: "#c9a84c", opacity: 0.4 }} />
       <StarRating rating={testimonial.rating} />
-      <p className={styles.cardText}>&ldquo;{testimonial.text}&rdquo;</p>
-      <span className={styles.compoundBadge}>{testimonial.compound}</span>
-      <div className={styles.author}>
-        <div className={styles.avatarWrapper}>
-          <Image src={testimonial.avatar} alt={testimonial.name} fill className={styles.avatar} sizes="48px" />
-        </div>
-        <div className={styles.authorInfo}>
-          <span className={styles.authorName}>{testimonial.name}</span>
-          <span className={styles.authorMeta}>{testimonial.role} · {testimonial.date}</span>
-        </div>
-      </div>
-    </article>
+      <Typography
+        component="p"
+        sx={{
+          fontSize: "1rem",
+          lineHeight: 1.75,
+          color: "#4b4b5a",
+          m: 0,
+        }}
+      >
+        &ldquo;{testimonial.text}&rdquo;
+      </Typography>
+      <Box
+        sx={{
+          display: "inline-flex",
+          alignSelf: "flex-start",
+          fontSize: "0.7rem",
+          fontWeight: 500,
+          letterSpacing: "0.05em",
+          color: "#c9a84c",
+          backgroundColor: "rgba(201, 168, 76, 0.12)",
+          padding: "0.3rem 0.9rem",
+          borderRadius: "60px",
+          border: "1px solid rgba(201, 168, 76, 0.25)",
+        }}
+      >
+        {testimonial.compound}
+      </Box>
+      <Box sx={{ display: "flex", gap: 1.75, alignItems: "center", mt: 1 }}>
+        <Box
+          sx={{
+            position: "relative",
+            width: 52,
+            height: 52,
+            borderRadius: "50%",
+            overflow: "hidden",
+            backgroundColor: "rgba(201, 168, 76, 0.12)",
+            border: "2px solid white",
+            boxShadow: "0 4px 12px rgba(0, 0, 0, 0.05)",
+          }}
+        >
+          <Image
+            src={testimonial.avatar}
+            alt={testimonial.name}
+            fill
+            style={{ objectFit: "cover" }}
+            sizes="52px"
+          />
+        </Box>
+        <Box sx={{ display: "flex", flexDirection: "column", gap: 0.25 }}>
+          <Typography
+            component="span"
+            sx={{ fontWeight: 700, fontSize: "1rem", color: "#1e1e2a" }}
+          >
+            {testimonial.name}
+          </Typography>
+          <Typography
+            component="span"
+            sx={{ fontSize: "0.75rem", color: "rgba(30, 30, 42, 0.45)" }}
+          >
+            {testimonial.role} · {testimonial.date}
+          </Typography>
+        </Box>
+      </Box>
+    </Box>
   );
-}
+};
 
 export default function Testimonials() {
   const [data, setData] = useState<TestimonialsResponse | null>(null);
@@ -70,22 +180,39 @@ export default function Testimonials() {
   const [isPaused, setIsPaused] = useState(false);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
+  const isMobile = useMediaQuery("(max-width:640px)");
+
   useEffect(() => {
-    fetch("/api/about/testimonials")
+    const abortController = new AbortController();
+    setLoading(true);
+
+    fetch("/api/about/testimonials", { signal: abortController.signal })
       .then((res) => res.json())
-      .then((json) => {
+      .then((json: TestimonialsResponse) => {
         setData(json);
         setLoading(false);
       })
-      .catch(() => setLoading(false));
+      .catch((err) => {
+        if (err.name !== "AbortError") {
+          console.error(err);
+        }
+        setLoading(false);
+      });
+
+    return () => {
+      abortController.abort();
+    };
   }, []);
 
-  const total = data?.testimonials.length || 0;
+  const total = data?.testimonials.length ?? 0;
 
-  const goTo = useCallback((index: number) => {
-    if (!total) return;
-    setCurrent((index + total) % total);
-  }, [total]);
+  const goTo = useCallback(
+    (index: number) => {
+      if (!total) return;
+      setCurrent(((index % total) + total) % total);
+    },
+    [total]
+  );
 
   const goNext = useCallback(() => goTo(current + 1), [current, goTo]);
   const goPrev = useCallback(() => goTo(current - 1), [current, goTo]);
@@ -100,68 +227,244 @@ export default function Testimonials() {
 
   if (loading || !data) {
     return (
-      <section className={styles.section}>
-        <div className={styles.container}>
-          <div className={styles.header}>
-            <span className={styles.tag}>آراء عملائنا</span>
-            <h2 className={styles.title}>جاري التحميل...</h2>
-          </div>
-        </div>
-      </section>
+      <Box
+        component="section"
+        dir="rtl"
+        sx={{
+          position: "relative",
+          width: "100%",
+          overflow: "hidden",
+          background: "#ffffff",
+          py: { xs: 4, md: 6 },
+        }}
+      >
+        <Box
+          sx={{
+            maxWidth: 860,
+            mx: "auto",
+            px: { xs: 2.5, sm: 4 },
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            gap: { xs: 3, sm: 4 },
+          }}
+        >
+          <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center", gap: 1.5 }}>
+            <Skeleton variant="rounded" width={100} height={28} sx={{ borderRadius: 6 }} />
+            <Skeleton variant="text" width={200} height={40} />
+            <Skeleton variant="text" width={300} height={24} />
+          </Box>
+          <Box
+            sx={{
+              display: "grid",
+              width: "100%",
+              position: "relative",
+            }}
+          >
+            <SkeletonCard />
+          </Box>
+        </Box>
+      </Box>
     );
   }
 
+  const { tag, title, subtitle, testimonials } = data;
+
   return (
-    <section
-      className={styles.section}
+    <Box
+      component="section"
+      dir="rtl"
       aria-labelledby="testimonials-title"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
+      sx={{
+        position: "relative",
+        width: "100%",
+        overflow: "hidden",
+        background: "#ffffff",
+        py: { xs: 4, md: 6 },
+      }}
     >
-      <div className={styles.bgDecoration} aria-hidden="true" />
-      <div className={styles.container}>
-        <header className={styles.header}>
-          <span className={styles.tag}>{data.tag}</span>
-          <h2 id="testimonials-title" className={styles.title}>{data.title}</h2>
-          <p className={styles.subtitle}>{data.subtitle}</p>
-        </header>
-        <div className={styles.track} aria-live="polite">
-          {data.testimonials.map((t, i) => (
-            <TestimonialCard key={t.id} testimonial={t} isActive={i === current} />
+      <Box
+        sx={{
+          position: "absolute",
+          inset: 0,
+          pointerEvents: "none",
+          backgroundImage: "radial-gradient(circle at 20% 30%, rgba(201, 168, 76, 0.02) 2px, transparent 2px)",
+          backgroundSize: "32px 32px",
+          maskImage: "linear-gradient(to bottom, transparent, black 30%, black 70%, transparent)",
+        }}
+      />
+      <Box
+        sx={{
+          maxWidth: 860,
+          mx: "auto",
+          px: { xs: 2.5, sm: 4 },
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          gap: { xs: 3, sm: 4 },
+        }}
+      >
+        <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center", gap: 1.5 }}>
+          <Typography
+            component="span"
+            sx={{
+              fontSize: "0.75rem",
+              fontWeight: 600,
+              letterSpacing: "0.2em",
+              color: "#c9a84c",
+              textTransform: "uppercase",
+              backgroundColor: "rgba(201, 168, 76, 0.12)",
+              padding: "0.3rem 1rem",
+              borderRadius: "40px",
+            }}
+          >
+            {tag}
+          </Typography>
+          <Typography
+            id="testimonials-title"
+            component="h2"
+            sx={{
+              fontSize: { xs: "1.8rem", sm: "2.4rem" },
+              fontWeight: 700,
+              color: "#1e1e2a",
+              letterSpacing: "-0.02em",
+              m: 0,
+            }}
+          >
+            {title}
+          </Typography>
+          <Typography
+            component="p"
+            sx={{
+              fontSize: "0.95rem",
+              color: "rgba(30, 30, 42, 0.45)",
+              lineHeight: 1.7,
+              maxWidth: 480,
+              m: 0,
+            }}
+          >
+            {subtitle}
+          </Typography>
+        </Box>
+
+        <Box
+          sx={{
+            display: "grid",
+            width: "100%",
+            position: "relative",
+          }}
+          aria-live="polite"
+        >
+          {testimonials.map((testimonial, idx) => (
+            <TestimonialCard
+              key={testimonial.id}
+              testimonial={testimonial}
+              isActive={idx === current}
+            />
           ))}
-        </div>
-        <div className={styles.controls}>
-          <div className={styles.dots} role="tablist">
-            {data.testimonials.map((t, i) => (
-              <button
+        </Box>
+
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            width: "100%",
+            gap: 3,
+            flexDirection: { xs: "column", sm: "row" },
+          }}
+        >
+          <Box sx={{ display: "flex", gap: 1 }} role="tablist">
+            {testimonials.map((t, idx) => (
+              <Box
                 key={t.id}
+                component="button"
                 role="tab"
-                aria-selected={i === current}
+                aria-selected={idx === current}
                 aria-label={`شهادة ${t.name}`}
-                className={`${styles.dot} ${i === current ? styles.dotActive : ""}`}
-                onClick={() => goTo(i)}
+                onClick={() => goTo(idx)}
+                sx={{
+                  width: idx === current ? 48 : 28,
+                  height: 3,
+                  background: idx === current ? "#c9a84c" : "rgba(0, 0, 0, 0.05)",
+                  border: "none",
+                  borderRadius: "4px",
+                  transition: "all 0.2s ease",
+                  cursor: "pointer",
+                  padding: 0,
+                }}
               />
             ))}
-          </div>
-          <div className={styles.arrows}>
-            <button onClick={goPrev} className={styles.arrowBtn} aria-label="السابق">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M9 18l6-6-6-6" />
-              </svg>
-            </button>
-            <button onClick={goNext} className={styles.arrowBtn} aria-label="التالي">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M15 18l-6-6 6-6" />
-              </svg>
-            </button>
-          </div>
-        </div>
-        <div className={styles.counter} aria-live="polite">
-          <span className={styles.counterCurrent}>{String(current + 1).padStart(2, "0")}</span>
-          <span className={styles.counterSep}>/</span>
-          <span className={styles.counterTotal}>{String(total).padStart(2, "0")}</span>
-        </div>
-      </div>
-    </section>
+          </Box>
+
+          <Box sx={{ display: "flex", gap: 1.5 }}>
+            <IconButton
+              onClick={goPrev}
+              aria-label="السابق"
+              sx={{
+                width: 44,
+                height: 44,
+                backgroundColor: "#ffffff",
+                border: "1px solid rgba(0, 0, 0, 0.05)",
+                borderRadius: "60px",
+                color: "#1e1e2a",
+                transition: "all 0.2s ease",
+                "&:hover": {
+                  backgroundColor: "rgba(201, 168, 76, 0.12)",
+                  borderColor: "#c9a84c",
+                  color: "#c9a84c",
+                },
+                ...(isMobile && { width: 40, height: 40 }),
+              }}
+            >
+              <ArrowForwardIosIcon sx={{ fontSize: 18 }} />
+            </IconButton>
+            <IconButton
+              onClick={goNext}
+              aria-label="التالي"
+              sx={{
+                width: 44,
+                height: 44,
+                backgroundColor: "#ffffff",
+                border: "1px solid rgba(0, 0, 0, 0.05)",
+                borderRadius: "60px",
+                color: "#1e1e2a",
+                transition: "all 0.2s ease",
+                "&:hover": {
+                  backgroundColor: "rgba(201, 168, 76, 0.12)",
+                  borderColor: "#c9a84c",
+                  color: "#c9a84c",
+                },
+                ...(isMobile && { width: 40, height: 40 }),
+              }}
+            >
+              <ArrowBackIosNewIcon sx={{ fontSize: 18 }} />
+            </IconButton>
+          </Box>
+        </Box>
+
+        <Box sx={{ display: "flex", alignItems: "baseline", gap: 0.75 }} aria-live="polite">
+          <Typography
+            component="span"
+            sx={{
+              fontSize: { xs: "1.5rem", sm: "1.8rem" },
+              fontWeight: 700,
+              color: "#c9a84c",
+              lineHeight: 1,
+            }}
+          >
+            {String(current + 1).padStart(2, "0")}
+          </Typography>
+          <Typography component="span" sx={{ fontSize: "0.9rem", color: "rgba(30, 30, 42, 0.45)" }}>
+            /
+          </Typography>
+          <Typography component="span" sx={{ fontSize: "0.85rem", color: "rgba(30, 30, 42, 0.45)" }}>
+            {String(total).padStart(2, "0")}
+          </Typography>
+        </Box>
+      </Box>
+    </Box>
   );
 }

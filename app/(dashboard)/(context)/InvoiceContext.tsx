@@ -1,35 +1,53 @@
-"use client"
-import React, { createContext, useContext, useState } from "react";
-import { Invoice, mockInvoices } from "../../../data/inviocedata";
+"use client";
+import { createContext, useContext, useState, useEffect, useCallback } from 'react';
+import Cookies from 'js-cookie';
+import { getAllInvoices } from '@/services/invoice';
+import { IInvoice } from '@/interfaces/invoice';
 
-type InvoiceContextType = {
-  invoices: Invoice[]
-  addInvoice: (invoice: Invoice) => void
-  deleteInvoice: (id: string) => void
+interface InvoiceContextType {
+  invoices: IInvoice[];
+  loading: boolean;
+  fetchInvoices: () => Promise<void>;
 }
 
-const InvoiceContext = createContext<InvoiceContextType | null>(null)
+const InvoiceContext = createContext<InvoiceContextType | undefined>(undefined);
 
-export default function InvoiceProvider({ children }: { children: React.ReactNode }) {
-  const [invoices, setInvoices] = useState<Invoice[]>(mockInvoices)
+export function InvoiceProvider({ children }: { children: React.ReactNode }) {
+  const [invoices, setInvoices] = useState<IInvoice[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
 
-  const addInvoice = (invoice: Invoice) => {
-    setInvoices(prev => [invoice, ...prev])
-  }
+  // ✅ الـ useCallback جوا الـ InvoiceProvider
+  const fetchInvoices = useCallback(async () => {
+    try {
+      setLoading(true);
+      const token = Cookies.get('admin_token');
+      if (!token) return;
 
-  const deleteInvoice = (id: string) => {
-    setInvoices(prev => prev.filter(inv => inv.id !== id))
-  }
+      const response = await getAllInvoices(token);
+      if (response?.data && Array.isArray(response.data)) {
+        setInvoices(response.data as IInvoice[]);
+      }
+    } catch (error) {
+      console.error("Failed to load invoices:", error);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchInvoices();
+
+  }, [fetchInvoices]);
 
   return (
-    <InvoiceContext.Provider value={{ invoices, addInvoice, deleteInvoice }}>
+    <InvoiceContext.Provider value={{ invoices, loading, fetchInvoices }}>
       {children}
     </InvoiceContext.Provider>
-  )
+  );
 }
 
-export const useInvoices = () => {
-  const ctx = useContext(InvoiceContext)
-  if (!ctx) throw new Error('useInvoices must be used within InvoiceProvider')
-  return ctx
+export function useInvoices() {
+  const context = useContext(InvoiceContext);
+  if (!context) throw new Error("useInvoices must be used within an InvoiceProvider");
+  return context;
 }

@@ -42,7 +42,7 @@ export default function RegisterForm() {
   const userContext = useContext(UserContext);
 
   if (!userContext) {
-    throw new Error("UserContext is not available");
+    throw new Error("UserContext must be used within UserContext.Provider");
   }
 
   const { setUserToken } = userContext;

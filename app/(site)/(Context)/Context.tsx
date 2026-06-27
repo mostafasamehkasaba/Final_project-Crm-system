@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useState, useEffect } from "react";
+import React, { createContext, useState } from "react";
 
 type UserContextType = {
   UserToken: string | null;
@@ -16,11 +16,10 @@ interface Props {
 }
 
 export default function UserContextProvider({ children }: Props) {
-  const [UserToken, setUserToken] = useState<string | null>(null);
-
-  useEffect(() => {
-    setUserToken(localStorage.getItem("userToken2"));
-  }, []);
+  const [UserToken, setUserToken] = useState<string | null>(() => {
+    if (typeof window === "undefined") return null;
+    return localStorage.getItem("userToken2");
+  });
 
   return (
     <UserContext.Provider value={{ UserToken, setUserToken }}>

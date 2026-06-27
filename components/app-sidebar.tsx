@@ -49,6 +49,7 @@ const menuItems = [
       { label: "المدفوعات", href: "/payments" },
     ],
   },
+
   {
     icon: Tags,
     label: "التصنيفات",

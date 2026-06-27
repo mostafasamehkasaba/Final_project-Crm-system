@@ -1,11 +1,16 @@
 // app/purchaseInvoices/page.tsx
 import Link from "next/link";
-import { getAllPurchaseInvoices } from "@/services/purchases.service";
+import {
+  getAllPurchaseInvoices,
+  getAllStates,
+} from "@/services/purchases.service";
 import PurchaseInvoiceTable from "@/components/purchaseInvoice/PurchaseInvoiceTable";
+
+import PurchaseInvoiceAllStatesProps from "@/components/purchaseInvoice/PruchaseInvoiceAllstate";
 
 export default async function PurchaseInvoicesPage() {
   const invoices = await getAllPurchaseInvoices();
-
+  const states = await getAllStates();
   return (
     <div className="p-6">
       <div className="flex items-center justify-between mb-6">
@@ -21,6 +26,9 @@ export default async function PurchaseInvoicesPage() {
         >
           + فاتورة جديدة
         </Link>
+      </div>
+      <div className="grid">
+        <PurchaseInvoiceAllStatesProps allstates={states} />
       </div>
       <PurchaseInvoiceTable invoices={invoices} />
     </div>

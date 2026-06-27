@@ -13,5 +13,9 @@ export interface PurchaseInvoice {
   updatedAt: string;
 }
 
+export interface PurchaseInvoiceAllStatesProps {
+  allstates: any;
+}
+
 export type CreatePurchaseInvoiceDto = Omit<PurchaseInvoice, "_id" | "createdAt" | "updatedAt">;
 export type UpdatePurchaseInvoiceDto = Partial<CreatePurchaseInvoiceDto>;

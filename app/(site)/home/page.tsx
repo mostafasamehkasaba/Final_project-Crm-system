@@ -9,12 +9,13 @@ import { IProperty } from "@/interfaces/property.interface";
 export default async function Home() {
   const properties: IProperty[] = await getProperties();
 
+  // تعديل المسار هنا ليعتمد مباشرة على المجلد public بالامتداد الجديد webp
   const slides = [
-    { id: 1, src: slide.src, href: "/product/1" },
-    { id: 2, src: slide.src },
-    { id: 3, src: slide.src },
-    { id: 4, src: slide.src },
-    { id: 5, src: slide.src },
+    { id: 1, src: "/premium_photo-1680553489384-8e3230dd1073.webp", href: "/product/1" },
+    { id: 2, src: "/premium_photo-1680553489384-8e3230dd1073.webp" },
+    { id: 3, src: "/premium_photo-1680553489384-8e3230dd1073.webp" },
+    { id: 4, src: "/premium_photo-1680553489384-8e3230dd1073.webp" },
+    { id: 5, src: "/premium_photo-1680553489384-8e3230dd1073.webp" },
   ];
 
   return (

@@ -78,3 +78,21 @@ export async function deleteOnePurchaseInvoice(id: string): Promise<void> {
     throw error instanceof Error ? error : new Error("Failed to delete purchase invoice");
   }
 }
+
+
+
+export async function getAllStates(): Promise<any> {
+
+  const res = await fetch(`${BASE_URL}stats`, {
+    method: "GET",
+     headers: { "Content-Type": "application/json" },
+  });
+
+  const {data} =await res.json();
+
+  if (!res.ok) {
+    throw new Error("فشل في جلب التصنيفات من السيرفر");
+  }
+  
+  return data;
+}

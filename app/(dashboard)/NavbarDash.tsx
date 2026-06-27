@@ -28,6 +28,7 @@ import Link from "next/link";
 
 export default function NavbarDash() {
   return (
+
     <div
       className="flex h-16 w-full items-center justify-between border-b border-slate-100 bg-white px-3 md:px-6 shadow-sm sticky top-0 z-50"
       dir="rtl"
