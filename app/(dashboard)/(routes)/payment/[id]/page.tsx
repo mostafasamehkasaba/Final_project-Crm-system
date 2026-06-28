@@ -6,11 +6,9 @@ import { IPayment } from '@/interfaces/payment'
 import Cookies from "js-cookie";
 import { getSinglePayment } from '@/services/payment'
 import {
-  User,
   Building2,
   Wallet,
-  CreditCard,
-  CircleDollarSign,
+
 } from "lucide-react";
 
 

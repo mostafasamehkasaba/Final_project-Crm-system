@@ -76,7 +76,7 @@ const handlePayInstallment = async (installmentId: string) => {
     }
 
     // فتح Stripe
-    window.open(stripeUrl, "_blank");
+    // window.open(stripeUrl, "_blank");
 
     // تجهيز رقم الواتساب
     const phone = client.user_id?.phone?.replace(/\D/g, "");
