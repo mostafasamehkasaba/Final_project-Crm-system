@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Cairo, Inter } from "next/font/google";
 import "./globals.css";
+import UserContextProvider from "./(site)/(Context)/Context";
 
 
 const cairo = Cairo({
@@ -25,9 +26,11 @@ export default function RootLayout({
   return (
 
 
-    <html lang="ar" dir="rtl"> 
+    <html lang="ar" dir="rtl" suppressHydrationWarning> 
       <body className={`${cairo.className} ${inter.variable} font-cairo antialiased`} suppressHydrationWarning>
-        {children} 
+       <UserContextProvider>
+          {children}
+        </UserContextProvider>
       </body>
     </html>
   );

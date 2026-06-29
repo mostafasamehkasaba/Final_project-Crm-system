@@ -16,7 +16,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useContext } from "react";
-import { UserContext } from "../../(Context)/Context";
+import { UserContext } from "../../(site)/(Context)/Context";
 import Link from "next/link";
 
 const formSchema = z.object({
@@ -72,57 +72,57 @@ export default function LoginForm() {
 
   return (
     <div
-      className="min-h-screen flex mt-10 justify-center bg-background px-4 "
+      className="min-h-[85vh] flex items-center justify-center bg-zinc-950 px-4 py-12"
       dir="rtl"
     >
-      <div className="w-full max-w-md">
-        {/* Logo */}
-        <div className="flex flex-col items-center gap-3 mb-8">
-          <div className="w-12 h-12 bg-green-700 rounded-xl flex items-center justify-center">
+      <div className="w-full max-w-md space-y-6">
+        {/* Logo Section */}
+        <div className="flex flex-col items-center gap-3 text-center">
+          <div className="w-12 h-12 bg-orange-500 rounded-xl flex items-center justify-center shadow-lg shadow-orange-500/20 transition-transform hover:scale-105 duration-300">
             <Building2 className="size-6 text-white" />
           </div>
-          <div className="text-center">
-            <h1 className="text-xl font-bold tracking-tight">تسجيل الدخول</h1>
-            <p className="text-sm text-muted-foreground mt-1">
-              أهلاً بعودتك، سجل دخولك للمتابعة
+          <div>
+            <h1 className="text-2xl font-bold tracking-tight text-white">تسجيل الدخول</h1>
+            <p className="text-sm text-zinc-400 mt-1.5">
+              أهلاً بعودتك، سجل دخولك للمتابعة في منصتك
             </p>
           </div>
         </div>
 
         {/* Card */}
-        <div className="bg-background border border-border rounded-2xl p-6 shadow-sm">
+        <div className="bg-zinc-900/50 border border-zinc-800/80 rounded-2xl p-6 shadow-xl shadow-black/40 backdrop-blur-sm">
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
               {/* Root error */}
               {form.formState.errors.root && (
-                <div className="bg-destructive/10 border border-destructive/20 text-destructive text-sm rounded-lg px-4 py-3 text-center">
+                <div className="bg-red-500/10 border border-red-500/20 text-red-400 text-sm rounded-xl px-4 py-3 text-center font-medium animate-in fade-in duration-200">
                   {form.formState.errors.root.message}
                 </div>
               )}
 
-              {/* البريد */}
+              {/* البريد الإلكتروني */}
               <FormField
                 control={form.control}
                 name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-sm font-medium">
+                    <FormLabel className="text-sm font-medium text-zinc-300">
                       البريد الإلكتروني
                     </FormLabel>
                     <FormControl>
                       <div className="relative">
                         <Mail
-                          size={15}
-                          className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none"
+                          size={16}
+                          className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-500 pointer-events-none"
                         />
                         <Input
                           placeholder="example@gmail.com"
-                          className="pr-9 h-10"
+                          className="pr-9 h-11 bg-zinc-950/60 border-zinc-800 text-white placeholder:text-zinc-600 focus-visible:ring-orange-500/50 focus-visible:border-orange-500 transition-all rounded-xl"
                           {...field}
                         />
                       </div>
                     </FormControl>
-                    <FormMessage className="text-xs" />
+                    <FormMessage className="text-xs text-red-400" />
                   </FormItem>
                 )}
               />
@@ -134,12 +134,12 @@ export default function LoginForm() {
                 render={({ field }) => (
                   <FormItem>
                     <div className="flex items-center justify-between">
-                      <FormLabel className="text-sm font-medium">
+                      <FormLabel className="text-sm font-medium text-zinc-300">
                         كلمة المرور
                       </FormLabel>
                       <Link
                         href="/forgot-password"
-                        className="text-xs text-green-700 hover:underline"
+                        className="text-xs text-orange-400 hover:text-orange-300 hover:underline transition-colors"
                       >
                         نسيت كلمة المرور؟
                       </Link>
@@ -147,27 +147,27 @@ export default function LoginForm() {
                     <FormControl>
                       <div className="relative">
                         <Lock
-                          size={15}
-                          className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none"
+                          size={16}
+                          className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-500 pointer-events-none"
                         />
                         <Input
                           type="password"
                           placeholder="••••••••"
-                          className="pr-9 h-10"
+                          className="pr-9 h-11 bg-zinc-950/60 border-zinc-800 text-white placeholder:text-zinc-600 focus-visible:ring-orange-500/50 focus-visible:border-orange-500 transition-all rounded-xl"
                           {...field}
                         />
                       </div>
                     </FormControl>
-                    <FormMessage className="text-xs" />
+                    <FormMessage className="text-xs text-red-400" />
                   </FormItem>
                 )}
               />
 
-              {/* Submit */}
+              {/* Submit Button */}
               <Button
                 type="submit"
                 disabled={isLoading}
-                className="w-full h-10 bg-green-700 hover:bg-green-800 text-white rounded-full gap-2 mt-2"
+                className="w-full h-11 bg-orange-500 hover:bg-orange-600 active:scale-[0.98] text-white rounded-xl gap-2 mt-4 font-medium shadow-md shadow-orange-500/10 transition-all"
               >
                 {isLoading ? (
                   <span className="flex items-center gap-2">
@@ -176,7 +176,7 @@ export default function LoginForm() {
                   </span>
                 ) : (
                   <>
-                    <LogIn size={15} />
+                    <LogIn size={16} />
                     تسجيل الدخول
                   </>
                 )}
@@ -185,12 +185,12 @@ export default function LoginForm() {
           </Form>
         </div>
 
-        {/* Register link */}
-        <p className="text-center text-sm text-muted-foreground mt-5">
+        {/* Register Link */}
+        <p className="text-center text-sm text-zinc-400 mt-2">
           ليس لديك حساب؟{" "}
           <Link
             href="/register"
-            className="text-green-700 font-medium hover:underline"
+            className="text-orange-400 font-semibold hover:text-orange-300 hover:underline transition-colors"
           >
             إنشاء حساب جديد
           </Link>

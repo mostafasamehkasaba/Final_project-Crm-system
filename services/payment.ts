@@ -2,7 +2,7 @@ import { IPayment } from "@/interfaces/payment";
 
 const BASE_URL = "https://back-end-crm-project.vercel.app/api/payments";
 
-export const getAllPayments = async (token: string) => { // ✅ شيل الـ Promise<IPayment[]>
+export const getAllPayments = async (token: string) => { 
   try {
     const res = await fetch(`${BASE_URL}`, {
       method: "GET",
