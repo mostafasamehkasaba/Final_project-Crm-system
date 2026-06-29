@@ -1,6 +1,7 @@
-import getProperties from "@/services/getProperties.services";
+// import getProperties from "@/services/getProperties.services";
 import PropertyCard from "@/components/homeComponent/propertyCard";
 import ThreeDImageCarousel from "@/components/homeComponent/sliders/sliderItem";
+
 
 import { IProperty } from "@/interfaces/property.interface";
 import {
@@ -12,10 +13,11 @@ import {
   ParallaxHero,
   GlowOrb,
 } from "@/components/motion-componet";
+import { getPropertiesdashboard } from "@/services/getProperties.services";
 
 export default async function Home() {
   // 1. جلب البيانات بأمان على السيرفر (Webpack المستقر)
-  const properties: IProperty[] = await getProperties();
+  const properties: IProperty[] = await getPropertiesdashboard();
 
   // 2. روابط صور السلايدر الحقيقية والمستقرة لمنع خطأ الـ 404
   const slides = [
@@ -26,6 +28,7 @@ export default async function Home() {
 
   return (
     <div className="w-full min-h-screen bg-zinc-950 text-zinc-100 antialiased overflow-x-hidden">
+
       
       {/* هيرو سيكشن - واجهة ترحيبية مستقرة */}
       <ParallaxHero className="relative min-h-screen w-full flex items-center justify-center py-32 bg-gradient-to-b from-zinc-900/40 to-zinc-950">
@@ -40,8 +43,10 @@ export default async function Home() {
               ننسق لك أرقى المشاريع العقارية السكنية والتجارية الاستثمارية في قلب مصر.
             </p>
           </FadeUp>
-        </div>
-      </ParallaxHero>
+
+
+
+  
 
       {/* 🚀 سيكشن المحتوى الداكن الفخم - مفرود الآن بعرض الشاشة بالكامل بدون هوامش ضيقة 🚀 */}
       <section className="relative w-full py-20 px-4 sm:px-8 lg:px-12 bg-zinc-950 overflow-hidden border-t border-zinc-900">
@@ -81,6 +86,15 @@ export default async function Home() {
                   </HoverCard3D>
                 </StaggerItem>
               ))
+          {/* properties */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+            {properties.length > 0 ? (
+              properties
+                .slice(0, 8)
+                .map((property) => (
+                  <PropertyCard key={property._id} property={property} />
+                ))
+
             ) : (
               <div className="col-span-full text-center py-20 text-zinc-500 border border-dashed border-zinc-800 rounded-2xl">
                 لا توجد عقارات متاحة حالياً في هذه القائمة.
@@ -90,6 +104,7 @@ export default async function Home() {
 
         </div>
       </section>
+    </div>
     </div>
   );
 }
