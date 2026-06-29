@@ -1,17 +1,21 @@
-import getProperties from "@/services/getProperties.services";
+// import getProperties from "@/services/getProperties.services";
 import PropertyCard from "@/components/homeComponent/propertyCard";
 import ThreeDImageCarousel from "@/components/homeComponent/sliders/sliderItem";
 import Title from "@/components/titleItem/title";
-import slide from "../../../public/premium_photo-1680553489384-8e3230dd1073.avif";
+// import slide from "../../../public/premium_photo-1680553489384-8e3230dd1073.avif";
 
 import { IProperty } from "@/interfaces/property.interface";
+import { getPropertiesdashboard } from "@/services/getProperties.services";
 
 export default async function Home() {
-  const properties: IProperty[] = await getProperties();
+  const properties: IProperty[] = await getPropertiesdashboard();
 
-  // تعديل المسار هنا ليعتمد مباشرة على المجلد public بالامتداد الجديد webp
   const slides = [
-    { id: 1, src: "/premium_photo-1680553489384-8e3230dd1073.webp", href: "/product/1" },
+    {
+      id: 1,
+      src: "/premium_photo-1680553489384-8e3230dd1073.webp",
+      href: "/product/1",
+    },
     { id: 2, src: "/premium_photo-1680553489384-8e3230dd1073.webp" },
     { id: 3, src: "/premium_photo-1680553489384-8e3230dd1073.webp" },
     { id: 4, src: "/premium_photo-1680553489384-8e3230dd1073.webp" },
@@ -23,10 +27,10 @@ export default async function Home() {
       {/* HERO */}
       <section
         className="relative min-h-screen bg-cover bg-center flex items-center justify-center"
-        style={{ backgroundImage: "url('/screen.png')" }}
+        style={{ backgroundImage: "url('/hero.jpg')" }}
       >
         <div className="absolute inset-0 bg-black/60" />
-        <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/60 to-black/40" />
+        <div className="absolute inset-0 bg-linear-to-r from-black/80 via-black/60 to-black/40" />
 
         <div className="relative z-10 container text-center text-white px-4">
           <p className="uppercase tracking-[0.3em] text-orange-400 mb-4">
@@ -73,12 +77,14 @@ export default async function Home() {
             subtitle="اكتشف وحدتك المستقبليه سارع بالحجز"
           />
 
-          {/* PRODUCTS */}
+          {/* properties */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
             {properties.length > 0 ? (
-              properties.map((property) => (
-                <PropertyCard key={property._id} property={property} />
-              ))
+              properties
+                .slice(0, 8)
+                .map((property) => (
+                  <PropertyCard key={property._id} property={property} />
+                ))
             ) : (
               <p className="col-span-4 text-center text-gray-500">
                 لا توجد عقارات متاحة حالياً
