@@ -18,8 +18,8 @@ export const getAllPayments = async (token: string) => { // ✅ شيل الـ Pr
       throw new Error(errorData?.message || `HTTP error! status: ${res.status}`);
     }
 
-    const data = await res.json(); // ✅ مش typed
-    return data; // ✅ بيرجع { data: [...], success: true }
+    const data = await res.json();
+    return data; 
     
   } catch (error) {
     console.error("Error in getAllPayments:", error);
