@@ -31,7 +31,7 @@ export const DEFAULT_LOGO = {
 export const DEFAULT_MENU: MenuItem[] = [
   { title: "الرئيسية", url: "/" },
   { title: "من نحن", url: "/about" },
-  { title: "العقارات", url: "/properites/residentialapartments" },
+  { title: "العقارات", url: "/properites" },
   { title: "اتصل بنا", url: "/contactUs" },
   { title: "بوابة الدفع", url: "/kkk" },
 ];

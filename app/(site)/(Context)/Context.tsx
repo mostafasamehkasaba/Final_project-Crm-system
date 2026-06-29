@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useState } from "react";
+import React, { createContext, useState, useEffect } from "react";
 
 type UserContextType = {
   UserToken: string | null;
@@ -16,10 +16,16 @@ interface Props {
 }
 
 export default function UserContextProvider({ children }: Props) {
-  const [UserToken, setUserToken] = useState<string | null>(() => {
-    if (typeof window === "undefined") return null;
-    return localStorage.getItem("userToken2");
-  });
+  // 1. ابدأ دائماً بـ null لضمان التطابق بين السيرفر والمتصفح
+  const [UserToken, setUserToken] = useState<string | null>(null);
+
+  // 2. استخدم useEffect لقراءة localStorage فقط بعد تحميل الصفحة في المتصفح
+  useEffect(() => {
+    const token = localStorage.getItem("userToken2");
+    if (token) {
+      setUserToken(token);
+    }
+  }, []);
 
   return (
     <UserContext.Provider value={{ UserToken, setUserToken }}>

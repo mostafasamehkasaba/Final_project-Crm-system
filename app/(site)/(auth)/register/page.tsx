@@ -28,11 +28,11 @@ const formSchema = z
       .min(11, "رقم الهاتف يجب أن يكون 11 رقماً")
       .max(11, "رقم الهاتف يجب أن يكون 11 رقماً"),
     password: z.string().min(8, "كلمة المرور يجب أن تكون 8 أحرف على الأقل"),
-    rePassword: z.string(),
+    confirmPassword: z.string(),
   })
-  .refine((data) => data.password === data.rePassword, {
+  .refine((data) => data.password === data.confirmPassword, {
     message: "كلمتا المرور غير متطابقتين",
-    path: ["rePassword"],
+    path: ["confirmPassword"],
   });
 
 type FormValues = z.infer<typeof formSchema>;
@@ -54,7 +54,7 @@ export default function RegisterForm() {
       email: "",
       phone: "",
       password: "",
-      rePassword: "",
+      confirmPassword: "",
     },
   });
 
@@ -63,27 +63,30 @@ export default function RegisterForm() {
   async function onSubmit(values: FormValues) {
     try {
       const res = await fetch(
-        "https://ecommerce.routemisr.com/api/v1/auth/signup",
+        "https://back-end-crm-project.vercel.app/api/auth/register",
         {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: {
+            "Content-Type": "application/json",
+          },
           body: JSON.stringify(values),
         },
       );
+
       const data = await res.json();
 
-      if (!res.ok || !data.token) {
+      if (!res.ok) {
         form.setError("root", {
-          message: data.message || "بيانات غير صحيحة، حاول مرة أخرى",
+          message: data.message || "حدث خطأ أثناء التسجيل",
         });
         return;
       }
 
-      localStorage.setItem("userToken2", data.token);
-      setUserToken(data.token);
-      router.push("/");
-    } catch {
-      form.setError("root", { message: "حدث خطأ، يرجى المحاولة لاحقاً" });
+      router.push("/login");
+    } catch (error) {
+      form.setError("root", {
+        message: "حدث خطأ في الاتصال بالسيرفر",
+      });
     }
   }
 
@@ -232,7 +235,7 @@ export default function RegisterForm() {
               {/* تأكيد كلمة المرور */}
               <FormField
                 control={form.control}
-                name="rePassword"
+                name="confirmPassword"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel className="text-sm font-medium">

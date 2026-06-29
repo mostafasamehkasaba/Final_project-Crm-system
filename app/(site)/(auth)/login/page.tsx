@@ -46,7 +46,7 @@ export default function LoginForm() {
   async function onSubmit(values: FormValues) {
     try {
       const res = await fetch(
-        "https://ecommerce.routemisr.com/api/v1/auth/signin",
+        "https://back-end-crm-project.vercel.app/api/auth/login",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -55,21 +55,22 @@ export default function LoginForm() {
       );
       const data = await res.json();
 
-      if (!res.ok || !data.token) {
+      // التعديل هنا: استخدام data.data.accessToken بدلاً من data.token
+      if (!res.ok || !data.data?.accessToken) {
         form.setError("root", {
           message: data.message || "بيانات غير صحيحة، حاول مرة أخرى",
         });
         return;
       }
 
-      localStorage.setItem("userToken2", data.token);
-      setUserToken?.(data.token);
+      // تخزين الـ Token الصحيح
+      localStorage.setItem("userToken2", data.data.accessToken);
+      setUserToken?.(data.data.accessToken);
       router.push("/");
     } catch {
       form.setError("root", { message: "حدث خطأ، يرجى المحاولة لاحقاً" });
     }
   }
-
   return (
     <div
       className="min-h-screen flex mt-10 justify-center bg-background px-4 "
