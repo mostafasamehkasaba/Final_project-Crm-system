@@ -1,21 +1,29 @@
-export type InstallmentStatus = 'PAID' | 'PENDING' | 'UNPAID';
+export type ClientFilterTab = "all" | "debt";
+
+export type InstallmentStatus = "PENDING" | "PAID";
 
 export interface Installment {
+  _id: string;
   amount: number;
   dueDate: string;
   status: InstallmentStatus;
-  paidAt?: string | null;
-  _id?: string;
+  paidAt: string | null;
 }
 
-export interface UserDetails {
+export interface InstallmentInput {
+  amount: number;
+  dueDate: string;
+  status: InstallmentStatus;
+  paidAt: string | null;
+}
+
+export interface ClientUser {
   _id: string;
   name: string;
   email: string;
-  phone?: string;
 }
 
-export interface PropertyDetails {
+export interface ClientProperty {
   _id: string;
   title: string;
   price: number;
@@ -23,24 +31,28 @@ export interface PropertyDetails {
 
 export interface Client {
   _id: string;
-  user_id: UserDetails | null;
-  property_id: PropertyDetails | null;
+  user_id: ClientUser | null;
+  property_id: ClientProperty | null;
   totalPrice: number;
   downPayment: number;
-  notes: string;
+  notes?: string;
   installments: Installment[];
+  createdAt: string;
+  updatedAt: string;
 }
 
-export interface CreateClientInput {
+export interface ClientFormState {
   user_id: string;
   property_id: string;
-  totalPrice: number;
-  downPayment: number;
+  totalPrice: string;
+  downPayment: string;
   notes: string;
-  installments: {
-    amount: number;
-    dueDate: string;
-    status: InstallmentStatus;
-    paidAt?: string | null;
-  }[];
 }
+
+export const EMPTY_CLIENT_FORM: ClientFormState = {
+  user_id: "",
+  property_id: "",
+  totalPrice: "",
+  downPayment: "0",
+  notes: "",
+};
