@@ -2,7 +2,7 @@ import { IPayment } from "@/interfaces/payment";
 
 const BASE_URL = "https://back-end-crm-project.vercel.app/api/payments";
 
-export const getAllPayments = async (token: string): Promise<IPayment[]> => {
+export const getAllPayments = async (token: string) => { // ✅ شيل الـ Promise<IPayment[]>
   try {
     const res = await fetch(`${BASE_URL}`, {
       method: "GET",
@@ -18,12 +18,8 @@ export const getAllPayments = async (token: string): Promise<IPayment[]> => {
       throw new Error(errorData?.message || `HTTP error! status: ${res.status}`);
     }
 
-    const data: IPayment[] = await res.json();
-    
-    console.log(data)
-
-    return data;
-
+    const data = await res.json(); // ✅ مش typed
+    return data; // ✅ بيرجع { data: [...], success: true }
     
   } catch (error) {
     console.error("Error in getAllPayments:", error);
@@ -31,18 +27,16 @@ export const getAllPayments = async (token: string): Promise<IPayment[]> => {
   }
 };
 
-export const getSinglePayment = async (id : string,token: string) =>{
-  const res = await fetch (`${BASE_URL}/${id}`,{
-    method : "GET",
-    headers:{
-      "Authorization" : `Bearer ${token}`,
-      "Content-Type" : "application/json"
+export const getSinglePayment = async (id: string, token: string) => {
+  const res = await fetch(`${BASE_URL}/${id}`, {
+    method: "GET",
+    headers: {
+      "Authorization": `Bearer ${token}`,
+      "Content-Type": "application/json"
     },
-    cache : "no-store"
-  })
+    cache: "no-store"
+  });
 
-  const data = await res.json()
-  console.log(data)
-  return data
-  
-}
+  const data = await res.json();
+  return data;
+};

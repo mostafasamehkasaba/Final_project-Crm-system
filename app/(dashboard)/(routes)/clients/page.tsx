@@ -388,16 +388,7 @@ export default function ClientsPage() {
                 />
               </div>
               <div>
-                <div className="flex justify-between items-center mb-2">
-                  <label className="block text-sm font-medium text-gray-700">الأقساط</label>
-                  <button
-                    type="button"
-                    onClick={addInstallmentRow}
-                    className="text-sm bg-green-100 hover:bg-green-200 text-green-700 px-3 py-1 rounded-lg transition-colors"
-                  >
-                    + إضافة قسط
-                  </button>
-                </div>
+            
                 {formInstallments.map((inst: any, index: number) => (
                   <div key={index} className="flex items-center gap-2 mb-2">
                     <input
