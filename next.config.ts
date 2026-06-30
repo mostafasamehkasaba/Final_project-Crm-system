@@ -9,11 +9,11 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: "https",
-        hostname: "ecommerce.routemisr.com", // الـ home page القديمة
+        hostname: "ecommerce.routemisr.com",
       },
       {
         protocol: "https",
-        hostname: "res.cloudinary.com",    // 👈 السطر السحري لتشغيل صور الـ API الجديدة
+        hostname: "res.cloudinary.com",
       },
     ],
   },

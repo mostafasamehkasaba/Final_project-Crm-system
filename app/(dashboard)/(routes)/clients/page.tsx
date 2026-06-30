@@ -473,6 +473,7 @@ export default function ClientsPage() {
                 />
               </div>
               <div>
+<<<<<<< HEAD
                 <div className="flex justify-between items-center mb-2">
                   <label className="block text-sm font-medium text-gray-700">
                     الأقساط
@@ -485,6 +486,9 @@ export default function ClientsPage() {
                     + إضافة قسط
                   </button>
                 </div>
+=======
+            
+>>>>>>> 9e70b406a0136c38d0c0e4874bfb7ad919d74c0f
                 {formInstallments.map((inst: any, index: number) => (
                   <div key={index} className="flex items-center gap-2 mb-2">
                     <input

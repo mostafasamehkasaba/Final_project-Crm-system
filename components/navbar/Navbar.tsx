@@ -68,9 +68,16 @@ const Navbar = ({
         dir="rtl"
         className={cn(
           "w-full max-w-7xl border transition-all duration-300",
+<<<<<<< HEAD
           scrolled
             ? "bg-white/55 dark:bg-zinc-950/50 backdrop-blur-2xl border-zinc-200/70 dark:border-white/10 rounded-full shadow-xl shadow-zinc-300/30 dark:shadow-black/40 py-1"
             : "bg-white/25 dark:bg-zinc-950/20 backdrop-blur-md border-zinc-200/40 dark:border-white/5 rounded-[2rem] py-2",
+=======
+          // 🟢 خلفية زجاجية شفافة بالكامل: بدون أبيض صريح، مجرد بلور وضوء خفيف فوق أي محتوى
+          scrolled
+            ? "bg-white/40 dark:bg-zinc-950/30 backdrop-blur-xl border-zinc-200/60 dark:border-white/10 rounded-full shadow-lg shadow-zinc-300/30 dark:shadow-black/20 py-1"
+            : "bg-white/20 dark:bg-zinc-950/15 backdrop-blur-md border-zinc-200/40 dark:border-white/5 rounded-[2rem] py-2",
+>>>>>>> 9e70b406a0136c38d0c0e4874bfb7ad919d74c0f
           className,
         )}
       >
@@ -80,18 +87,33 @@ const Navbar = ({
             {/* Logo */}
             <Link
               href={logo.url}
+<<<<<<< HEAD
               className="flex items-center gap-2.5 shrink-0 group"
             >
               <div className="relative w-9 h-9 bg-gradient-to-br from-green-600 to-green-800 rounded-xl flex items-center justify-center transition-all group-hover:scale-105 group-hover:rotate-3 duration-300 shadow-md shadow-green-700/30">
                 <Building2 className="size-4.5 text-white" />
               </div>
               <span className="text-base font-black tracking-tight text-zinc-900 dark:text-white group-hover:text-green-700 dark:group-hover:text-green-400 transition-colors duration-200 drop-shadow-[0_1px_3px_rgba(255,255,255,0.4)] dark:drop-shadow-none">
+=======
+              className="flex items-center gap-2 shrink-0 group"
+            >
+              <div className="w-8 h-8 bg-green-700 rounded-lg flex items-center justify-center transition-all group-hover:scale-105 duration-200 shadow-sm shadow-green-700/20">
+                <Building2 className="size-4 text-white" />
+              </div>
+              {/* تعديل الخط ليكون داكن شيك مع ظل خفيف يضمن وضوحه فوق أي خلفية */}
+              <span className="text-base font-black tracking-tight text-zinc-900 dark:text-white group-hover:text-green-700 dark:group-hover:text-green-500 transition-colors drop-shadow-[0_1px_3px_rgba(255,255,255,0.4)] dark:drop-shadow-none">
+>>>>>>> 9e70b406a0136c38d0c0e4874bfb7ad919d74c0f
                 {logo.title}
               </span>
             </Link>
 
             {/* Links */}
+<<<<<<< HEAD
             <NavigationMenu className="flex-1 flex justify-center text-zinc-900 dark:text-white [&_a]:text-zinc-800 dark:[&_a]:text-zinc-100 [&_span]:text-zinc-900 dark:[&_span]:text-white [&_ul_li_a:hover]:bg-green-50/70 dark:[&_ul_li_a:hover]:bg-white/10 [&_ul_li_a:hover]:text-green-700 dark:[&_ul_li_a:hover]:text-green-400 [&_ul_li_div:hover]:bg-green-50/70 dark:[&_ul_li_div:hover]:bg-white/10 [&_ul_li_div:hover]:text-green-700 dark:[&_ul_li_div:hover]:text-green-400 transition-all">
+=======
+            {/* 🟢 ألوان نصوص داكنة واضحة فوق الزجاج الشفاف، مع دعم الدارك مود */}
+            <NavigationMenu className="flex-1 flex justify-center text-zinc-900 dark:text-white [&_a]:text-zinc-800 dark:[&_a]:text-zinc-100 [&_span]:text-zinc-900 dark:[&_span]:text-white [&_ul_li_a:hover]:bg-white/40 dark:[&_ul_li_a:hover]:bg-white/10 [&_ul_li_a:hover]:text-green-700 dark:[&_ul_li_a:hover]:text-green-500 [&_ul_li_div:hover]:bg-white/40 dark:[&_ul_li_div:hover]:bg-white/10 [&_ul_li_div:hover]:text-green-700 dark:[&_ul_li_div:hover]:text-green-500 transition-all">
+>>>>>>> 9e70b406a0136c38d0c0e4874bfb7ad919d74c0f
               <NavigationMenuList className="gap-1">
                 {reversedMenu.map((item) => (
                   <DesktopMenuItem
@@ -105,17 +127,29 @@ const Navbar = ({
 
             {/* Actions */}
             <div className="flex items-center gap-3 shrink-0">
+<<<<<<< HEAD
               <div className="text-zinc-900 dark:text-white [&_svg]:text-zinc-900 dark:[&_svg]:text-white [&_button]:text-zinc-900 dark:[&_button]:text-white hover:[&_button]:bg-white/40 dark:hover:[&_button]:bg-white/10 rounded-lg transition-colors">
                 <SiteToggleMode />
               </div>
 
               <div className="w-px h-6 bg-zinc-300/50 dark:bg-white/15" />
 
+=======
+              <div className="text-zinc-900 dark:text-white [&_svg]:text-zinc-900 dark:[&_svg]:text-white [&_button]:text-zinc-900 dark:[&_button]:text-white hover:[&_button]:bg-white/30 dark:hover:[&_button]:bg-white/10 rounded-lg transition-colors">
+                <SiteToggleMode />
+              </div>
+
+              <div className="w-px h-6 bg-white/20" />
+>>>>>>> 9e70b406a0136c38d0c0e4874bfb7ad919d74c0f
               {UserToken ? (
                 <Button
                   variant="ghost"
                   size="sm"
+<<<<<<< HEAD
                   className="gap-2 text-red-500 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-500/10 rounded-full font-medium transition-colors"
+=======
+                  className="gap-2 text-red-500 hover:text-red-600 hover:bg-red-500/10 rounded-full font-medium"
+>>>>>>> 9e70b406a0136c38d0c0e4874bfb7ad919d74c0f
                   onClick={handleLogout}
                 >
                   <LogOut className="size-4" />
@@ -123,6 +157,7 @@ const Navbar = ({
                 </Button>
               ) : (
                 <>
+<<<<<<< HEAD
                   <Button
                     asChild
                     variant="ghost"
@@ -136,6 +171,16 @@ const Navbar = ({
                     size="sm"
                     className="rounded-full px-5 bg-gradient-to-l from-green-700 to-green-800 hover:from-green-800 hover:to-green-900 text-white font-bold shadow-md shadow-green-900/25 dark:shadow-green-950/40 active:scale-[0.97] transition-all duration-200"
                   >
+=======
+                  <Button asChild variant="ghost" size="sm" className="text-zinc-900 dark:text-white hover:text-green-700 dark:hover:text-green-500 font-bold hover:bg-white/30 dark:hover:bg-white/10 rounded-full px-4 transition-colors">
+                    <Link href={auth.login.url}>{auth.login.title}</Link>
+                  </Button>
+                  <Button
+                    asChild
+                    size="sm"
+                    className="rounded-full px-5 bg-green-700 hover:bg-green-800 text-white font-bold shadow-xs active:scale-[0.98] transition-all"
+                  >
+>>>>>>> 9e70b406a0136c38d0c0e4874bfb7ad919d74c0f
                     <Link href={auth.signup.url}>{auth.signup.title}</Link>
                   </Button>
                 </>
@@ -146,7 +191,11 @@ const Navbar = ({
           {/* ───── Mobile ───── */}
           <div className="flex lg:hidden items-center justify-between h-12">
             <Link href={logo.url} className="flex items-center gap-2">
+<<<<<<< HEAD
               <div className="w-7 h-7 bg-gradient-to-br from-green-600 to-green-800 rounded-lg flex items-center justify-center shadow-sm shadow-green-700/30">
+=======
+              <div className="w-7 h-7 bg-green-700 rounded-lg flex items-center justify-center">
+>>>>>>> 9e70b406a0136c38d0c0e4874bfb7ad919d74c0f
                 <Building2 className="size-3.5 text-white" />
               </div>
               <span className="text-sm font-black text-zinc-900 dark:text-white drop-shadow-[0_1px_3px_rgba(255,255,255,0.4)] dark:drop-shadow-none">
@@ -155,18 +204,26 @@ const Navbar = ({
             </Link>
 
             <div className="flex items-center gap-2">
+<<<<<<< HEAD
               <div className="text-zinc-900 dark:text-white [&_svg]:text-zinc-900 dark:[&_svg]:text-white hover:[&_button]:bg-white/40 dark:hover:[&_button]:bg-white/10 rounded-lg">
+=======
+              <div className="text-zinc-900 dark:text-white [&_svg]:text-zinc-900 dark:[&_svg]:text-white hover:[&_button]:bg-white/30 dark:hover:[&_button]:bg-white/10 rounded-lg">
+>>>>>>> 9e70b406a0136c38d0c0e4874bfb7ad919d74c0f
                 <SiteToggleMode />
               </div>
 
               <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
                 <SheetTrigger asChild>
+<<<<<<< HEAD
                   <Button
                     variant="ghost"
                     size="icon"
                     aria-label="القائمة"
                     className="text-zinc-900 dark:text-white hover:bg-white/40 dark:hover:bg-white/10"
                   >
+=======
+                  <Button variant="ghost" size="icon" aria-label="القائمة" className="text-zinc-900 dark:text-white hover:bg-white/30 dark:hover:bg-white/10">
+>>>>>>> 9e70b406a0136c38d0c0e4874bfb7ad919d74c0f
                     {sheetOpen ? (
                       <X className="size-5" />
                     ) : (
@@ -175,9 +232,16 @@ const Navbar = ({
                   </Button>
                 </SheetTrigger>
 
+<<<<<<< HEAD
                 <SheetContent
                   side="right"
                   className="w-72 flex flex-col p-0 bg-white/80 dark:bg-zinc-950/85 backdrop-blur-2xl border-white/20 dark:border-white/10 text-zinc-900 dark:text-white"
+=======
+                {/* المنيو الجانبية في الموبايل بتفضل زجاجية برضو عشان تكمل نفس الإحساس */}
+                <SheetContent
+                  side="right"
+                  className="w-72 flex flex-col p-0 bg-white/70 dark:bg-zinc-950/70 backdrop-blur-xl border-white/20 dark:border-white/10 text-zinc-900 dark:text-white"
+>>>>>>> 9e70b406a0136c38d0c0e4874bfb7ad919d74c0f
                   dir="rtl"
                 >
                   <SheetHeader className="p-5 pb-4">
@@ -187,12 +251,19 @@ const Navbar = ({
                         className="flex items-center gap-2"
                         onClick={() => setSheetOpen(false)}
                       >
+<<<<<<< HEAD
                         <div className="w-7 h-7 bg-gradient-to-br from-green-600 to-green-800 rounded-lg flex items-center justify-center shadow-sm shadow-green-700/30">
                           <Building2 className="size-3.5 text-white" />
                         </div>
                         <span className="text-sm font-black text-zinc-900 dark:text-white">
                           {logo.title}
                         </span>
+=======
+                        <div className="w-7 h-7 bg-green-700 rounded-lg flex items-center justify-center">
+                          <Building2 className="size-3.5 text-white" />
+                        </div>
+                        <span className="text-sm font-black text-zinc-900 dark:text-white">{logo.title}</span>
+>>>>>>> 9e70b406a0136c38d0c0e4874bfb7ad919d74c0f
                       </Link>
                     </SheetTitle>
                     <SheetDescription className="sr-only">
@@ -200,7 +271,11 @@ const Navbar = ({
                     </SheetDescription>
                   </SheetHeader>
 
+<<<<<<< HEAD
                   <Separator className="bg-zinc-200/60 dark:bg-white/10" />
+=======
+                  <Separator className="bg-white/20 dark:bg-white/10" />
+>>>>>>> 9e70b406a0136c38d0c0e4874bfb7ad919d74c0f
 
                   {/* Nav links */}
                   <div className="flex-1 overflow-y-auto p-3 [&_span]:text-zinc-900 dark:[&_span]:text-white">
@@ -220,7 +295,11 @@ const Navbar = ({
                     </Accordion>
                   </div>
 
+<<<<<<< HEAD
                   <Separator className="bg-zinc-200/60 dark:bg-white/10" />
+=======
+                  <Separator className="bg-white/20 dark:bg-white/10" />
+>>>>>>> 9e70b406a0136c38d0c0e4874bfb7ad919d74c0f
 
                   {/* Auth buttons */}
                   <div className="p-4 space-y-2">
@@ -238,11 +317,15 @@ const Navbar = ({
                       </Button>
                     ) : (
                       <>
+<<<<<<< HEAD
                         <Button
                           asChild
                           variant="outline"
                           className="w-full rounded-full border-zinc-200 dark:border-white/20 text-zinc-900 dark:text-white bg-white/40 dark:bg-white/5 hover:bg-white/70 dark:hover:bg-white/10"
                         >
+=======
+                        <Button asChild variant="outline" className="w-full rounded-full border-white/20 text-zinc-900 dark:text-white bg-white/30 dark:bg-white/5 hover:bg-white/50 dark:hover:bg-white/10">
+>>>>>>> 9e70b406a0136c38d0c0e4874bfb7ad919d74c0f
                           <Link
                             href={auth.login.url}
                             onClick={() => setSheetOpen(false)}
@@ -252,7 +335,11 @@ const Navbar = ({
                         </Button>
                         <Button
                           asChild
+<<<<<<< HEAD
                           className="w-full rounded-full bg-gradient-to-l from-green-700 to-green-800 hover:from-green-800 hover:to-green-900 text-white font-bold shadow-md shadow-green-900/20"
+=======
+                          className="w-full rounded-full bg-green-700 hover:bg-green-800 text-white font-bold"
+>>>>>>> 9e70b406a0136c38d0c0e4874bfb7ad919d74c0f
                         >
                           <Link
                             href={auth.signup.url}

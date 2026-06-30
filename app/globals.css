@@ -2,15 +2,19 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 
+@layer utilities {
+  .preserve-3d {
+    transform-style: preserve-3d;
+  }
+}
+
 @custom-variant dark (&:is(.dark *));
 
-
 .input {
-  @apply w-full border border-gray-300 p-3 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-black/10 focus:border-gray-400 transition;
+  @apply w-full border border-zinc-200 p-3 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition bg-white text-zinc-900;
 }
 
 @theme inline {
-
   --font-heading: var(--font-sans);
   --font-sans: var(--font-sans);
   --color-sidebar-ring: var(--sidebar-ring);
@@ -53,41 +57,52 @@
   --radius-4xl: calc(var(--radius) * 2.6);
 }
 
+/* ☀️ الـ Light Mode بعد التنظيف والتبييض الكامل */
 :root {
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
+  --background: oklch(1 0 0);                 /* أبيض ناصع ونظيف */
+  --foreground: oklch(0.25 0.02 240);          /* رمادي داكن مريح جداً للعين بدل السواد التام */
+  --card: oklch(1 0 0);                       /* كروت بيضاء */
+  --card-foreground: oklch(0.25 0.02 240);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
+  --popover-foreground: oklch(0.25 0.02 240);
+  
+  /* 🟠 هنا قلبنا الـ Primary للبرتقالي الفخم بتاع موقع العقارات بتاعك */
+  --primary: oklch(0.65 0.22 45);             /* لون برتقالي مميز وجذاب */
+  --primary-foreground: oklch(0.99 0 0);      /* أبيض ناصع لكتابة النصوص فوق البرتقالي */
+  
+  --secondary: oklch(0.96 0.01 45);           /* درجة برتقالي فاتحة جداً وهادية للخلفيات الفرعية */
+  --secondary-foreground: oklch(0.45 0.18 45);
+  
+  --muted: oklch(0.96 0 0);                   /* رمادي فاتح جداً هادي للـ tabs والـ placeholders */
+  --muted-foreground: oklch(0.55 0 0);
+  
+  --accent: oklch(0.96 0.01 45);
+  --accent-foreground: oklch(0.45 0.18 45);
+  
   --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.87 0 0);
+  --border: oklch(0.93 0 0);                  /* حواف ناعمة جداً وخفيفة */
+  --input: oklch(0.93 0 0);
+  --ring: oklch(0.65 0.22 45 / 20%);          /* توهج برتقالي ناعم عند الفوكس */
+  
+  --chart-1: oklch(0.65 0.22 45);
   --chart-2: oklch(0.556 0 0);
   --chart-3: oklch(0.439 0 0);
   --chart-4: oklch(0.371 0 0);
   --chart-5: oklch(0.269 0 0);
-  --radius: 0.625rem;
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  
+  --radius: 0.75rem;                          /* حواف دائرية مودرن وأجمل */
+  
+  --sidebar: oklch(0.99 0 0);
+  --sidebar-foreground: oklch(0.25 0.02 240);
+  --sidebar-primary: oklch(0.65 0.22 45);
+  --sidebar-primary-foreground: oklch(0.99 0 0);
+  --sidebar-accent: oklch(0.96 0 0);
+  --sidebar-accent-foreground: oklch(0.25 0.02 240);
+  --sidebar-border: oklch(0.93 0 0);
+  --sidebar-ring: oklch(0.65 0.22 45 / 20%);
 }
 
+/* 🌙 الـ Dark Mode يفضل محمي ومظبوط لو احتاجته */
 .dark {
   --background: oklch(0.145 0 0);
   --foreground: oklch(0.985 0 0);
@@ -95,7 +110,7 @@
   --card-foreground: oklch(0.985 0 0);
   --popover: oklch(0.205 0 0);
   --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
+  --primary: oklch(0.65 0.22 45);
   --primary-foreground: oklch(0.205 0 0);
   --secondary: oklch(0.269 0 0);
   --secondary-foreground: oklch(0.985 0 0);
@@ -106,8 +121,8 @@
   --destructive: oklch(0.704 0.191 22.216);
   --border: oklch(1 0 0 / 10%);
   --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.87 0 0);
+  --ring: oklch(0.65 0.22 45);
+  --chart-1: oklch(0.65 0.22 45);
   --chart-2: oklch(0.556 0 0);
   --chart-3: oklch(0.439 0 0);
   --chart-4: oklch(0.371 0 0);
@@ -122,20 +137,43 @@
   --sidebar-ring: oklch(0.556 0 0);
 }
 
-
 @layer base {
-
-
   body {
     @apply bg-background text-foreground;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   html {
     @apply font-sans;
+    scroll-behavior: smooth;
   }
 
   h2 {
-    @apply text-2xl;
+    @apply text-2xl font-bold tracking-tight text-zinc-900;
   }
+}
 
+/* Utility classes for premium UI components */
+.rounded-inherit {
+  border-radius: inherit;
+}
+
+.scrollbar-hidden::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hidden {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Smooth gradient border animation for cards */
+@keyframes gradient-shift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+.animate-gradient-shift {
+  background-size: 200% 200%;
+  animation: gradient-shift 4s ease infinite;
 }

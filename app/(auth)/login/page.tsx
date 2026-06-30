@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useRouter } from "next/navigation";
-import { Mail, Lock, LogIn, Building2 } from "lucide-react";
+import { Mail, Lock, LogIn, Building2, ShieldCheck, KeyRound } from "lucide-react";
 import {
   Form,
   FormControl,
@@ -74,6 +74,7 @@ export default function LoginForm() {
   }
   return (
     <div
+<<<<<<< HEAD
       className="relative flex h-screen items-center justify-center"
       dir="rtl"
     >
@@ -100,44 +101,73 @@ export default function LoginForm() {
             </h1>
             <p className="text-sm text-white  mt-1">
               أهلاً بعودتك، سجل دخولك للمتابعة
+=======
+      className="relative min-h-screen w-full flex items-center justify-center overflow-hidden bg-zinc-950 px-4 py-12"
+      dir="rtl"
+    >
+      {/* خلفية احترافية: تدرج عميق + توهجات خضراء ناعمة + شبكة خطوط خفيفة */}
+      <div className="absolute inset-0">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_15%_20%,rgba(21,128,61,0.25),transparent_45%),radial-gradient(circle_at_85%_80%,rgba(21,128,61,0.18),transparent_45%)]" />
+        <div
+          className="absolute inset-0 opacity-[0.07]"
+          style={{
+            backgroundImage:
+              "linear-gradient(to right, white 1px, transparent 1px), linear-gradient(to bottom, white 1px, transparent 1px)",
+            backgroundSize: "48px 48px",
+          }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-zinc-950/40 via-zinc-950/60 to-zinc-950" />
+      </div>
+
+      <div className="relative z-10 w-full max-w-md space-y-6">
+        {/* Logo Section */}
+        <div className="flex flex-col items-center gap-3 text-center">
+          <div className="w-12 h-12 bg-green-700 rounded-xl flex items-center justify-center shadow-lg shadow-green-700/20 transition-transform hover:scale-105 duration-300">
+            <Building2 className="size-6 text-white" />
+          </div>
+          <div>
+            <h1 className="text-2xl font-bold tracking-tight text-white">تسجيل الدخول</h1>
+            <p className="text-sm text-zinc-400 mt-1.5">
+              أهلاً بعودتك، سجل دخولك للمتابعة في منصتك
+>>>>>>> 9e70b406a0136c38d0c0e4874bfb7ad919d74c0f
             </p>
           </div>
         </div>
 
         {/* Card */}
-        <div className="bg-background border border-border rounded-2xl p-6 shadow-sm">
+        <div className="bg-zinc-900/60 border border-zinc-800/80 rounded-2xl p-6 shadow-2xl shadow-black/50 backdrop-blur-md">
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
               {/* Root error */}
               {form.formState.errors.root && (
-                <div className="bg-destructive/10 border border-destructive/20 text-destructive text-sm rounded-lg px-4 py-3 text-center">
+                <div className="bg-red-500/10 border border-red-500/20 text-red-400 text-sm rounded-xl px-4 py-3 text-center font-medium animate-in fade-in duration-200">
                   {form.formState.errors.root.message}
                 </div>
               )}
 
-              {/* البريد */}
+              {/* البريد الإلكتروني */}
               <FormField
                 control={form.control}
                 name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-sm font-medium">
+                    <FormLabel className="text-sm font-medium text-zinc-300">
                       البريد الإلكتروني
                     </FormLabel>
                     <FormControl>
                       <div className="relative">
                         <Mail
-                          size={15}
-                          className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none"
+                          size={16}
+                          className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-500 pointer-events-none"
                         />
                         <Input
                           placeholder="example@gmail.com"
-                          className="pr-9 h-10"
+                          className="pr-9 h-11 bg-zinc-950/60 border-zinc-800 text-white placeholder:text-zinc-600 focus-visible:ring-green-600/50 focus-visible:border-green-600 transition-all rounded-xl"
                           {...field}
                         />
                       </div>
                     </FormControl>
-                    <FormMessage className="text-xs" />
+                    <FormMessage className="text-xs text-red-400" />
                   </FormItem>
                 )}
               />
@@ -149,12 +179,12 @@ export default function LoginForm() {
                 render={({ field }) => (
                   <FormItem>
                     <div className="flex items-center justify-between">
-                      <FormLabel className="text-sm font-medium">
+                      <FormLabel className="text-sm font-medium text-zinc-300">
                         كلمة المرور
                       </FormLabel>
                       <Link
                         href="/forgot-password"
-                        className="text-xs text-green-700 hover:underline"
+                        className="text-xs text-green-500 hover:text-green-400 hover:underline transition-colors"
                       >
                         نسيت كلمة المرور؟
                       </Link>
@@ -162,27 +192,27 @@ export default function LoginForm() {
                     <FormControl>
                       <div className="relative">
                         <Lock
-                          size={15}
-                          className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none"
+                          size={16}
+                          className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-500 pointer-events-none"
                         />
                         <Input
                           type="password"
                           placeholder="••••••••"
-                          className="pr-9 h-10"
+                          className="pr-9 h-11 bg-zinc-950/60 border-zinc-800 text-white placeholder:text-zinc-600 focus-visible:ring-green-600/50 focus-visible:border-green-600 transition-all rounded-xl"
                           {...field}
                         />
                       </div>
                     </FormControl>
-                    <FormMessage className="text-xs" />
+                    <FormMessage className="text-xs text-red-400" />
                   </FormItem>
                 )}
               />
 
-              {/* Submit */}
+              {/* Submit Button */}
               <Button
                 type="submit"
                 disabled={isLoading}
-                className="w-full h-10 bg-green-700 hover:bg-green-800 text-white rounded-full gap-2 mt-2"
+                className="w-full h-11 bg-green-700 hover:bg-green-800 active:scale-[0.98] text-white rounded-xl gap-2 mt-4 font-medium shadow-md shadow-green-700/20 transition-all"
               >
                 {isLoading ? (
                   <span className="flex items-center gap-2">
@@ -191,7 +221,7 @@ export default function LoginForm() {
                   </span>
                 ) : (
                   <>
-                    <LogIn size={15} />
+                    <LogIn size={16} />
                     تسجيل الدخول
                   </>
                 )}
@@ -200,12 +230,33 @@ export default function LoginForm() {
           </Form>
         </div>
 
+<<<<<<< HEAD
         {/* Register link */}
         <p className="text-center text-sm text-white  mt-5">
           ليس لديك حساب؟{" "}
           <Link
             href="/register"
             className="text-white font-medium hover:underline"
+=======
+        {/* Trust strip */}
+        <div className="flex items-center justify-center gap-6 text-zinc-500 text-xs">
+          <div className="flex items-center gap-1.5">
+            <ShieldCheck size={14} className="text-green-600" />
+            <span>اتصال مشفّر وآمن</span>
+          </div>
+          <div className="flex items-center gap-1.5">
+            <KeyRound size={14} className="text-green-600" />
+            <span>بياناتك محمية</span>
+          </div>
+        </div>
+
+        {/* Register Link */}
+        <p className="text-center text-sm text-zinc-400 mt-2">
+          ليس لديك حساب؟{" "}
+          <Link
+            href="/register"
+            className="text-green-500 font-semibold hover:text-green-400 hover:underline transition-colors"
+>>>>>>> 9e70b406a0136c38d0c0e4874bfb7ad919d74c0f
           >
             إنشاء حساب جديد
           </Link>

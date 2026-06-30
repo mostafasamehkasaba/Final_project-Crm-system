@@ -195,4 +195,8 @@ function StatCard({
       <div className="p-3 bg-white rounded-lg shadow-inner">{icon}</div>
     </div>
   );
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 9e70b406a0136c38d0c0e4874bfb7ad919d74c0f

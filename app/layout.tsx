@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import { Cairo, Inter } from "next/font/google";
 import "./globals.css";
-import { ToastProvider } from "@/context/ToastContext";
-import UserContextProvider from "./(site)/(Context)/Context";
+
 
 const cairo = Cairo({
   subsets: ["arabic", "latin"],
@@ -24,13 +23,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ar" dir="rtl" suppressHydrationWarning>
-      <body
-        className={`${cairo.className} ${inter.variable} font-cairo antialiased`}
-      >
-        <UserContextProvider>
-          <ToastProvider>{children}</ToastProvider>
-        </UserContextProvider>
+
+
+    <html lang="ar" dir="rtl"> 
+      <body className={`${cairo.className} ${inter.variable} font-cairo antialiased`} suppressHydrationWarning>
+        {children} 
       </body>
     </html>
   );

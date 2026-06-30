@@ -6,11 +6,9 @@ import { IPayment } from '@/interfaces/payment'
 import Cookies from "js-cookie";
 import { getSinglePayment } from '@/services/payment'
 import {
-  User,
   Building2,
   Wallet,
-  CreditCard,
-  CircleDollarSign,
+
 } from "lucide-react";
 
 
@@ -28,7 +26,6 @@ export default function InvoicePaymentDeatiles() {
                 if(!token ) return;
 
                 const data = await getSinglePayment(id,token)
-                console.log(data)
                 setPayment(data.data || data)
                 
             }catch(error){

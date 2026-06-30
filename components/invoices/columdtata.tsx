@@ -82,7 +82,7 @@ export const getColumns = (onDelete: () => void): ColumnDef<IInvoice>[] => [
 
     const name =
       invoice.customer_id?.user_id?.name || "عميل غير معرف";
-
+    console.log(name)
     const firstLetter = name.charAt(0);
 
     return (
