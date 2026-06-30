@@ -28,6 +28,7 @@ export default function InvoicePaymentDeatiles() {
                 if(!token ) return;
 
                 const data = await getSinglePayment(id,token)
+                console.log(data)
                 setPayment(data.data || data)
                 
             }catch(error){

@@ -41,6 +41,7 @@ export function PaymentProvider({ children }: { children: React.ReactNode }) {
       }
 
       const response = await getAllPayments(token);
+     console.log("res",response) 
 
       if (response && Array.isArray(response)) {
         setPayments(response);
