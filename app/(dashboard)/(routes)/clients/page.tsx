@@ -282,7 +282,7 @@ export default function ClientsPage() {
           searchQuery={searchQuery}
           setSearchQuery={setSearchQuery}
           activeTab={activeTab}
-          setActiveTab={setActiveTab}
+          setActiveTab={(tab) => setActiveTab(tab as ClientFilterTab)}
         />
       </div>
 

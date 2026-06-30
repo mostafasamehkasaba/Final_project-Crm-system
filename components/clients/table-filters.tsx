@@ -1,15 +1,19 @@
 "use client";
 
 import React from "react";
-import { Search, ListFilter, AlertTriangle } from "lucide-react";
-import { ClientFilterTab } from "@/interfaces/client.interface";
+import { Search } from "lucide-react";
 
 interface TableFiltersProps {
   searchQuery: string;
-  setSearchQuery: (query: string) => void;
-  activeTab: ClientFilterTab;
-  setActiveTab: (tab: ClientFilterTab) => void;
+  setSearchQuery: (val: string) => void;
+  activeTab: string;
+  setActiveTab: (tab: string) => void;
 }
+
+const tabs = [
+  { value: "all", label: "الكل" },
+  { value: "debt", label: "المتعثرين" },
+];
 
 export default function TableFilters({
   searchQuery,
@@ -18,47 +22,34 @@ export default function TableFilters({
   setActiveTab,
 }: TableFiltersProps) {
   return (
-    <div className="flex flex-col sm:flex-row gap-4 justify-between items-center w-full" dir="rtl">
-      {/* Tabs Navigation */}
-      <div className="flex bg-gray-100 p-1 rounded-lg w-full sm:w-auto">
-        <button
-          type="button"
-          onClick={() => setActiveTab("all")}
-          className={`flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-md transition-all w-full sm:w-auto justify-center ${
-            activeTab === "all"
-              ? "bg-white text-gray-900 shadow-sm"
-              : "text-gray-500 hover:text-gray-900"
-          }`}
-        >
-          <ListFilter className="w-4 h-4" />
-          كل العقود
-        </button>
-        <button
-          type="button"
-          onClick={() => setActiveTab("debt")}
-          className={`flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-md transition-all w-full sm:w-auto justify-center ${
-            activeTab === "debt"
-              ? "bg-white text-red-600 shadow-sm"
-              : "text-gray-500 hover:text-red-600"
-          }`}
-        >
-          <AlertTriangle className="w-4 h-4" />
-          قائمة الديون
-        </button>
+    <div className="space-y-4">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+        <div className="relative w-full sm:w-72">
+          <Search className="absolute right-3 top-2.5 h-4 w-4 text-muted-foreground" />
+          <input
+            type="text"
+            placeholder="البحث باسم العميل..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="w-full pl-3 pr-9 py-2 bg-background border rounded-md text-sm outline-none focus:border-primary"
+          />
+        </div>
       </div>
 
-      {/* Search Input */}
-      <div className="relative w-full sm:w-72">
-        <span className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-gray-400">
-          <Search className="w-4 h-4" />
-        </span>
-        <input
-          type="text"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          placeholder="ابحث باسم العميل أو العقار..."
-          className="w-full pr-9 pl-3 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:bg-white focus:border-transparent transition-all"
-        />
+      <div className="flex gap-2 border-b pb-px">
+        {tabs.map((tab) => (
+          <button
+            key={tab.value}
+            onClick={() => setActiveTab(tab.value)}
+            className={`pb-2 px-4 text-sm font-medium border-b-2 transition-colors ${
+              activeTab === tab.value
+                ? "border-primary text-primary"
+                : "border-transparent text-muted-foreground hover:text-foreground"
+            }`}
+          >
+            {tab.label}
+          </button>
+        ))}
       </div>
     </div>
   );
