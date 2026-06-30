@@ -81,10 +81,12 @@
   position: absolute;
   inset: 0;
 
-  background: linear-gradient(to top,
-      rgba(0, 0, 0, 0.55),
-      rgba(0, 0, 0, 0.15),
-      transparent);
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.55),
+    rgba(0, 0, 0, 0.15),
+    transparent
+  );
 }
 
 /* ===========================
@@ -170,8 +172,7 @@
   z-index: 10;
 
   background: rgba(255, 255, 255, 0.95);
-  color: #15803d;
-  /* green-700 */
+  color: #15803d; /* green-700 */
 
   border: 1px solid #dcfce7;
 

@@ -33,7 +33,6 @@ export const DEFAULT_MENU: MenuItem[] = [
   { title: "من نحن", url: "/about" },
   { title: "العقارات", url: "/properites" },
   { title: "اتصل بنا", url: "/contactUs" },
-  { title: "بوابة الدفع", url: "/kkk" },
 ];
 
 export const DEFAULT_AUTH = {

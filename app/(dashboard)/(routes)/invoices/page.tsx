@@ -14,14 +14,12 @@ import Link from "next/link";
 import InvoiceTable from "@/components/invoices/InvoiceTable";
 import { useInvoices } from "../../(context)/InvoiceContext";
 
-
 export default function InvoicesList() {
   const [searchQuery, setSearchQuery] = useState("");
   const [activeStatus, setActiveStatus] = useState("all");
 
+  const { invoices, loading, fetchInvoices } = useInvoices();
 
-const {invoices,loading,fetchInvoices} = useInvoices()
- 
   const overdueStatuses = ["UNPAID", "OVERDUE"] as const;
 
   const statuses = [
@@ -40,31 +38,35 @@ const {invoices,loading,fetchInvoices} = useInvoices()
       label: "متأخرة",
       value: "OVERDUE",
       count: invoices.filter((i) =>
-        overdueStatuses.includes(i.status as typeof overdueStatuses[number])
+        overdueStatuses.includes(i.status as (typeof overdueStatuses)[number]),
       ).length,
     },
   ];
 
-const filteredInvoices = invoices.filter((invoice) => {
-  const matchesStatus =
-    activeStatus === "all" ||
-    (activeStatus === "OVERDUE"
-      ? overdueStatuses.includes(invoice.status as typeof overdueStatuses[number])
-      : invoice.status === activeStatus);
+  const filteredInvoices = invoices.filter((invoice) => {
+    const matchesStatus =
+      activeStatus === "all" ||
+      (activeStatus === "OVERDUE"
+        ? overdueStatuses.includes(
+            invoice.status as (typeof overdueStatuses)[number],
+          )
+        : invoice.status === activeStatus);
 
-  const query = searchQuery.toLowerCase();
-  const matchesSearch =
-  invoice.invoiceNumber?.toLowerCase().includes(query) ||
-  invoice.customer_id?.notes?.toLowerCase().includes(query) ||
-  invoice._id?.toLowerCase().includes(query);
-  return matchesStatus && matchesSearch;
-});
+    const query = searchQuery.toLowerCase();
+    const matchesSearch =
+      invoice.invoiceNumber?.toLowerCase().includes(query) ||
+      invoice.customer_id?.notes?.toLowerCase().includes(query) ||
+      invoice._id?.toLowerCase().includes(query);
+    return matchesStatus && matchesSearch;
+  });
 
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-slate-50">
         <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-green-600"></div>
-        <span className="mr-3 text-gray-600 font-medium">جاري جلب فواتير الـ CRM...</span>
+        <span className="mr-3 text-gray-600 font-medium">
+          جاري جلب فواتير الـ CRM...
+        </span>
       </div>
     );
   }
@@ -106,8 +108,7 @@ const filteredInvoices = invoices.filter((invoice) => {
         <StatCard
           title="جزئية"
           value={
-            statuses.find((s) => s.value === "PARTIAL")?.count.toString() ||
-            "0"
+            statuses.find((s) => s.value === "PARTIAL")?.count.toString() || "0"
           }
           icon={<Clock className="text-orange-500" />}
           color="bg-orange-50"
@@ -116,8 +117,7 @@ const filteredInvoices = invoices.filter((invoice) => {
         <StatCard
           title="متأخرة"
           value={
-            statuses.find((s) => s.value === "OVERDUE")?.count.toString() ||
-            "0"
+            statuses.find((s) => s.value === "OVERDUE")?.count.toString() || "0"
           }
           icon={<AlertCircle className="text-red-500" />}
           color="bg-red-50"
@@ -174,15 +174,13 @@ const filteredInvoices = invoices.filter((invoice) => {
       {/* Table */}
       <div className="bg-white rounded-b-xl shadow-sm">
         {filteredInvoices.length > 0 ? (
-          <InvoiceTable data={filteredInvoices}  onDelete={fetchInvoices}/>
+          <InvoiceTable data={filteredInvoices} onDelete={fetchInvoices} />
         ) : (
           <div className="min-h-[300px] flex flex-col items-center justify-center text-gray-400 p-8 border-x border-b border-gray-100 rounded-b-xl">
             <div className="p-6 border-2 border-dashed border-gray-100 rounded-full mb-4">
               <FileText size={40} className="opacity-20" />
             </div>
-            <p className="text-sm">
-              لا توجد فواتير تطابق خيارات البحث الحالية
-            </p>
+            <p className="text-sm">لا توجد فواتير تطابق خيارات البحث الحالية</p>
           </div>
         )}
       </div>
@@ -203,7 +201,9 @@ function StatCard({
   color?: string;
 }) {
   return (
-    <div className={`${color} p-4 rounded-xl border border-gray-100 shadow-sm flex items-center justify-between`}>
+    <div
+      className={`${color} p-4 rounded-xl border border-gray-100 shadow-sm flex items-center justify-between`}
+    >
       <div>
         <p className="text-gray-500 text-sm mb-1">{title}</p>
         <h3 className="text-2xl font-bold text-gray-800">{value}</h3>

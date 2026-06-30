@@ -15,7 +15,7 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 import { PropertyTypeFiltersSite } from "@/components/produsts/PropertyFiltersSite";
-import { Loader2 } from "lucide-react";
+import { Loader2, Sparkles } from "lucide-react";
 import { useRouter, usePathname } from "next/navigation";
 
 // ✅ تحويل الأرقام العربية/الهندية لأرقام إنجليزية
@@ -163,14 +163,37 @@ export default function Products() {
   };
 
   return (
-    <div className="container mt-5 mx-auto space-y-6 p-4 md:p-6" dir="rtl">
+    <div className="container mx-auto space-y-6 p-4 md:p-6" dir="rtl">
       {/* Header */}
-      <div className="w-full flex flex-col gap-3 justify-center items-center font-bold h-[150px]">
-        <h3 className="text-2xl">ابحث عن شقة أحلامك هنا</h3>
-        <p className="w-full text-amber-950 text-center">
+      <div className="w-full max-w-7xl mx-auto pt-32 pb-12 px-4 sm:px-6 lg:px-8 flex flex-col items-center text-center relative overflow-hidden">
+        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-green-50 dark:bg-green-700/10 border border-green-200/70 dark:border-green-700/20 text-green-700 dark:text-green-400 text-xs font-semibold mb-5 shadow-sm shadow-green-100 dark:shadow-none">
+          <Sparkles className="size-3.5" />
+          <span>الشقق السكنية المتاحة</span>
+          <span className="w-1.5 h-1.5 rounded-full bg-green-700 animate-pulse" />
+        </div>
+
+        <h1 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight text-zinc-900 dark:text-white leading-tight">
+          ابحث عن{" "}
+          <span className="bg-gradient-to-l from-green-600 to-green-800 dark:from-green-400 dark:to-green-600 bg-clip-text text-transparent">
+            شقة أحلامك
+          </span>{" "}
+          هنا
+        </h1>
+
+        <p className="mt-4 text-sm sm:text-base text-zinc-500 dark:text-zinc-400 max-w-2xl leading-relaxed font-medium">
           لأنك تستحق المساحة التي تمنحك الراحة والأمان، وفرنا لك تشكيلة واسعة من
-          الشقق المميزة
+          الشقق المميزة والمصممة خصيصاً لتناسب تطلعاتك.
         </p>
+
+        <div className="mt-6 flex items-center gap-2">
+          <span className="h-px w-8 bg-green-300 dark:bg-green-800" />
+          <span className="h-1.5 w-1.5 rounded-full bg-green-700" />
+          <span className="h-px w-8 bg-green-300 dark:bg-green-800" />
+        </div>
+
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[300px] bg-green-700/10 dark:bg-green-600/10 blur-3xl -z-10 pointer-events-none" />
+        <div className="absolute top-10 right-1/4 w-[200px] h-[200px] bg-green-500/10 dark:bg-green-500/5 blur-3xl -z-10 pointer-events-none" />
+        <div className="absolute bottom-0 left-1/4 w-[250px] h-[150px] bg-emerald-300/10 dark:bg-emerald-600/5 blur-3xl -z-10 pointer-events-none" />
       </div>
 
       {/* Divider */}
