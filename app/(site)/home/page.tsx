@@ -1,93 +1,127 @@
-import getProperties from "@/services/getProperties.services";
 import PropertyCard from "@/components/homeComponent/propertyCard";
 import ThreeDImageCarousel from "@/components/homeComponent/sliders/sliderItem";
+import Title from "@/components/titleItem/title";
 
 import { IProperty } from "@/interfaces/property.interface";
-import {
-  FadeUp,
-  ScaleIn,
-  StaggerContainer,
-  StaggerItem,
-  HoverCard3D,
-  ParallaxHero,
-  GlowOrb,
-} from "@/components/motion-componet";
+import { getPropertiesdashboard } from "@/services/getProperties.services";
+import Link from "next/link";
 
 export default async function Home() {
-  // 1. جلب البيانات بأمان على السيرفر (Webpack المستقر)
-  const properties: IProperty[] = await getProperties();
+  const properties: IProperty[] = await getPropertiesdashboard();
 
-  // 2. روابط صور السلايدر الحقيقية والمستقرة لمنع خطأ الـ 404
   const slides = [
-    { id: 1, src: "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=1200&q=80", href: "/product/1" },
-    { id: 2, src: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80" },
-    { id: 3, src: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1200&q=80" },
+    {
+      id: 1,
+      src: "/images/slider-images/5e9d2844-66e3-42cb-a700-92e3c00f6f0f.jpg",
+    },
+    {
+      id: 2,
+      src: "/images/slider-images/185d2cee-5e4a-4683-92ff-fd8f7e6b958f.jpg",
+    },
+    {
+      id: 3,
+      src: "/images/slider-images/9041c252-85fc-4333-888e-b13697eca060.jpg",
+    },
+    {
+      id: 4,
+      src: "/images/slider-images/a7032e50-b6ac-4755-8bad-c8671474f772.png",
+    },
+    {
+      id: 5,
+      src: "/images/slider-images/ffe99739-146b-42bf-8ff8-786f6caf0a4f.png",
+    },
   ];
 
   return (
-    <div className="w-full min-h-screen bg-zinc-950 text-zinc-100 antialiased overflow-x-hidden">
-      
-      {/* هيرو سيكشن - واجهة ترحيبية مستقرة */}
-      <ParallaxHero className="relative min-h-screen w-full flex items-center justify-center py-32 bg-gradient-to-b from-zinc-900/40 to-zinc-950">
-        <div className="relative z-10 w-full text-center px-6 max-w-5xl mx-auto">
-          <FadeUp delay={0.1}>
-            <h1 className="text-5xl sm:text-7xl font-black mb-8 text-white tracking-tight">
-              اكتشف وحدتك <span className="bg-gradient-to-r from-orange-500 to-amber-500 bg-clip-text text-transparent">المستقبلية</span>
-            </h1>
-          </FadeUp>
-          <FadeUp delay={0.2}>
-            <p className="max-w-3xl mx-auto text-zinc-400 mb-12 text-lg font-light leading-relaxed">
-              ننسق لك أرقى المشاريع العقارية السكنية والتجارية الاستثمارية في قلب مصر.
-            </p>
-          </FadeUp>
+    <div className="w-full min-h-screen bg-gray-50">
+      {/* HERO */}
+      <section
+        className="relative flex min-h-screen items-center justify-center overflow-hidden bg-cover bg-center"
+        style={{ backgroundImage: "url('/hero.jpg')" }}
+      >
+        {/* Overlay */}
+        <div className="absolute inset-0 bg-black/60" />
+        <div className="absolute inset-0 bg-linear-to-r from-black/85 via-black/65 to-black/50" />
+
+        {/* Content */}
+        <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 text-center text-white">
+          {/* Website Title */}
+          <p className="mb-4 text-sm sm:text-lg font-semibold tracking-[0.35em] uppercase text-green-400">
+            مرحبًا بكم في
+          </p>
+
+          <h1 className="text-4xl sm:text-5xl font-extrabold md:text-7xl">
+            عقارات <span className="text-green-500">مصر</span>
+          </h1>
+
+          {/* Main Text */}
+          <h2 className="mt-6 sm:mt-8 text-2xl sm:text-3xl font-bold leading-tight md:text-5xl">
+            اكتشف وحدتك المستقبلية
+          </h2>
+
+          <p className="mx-auto mt-6 max-w-2xl text-base sm:text-lg leading-7 sm:leading-8 text-gray-300">
+            أفضل المشاريع العقارية في مصر، شقق وفيلات ووحدات تجارية بمواقع مميزة
+            وأسعار تنافسية لتجد العقار المناسب بكل سهولة.
+          </p>
+
+          {/* Buttons */}
+          <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
+            <Link
+              href="/properties/residentialapartments"
+              className="w-full sm:w-auto rounded-xl bg-green-700 px-8 py-4 font-semibold text-white shadow-lg transition duration-300 hover:bg-green-800"
+            >
+              تصفح العقارات
+            </Link>
+
+            <Link
+              href="/contactUs"
+              className="w-full sm:w-auto rounded-xl border border-green-500/50 bg-white/10 px-8 py-4 font-semibold text-white backdrop-blur-sm transition-all duration-300 hover:border-green-700 hover:bg-green-700 hover:text-white hover:shadow-lg hover:shadow-green-700/30"
+            >
+              تواصل معنا
+            </Link>
+          </div>
         </div>
-      </ParallaxHero>
 
-      {/* 🚀 سيكشن المحتوى الداكن الفخم - مفرود الآن بعرض الشاشة بالكامل بدون هوامش ضيقة 🚀 */}
-      <section className="relative w-full py-20 px-4 sm:px-8 lg:px-12 bg-zinc-950 overflow-hidden border-t border-zinc-900">
-        <GlowOrb color="rgba(249,115,22,0.12)" size={900} className="-top-40 -left-20" />
+        {/* Bottom Fade */}
+        <div className="absolute bottom-0 left-0 h-32 w-full bg-gradient-to-t from-gray-50 to-transparent" />
+      </section>
 
-        {/* الكانتينر الكبير واخد w-full ومفتوح المساحة تماماً للفرش التام */}
-        <div className="w-full bg-zinc-900/30 backdrop-blur-3xl rounded-[3rem] border border-zinc-800/30 p-6 sm:p-12 lg:p-16 shadow-2xl">
-          
-          {/* عنوان القسم متمركز في المنتصف */}
-          <div className="text-center max-w-2xl mx-auto mb-20">
-            <h2 className="text-4xl sm:text-6xl font-black mb-4 bg-gradient-to-r from-orange-500 via-amber-500 to-orange-400 bg-clip-text text-transparent">
-              مشاريعنا الحصرية
-            </h2>
-            <p className="text-zinc-500 text-sm sm:text-base mt-2">عقارات منتقاة بعناية تلبي طموحاتك الاستثمارية</p>
+      {/* CONTENT */}
+      <section className="w-full bg-gray-50 py-16 sm:py-20 lg:py-24">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
+          {/* مشاريعنا + السلايدر */}
+          <Title
+            label="عقارات مصر"
+            mainTitle="مشاريعنا"
+            subtitle="اكتشف وحدتك المستقبليه سارع بالحجز"
+          />
+
+          <div className="mt-10 sm:mt-12">
+            <ThreeDImageCarousel slides={slides} autoplay={true} delay={3} />
           </div>
 
-          {/* 1. السلايدر الـ 3D - مفرود بكامل العرض المتاح له */}
-          <ScaleIn className="my-16 w-full">
-            <div className="relative p-4 bg-zinc-950/40 rounded-[2.5rem] border border-zinc-800/40 w-full shadow-inner">
-              <div className="relative z-10 overflow-hidden rounded-[2rem] w-full">
-                <ThreeDImageCarousel slides={slides} autoplay={true} delay={3} />
-              </div>
+          {/* احجز وحدتك + شبكة العقارات */}
+          <div className="mt-20 sm:mt-24">
+            <Title
+              label="عقارات مصر"
+              mainTitle="احجز وحدتك"
+              subtitle="اكتشف وحدتك المستقبليه سارع بالحجز"
+            />
+
+            <div className="mt-10 sm:mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 sm:gap-8">
+              {properties.length > 0 ? (
+                properties
+                  .slice(0, 8)
+                  .map((property) => (
+                    <PropertyCard key={property._id} property={property} />
+                  ))
+              ) : (
+                <p className="col-span-full text-center text-gray-500 py-16">
+                  لا توجد عقارات متاحة حالياً
+                </p>
+              )}
             </div>
-          </ScaleIn>
-
-          {/* 2. شبكة الكروت التفاعلية الـ 3D - تم تقليص الأعمدة لتكبير حجم الكارت الفردي */}
-          <StaggerContainer className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-10 xl:gap-12 mt-28 w-full">
-            {properties && properties.length > 0 ? (
-              properties.map((property) => (
-                <StaggerItem key={property._id} className="w-full">
-                  {/* الكرت الـ 3D الضخم - p-6 ومساحة واسعة جداً لتفاصيل العقار */}
-                  <HoverCard3D 
-                    maxTilt={6} 
-                    className="w-full min-h-[480px] bg-zinc-950/50 backdrop-blur-md rounded-[2rem] border border-zinc-800/50 p-6 text-white hover:border-orange-500/30 transition-all duration-300 shadow-xl flex flex-col justify-between"
-                  >
-                    <PropertyCard property={property} />
-                  </HoverCard3D>
-                </StaggerItem>
-              ))
-            ) : (
-              <div className="col-span-full text-center py-20 text-zinc-500 border border-dashed border-zinc-800 rounded-2xl">
-                لا توجد عقارات متاحة حالياً في هذه القائمة.
-              </div>
-            )}
-          </StaggerContainer>
-
+          </div>
         </div>
       </section>
     </div>

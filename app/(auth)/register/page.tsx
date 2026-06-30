@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useRouter } from "next/navigation";
-import { User, Mail, Phone, Lock, UserPlus, Building2 } from "lucide-react";
+import { User, Mail, Phone, Lock, UserPlus, Building2, ShieldCheck, KeyRound } from "lucide-react";
 import {
   Form,
   FormControl,
@@ -89,13 +89,27 @@ export default function RegisterForm() {
 
   return (
     <div
-      className="min-h-screen flex items-center justify-center bg-zinc-950 px-4 py-12"
+      className="relative min-h-screen w-full flex items-center justify-center overflow-hidden bg-zinc-950 px-4 py-12"
       dir="rtl"
     >
-      <div className="w-full max-w-md space-y-6">
+      {/* خلفية احترافية: تدرج عميق + توهجات خضراء ناعمة + شبكة خطوط خفيفة */}
+      <div className="absolute inset-0">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_15%_20%,rgba(21,128,61,0.25),transparent_45%),radial-gradient(circle_at_85%_80%,rgba(21,128,61,0.18),transparent_45%)]" />
+        <div
+          className="absolute inset-0 opacity-[0.07]"
+          style={{
+            backgroundImage:
+              "linear-gradient(to right, white 1px, transparent 1px), linear-gradient(to bottom, white 1px, transparent 1px)",
+            backgroundSize: "48px 48px",
+          }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-zinc-950/40 via-zinc-950/60 to-zinc-950" />
+      </div>
+
+      <div className="relative z-10 w-full max-w-md space-y-6">
         {/* Logo Section */}
         <div className="flex flex-col items-center gap-3 text-center">
-          <div className="w-12 h-12 bg-orange-500 rounded-xl flex items-center justify-center shadow-lg shadow-orange-500/20 transition-transform hover:scale-105 duration-300">
+          <div className="w-12 h-12 bg-green-700 rounded-xl flex items-center justify-center shadow-lg shadow-green-700/20 transition-transform hover:scale-105 duration-300">
             <Building2 className="size-6 text-white" />
           </div>
           <div>
@@ -109,7 +123,7 @@ export default function RegisterForm() {
         </div>
 
         {/* Card */}
-        <div className="bg-zinc-900/50 border border-zinc-800/80 rounded-2xl p-6 shadow-xl shadow-black/40 backdrop-blur-sm">
+        <div className="bg-zinc-900/60 border border-zinc-800/80 rounded-2xl p-6 shadow-2xl shadow-black/50 backdrop-blur-md">
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
               {/* Root error */}
@@ -136,7 +150,7 @@ export default function RegisterForm() {
                         />
                         <Input
                           placeholder="أحمد محمد"
-                          className="pr-9 h-11 bg-zinc-950/60 border-zinc-800 text-white placeholder:text-zinc-600 focus-visible:ring-orange-500/50 focus-visible:border-orange-500 transition-all rounded-xl"
+                          className="pr-9 h-11 bg-zinc-950/60 border-zinc-800 text-white placeholder:text-zinc-600 focus-visible:ring-green-600/50 focus-visible:border-green-600 transition-all rounded-xl"
                           {...field}
                         />
                       </div>
@@ -163,7 +177,7 @@ export default function RegisterForm() {
                         />
                         <Input
                           placeholder="example@gmail.com"
-                          className="pr-9 h-11 bg-zinc-950/60 border-zinc-800 text-white placeholder:text-zinc-600 focus-visible:ring-orange-500/50 focus-visible:border-orange-500 transition-all rounded-xl"
+                          className="pr-9 h-11 bg-zinc-950/60 border-zinc-800 text-white placeholder:text-zinc-600 focus-visible:ring-green-600/50 focus-visible:border-green-600 transition-all rounded-xl"
                           {...field}
                         />
                       </div>
@@ -191,7 +205,7 @@ export default function RegisterForm() {
                         <Input
                           placeholder="01xxxxxxxxx"
                           maxLength={11}
-                          className="pr-9 h-11 bg-zinc-950/60 border-zinc-800 text-white placeholder:text-zinc-600 focus-visible:ring-orange-500/50 focus-visible:border-orange-500 transition-all rounded-xl"
+                          className="pr-9 h-11 bg-zinc-950/60 border-zinc-800 text-white placeholder:text-zinc-600 focus-visible:ring-green-600/50 focus-visible:border-green-600 transition-all rounded-xl"
                           {...field}
                         />
                       </div>
@@ -219,7 +233,7 @@ export default function RegisterForm() {
                         <Input
                           type="password"
                           placeholder="••••••••"
-                          className="pr-9 h-11 bg-zinc-950/60 border-zinc-800 text-white placeholder:text-zinc-600 focus-visible:ring-orange-500/50 focus-visible:border-orange-500 transition-all rounded-xl"
+                          className="pr-9 h-11 bg-zinc-950/60 border-zinc-800 text-white placeholder:text-zinc-600 focus-visible:ring-green-600/50 focus-visible:border-green-600 transition-all rounded-xl"
                           {...field}
                         />
                       </div>
@@ -247,7 +261,7 @@ export default function RegisterForm() {
                         <Input
                           type="password"
                           placeholder="••••••••"
-                          className="pr-9 h-11 bg-zinc-950/60 border-zinc-800 text-white placeholder:text-zinc-600 focus-visible:ring-orange-500/50 focus-visible:border-orange-500 transition-all rounded-xl"
+                          className="pr-9 h-11 bg-zinc-950/60 border-zinc-800 text-white placeholder:text-zinc-600 focus-visible:ring-green-600/50 focus-visible:border-green-600 transition-all rounded-xl"
                           {...field}
                         />
                       </div>
@@ -261,7 +275,7 @@ export default function RegisterForm() {
               <Button
                 type="submit"
                 disabled={isLoading}
-                className="w-full h-11 bg-orange-500 hover:bg-orange-600 active:scale-[0.98] text-white rounded-xl gap-2 mt-4 font-medium shadow-md shadow-orange-500/10 transition-all"
+                className="w-full h-11 bg-green-700 hover:bg-green-800 active:scale-[0.98] text-white rounded-xl gap-2 mt-4 font-medium shadow-md shadow-green-700/20 transition-all"
               >
                 {isLoading ? (
                   <span className="flex items-center gap-2">
@@ -279,12 +293,24 @@ export default function RegisterForm() {
           </Form>
         </div>
 
+        {/* Trust strip */}
+        <div className="flex items-center justify-center gap-6 text-zinc-500 text-xs">
+          <div className="flex items-center gap-1.5">
+            <ShieldCheck size={14} className="text-green-600" />
+            <span>اتصال مشفّر وآمن</span>
+          </div>
+          <div className="flex items-center gap-1.5">
+            <KeyRound size={14} className="text-green-600" />
+            <span>بياناتك محمية</span>
+          </div>
+        </div>
+
         {/* Login Link */}
         <p className="text-center text-sm text-zinc-400 mt-2">
           لديك حساب بالفعل؟{" "}
           <Link
             href="/login"
-            className="text-orange-400 font-semibold hover:text-orange-300 hover:underline transition-colors"
+            className="text-green-500 font-semibold hover:text-green-400 hover:underline transition-colors"
           >
             تسجيل الدخول
           </Link>

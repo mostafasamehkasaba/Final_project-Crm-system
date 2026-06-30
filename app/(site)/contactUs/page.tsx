@@ -17,7 +17,7 @@ const ContactUs = () => {
     <div className='w-full flex-1 flex flex-col font-sans' dir="rtl">
       
    
-      <div className='relative h-[95vh] w-full flex items-center justify-center text-center px-6 overflow-hidden bg-zinc-950'> 
+      <div className='relative h-[100vh] w-full flex items-center justify-center text-center px-6 overflow-hidden bg-zinc-950'> 
         
  
         <motion.div
