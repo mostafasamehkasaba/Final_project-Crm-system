@@ -1,6 +1,12 @@
 "use client";
 
-import { createContext, useContext, useState, useEffect, useCallback } from "react";
+import {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  useCallback,
+} from "react";
 import Cookies from "js-cookie";
 import { getAllPayments } from "@/services/payment";
 import { IPayment } from "@/interfaces/payment";
@@ -13,11 +19,7 @@ interface PaymentContextType {
 
 const PaymentContext = createContext<PaymentContextType | undefined>(undefined);
 
-export function PaymentProvider({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export function PaymentProvider({ children }: { children: React.ReactNode }) {
   const [payments, setPayments] = useState<IPayment[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -25,13 +27,23 @@ export function PaymentProvider({
     try {
       setLoading(true);
 
-      const token = Cookies.get("admin_token");
-      if (!token) return;
+      // Try reading directly from document.cookie as a fallback
+      const token =
+        Cookies.get("admin_token") ||
+        document.cookie
+          .split("; ")
+          .find((row) => row.startsWith("admin_token="))
+          ?.split("=")[1];
+
+      if (!token) {
+        console.error("No token found");
+        return;
+      }
 
       const response = await getAllPayments(token);
 
-      if (response?.data && Array.isArray(response.data)) {
-        setPayments(response.data);
+      if (response && Array.isArray(response)) {
+        setPayments(response);
       }
     } catch (error) {
       console.error("Failed to load payments:", error);
@@ -61,9 +73,7 @@ export function usePayments() {
   const context = useContext(PaymentContext);
 
   if (!context) {
-    throw new Error(
-      "usePayments must be used within PaymentProvider"
-    );
+    throw new Error("usePayments must be used within PaymentProvider");
   }
 
   return context;

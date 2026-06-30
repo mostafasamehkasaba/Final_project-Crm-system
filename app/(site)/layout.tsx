@@ -19,7 +19,7 @@ export default function SiteLayout({
       <UserContextProvider>
         <FavoritesProvider>
           <Navbar />
-          <main>{children}</main>
+          <main suppressHydrationWarning>{children}</main>
           <Footer />
         </FavoritesProvider>
       </UserContextProvider>

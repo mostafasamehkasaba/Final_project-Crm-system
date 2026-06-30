@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 import { User, Mail, Phone, Lock, UserPlus, Building2 } from "lucide-react";
 import {
   Form,
@@ -16,7 +17,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useContext } from "react";
-import { UserContext } from "../../(Context)/Context";
+import { UserContext } from "../../(site)/(Context)/Context";
 import Link from "next/link";
 
 const formSchema = z
@@ -92,22 +93,29 @@ export default function RegisterForm() {
 
   return (
     <div
-      className="min-h-screen flex  justify-center bg-background px-4 py-10"
+      className="relative flex h-screen items-center justify-center"
       dir="rtl"
     >
-      <div className="w-full max-w-md">
-        {/* Logo */}
+      <Image
+        src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1600&q=80"
+        alt="عقار"
+        fill
+        className="object-cover"
+        priority
+      />
+
+      {/* Dark overlay */}
+      <div className="absolute inset-0 bg-black/50" />
+      <div className="relative z-10 w-full max-w-2xl mx-4 bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-8">
         <div className="flex flex-col items-center gap-3 mb-8">
           <div className="w-12 h-12 bg-green-700 rounded-xl flex items-center justify-center">
             <Building2 className="size-6 text-white" />
           </div>
           <div className="text-center">
-            <h1 className="text-xl font-bold tracking-tight">
+            <h1 className="text-xl text-white font-bold tracking-tight">
               إنشاء حساب جديد
             </h1>
-            <p className="text-sm text-muted-foreground mt-1">
-              أنشئ حسابك للبدء الآن
-            </p>
+            <p className="text-sm text-white mt-1">أنشئ حسابك للبدء الآن</p>
           </div>
         </div>
 
@@ -283,11 +291,11 @@ export default function RegisterForm() {
         </div>
 
         {/* Login link */}
-        <p className="text-center text-sm text-muted-foreground mt-5">
+        <p className="text-center text-white text-sm  mt-5">
           لديك حساب بالفعل؟{" "}
           <Link
             href="/login"
-            className="text-green-700 font-medium hover:underline"
+            className="text-white font-medium hover:underline"
           >
             تسجيل الدخول
           </Link>

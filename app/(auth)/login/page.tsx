@@ -16,8 +16,9 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useContext } from "react";
-import { UserContext } from "../../(Context)/Context";
+import { UserContext } from "../../(site)/(Context)/Context";
 import Link from "next/link";
+import Image from "next/image";
 
 const formSchema = z.object({
   email: z.string().email("البريد الإلكتروني غير صحيح"),
@@ -73,18 +74,31 @@ export default function LoginForm() {
   }
   return (
     <div
-      className="min-h-screen flex mt-10 justify-center bg-background px-4 "
+      className="relative flex h-screen items-center justify-center"
       dir="rtl"
     >
-      <div className="w-full max-w-md">
+      <Image
+        src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1600&q=80"
+        alt="عقار"
+        fill
+        className="object-cover"
+        priority
+      />
+
+      {/* Dark overlay */}
+      <div className="absolute inset-0 bg-black/50" />
+
+      <div className="relative z-10 w-full max-w-2xl mx-4 bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-8">
         {/* Logo */}
         <div className="flex flex-col items-center gap-3 mb-8">
           <div className="w-12 h-12 bg-green-700 rounded-xl flex items-center justify-center">
             <Building2 className="size-6 text-white" />
           </div>
           <div className="text-center">
-            <h1 className="text-xl font-bold tracking-tight">تسجيل الدخول</h1>
-            <p className="text-sm text-muted-foreground mt-1">
+            <h1 className="text-xl text-white font-bold tracking-tight">
+              تسجيل الدخول
+            </h1>
+            <p className="text-sm text-white  mt-1">
               أهلاً بعودتك، سجل دخولك للمتابعة
             </p>
           </div>
@@ -187,11 +201,11 @@ export default function LoginForm() {
         </div>
 
         {/* Register link */}
-        <p className="text-center text-sm text-muted-foreground mt-5">
+        <p className="text-center text-sm text-white  mt-5">
           ليس لديك حساب؟{" "}
           <Link
             href="/register"
-            className="text-green-700 font-medium hover:underline"
+            className="text-white font-medium hover:underline"
           >
             إنشاء حساب جديد
           </Link>

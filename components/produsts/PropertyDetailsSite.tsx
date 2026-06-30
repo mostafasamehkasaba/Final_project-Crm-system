@@ -15,7 +15,7 @@ import {
   Tag,
 } from "lucide-react";
 
-export default function PropertyDetailsPage() {
+export default function PropertyDetailsPageSite() {
   const params = useParams();
   const id = (params.productID || params.id) as string;
 

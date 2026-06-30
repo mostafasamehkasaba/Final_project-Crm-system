@@ -23,13 +23,11 @@ interface FavoritesProviderProps {
 
 const FAVORITES_STORAGE_KEY = "favorite-properties";
 
-const FavoritesContext = createContext<
-  FavoritesContextType | undefined
->(undefined);
+const FavoritesContext = createContext<FavoritesContextType | undefined>(
+  undefined,
+);
 
-export function FavoritesProvider({
-  children,
-}: FavoritesProviderProps) {
+export function FavoritesProvider({ children }: FavoritesProviderProps) {
   const [favoriteProperties, setFavoriteProperties] = useState<IProperty[]>([]);
 
   /**
@@ -45,38 +43,23 @@ export function FavoritesProvider({
    */
   const loadFavoritesFromStorage = (): void => {
     try {
-      const storedFavorites = localStorage.getItem(
-        FAVORITES_STORAGE_KEY
-      );
+      const storedFavorites = localStorage.getItem(FAVORITES_STORAGE_KEY);
 
       if (!storedFavorites) return;
 
-      const parsedFavorites: IProperty[] =
-        JSON.parse(storedFavorites);
+      const parsedFavorites: IProperty[] = JSON.parse(storedFavorites);
 
       setFavoriteProperties(parsedFavorites);
     } catch (error) {
-      console.error(
-        "Failed to load favorites from localStorage:",
-        error
-      );
+      console.error("Failed to load favorites from localStorage:", error);
     }
   };
 
-  
-  const saveFavoritesToStorage = (
-    favorites: IProperty[]
-  ): void => {
+  const saveFavoritesToStorage = (favorites: IProperty[]): void => {
     try {
-      localStorage.setItem(
-        FAVORITES_STORAGE_KEY,
-        JSON.stringify(favorites)
-      );
+      localStorage.setItem(FAVORITES_STORAGE_KEY, JSON.stringify(favorites));
     } catch (error) {
-      console.error(
-        "Failed to save favorites to localStorage:",
-        error
-      );
+      console.error("Failed to save favorites to localStorage:", error);
     }
   };
 
@@ -84,30 +67,22 @@ export function FavoritesProvider({
    * Check if property already exists
    */
   const isFavorite = (propertyId: string): boolean => {
-    return favoriteProperties.some(
-      (property) => property._id === propertyId
-    );
+    return favoriteProperties.some((property) => property._id === propertyId);
   };
 
   /**
    * Add property to favorites
    */
-  const addToFavorites = (
-    property: IProperty
-  ): void => {
+  const addToFavorites = (property: IProperty): void => {
     const propertyAlreadyExists = favoriteProperties.some(
-      (favoriteProperty) =>
-        favoriteProperty._id === property._id
+      (favoriteProperty) => favoriteProperty._id === property._id,
     );
 
     if (propertyAlreadyExists) {
       return;
     }
 
-    const updatedFavorites = [
-      ...favoriteProperties,
-      property,
-    ];
+    const updatedFavorites = [...favoriteProperties, property];
 
     setFavoriteProperties(updatedFavorites);
 
@@ -117,11 +92,9 @@ export function FavoritesProvider({
   /**
    * Remove property from favorites
    */
-  const removeFromFavorites = (
-    propertyId: string
-  ): void => {
+  const removeFromFavorites = (propertyId: string): void => {
     const updatedFavorites = favoriteProperties.filter(
-      (property) => property._id !== propertyId
+      (property) => property._id !== propertyId,
     );
 
     setFavoriteProperties(updatedFavorites);
@@ -147,9 +120,7 @@ export function useFavorites(): FavoritesContextType {
   const context = useContext(FavoritesContext);
 
   if (!context) {
-    throw new Error(
-      "useFavorites must be used inside FavoritesProvider"
-    );
+    throw new Error("useFavorites must be used inside FavoritesProvider");
   }
 
   return context;

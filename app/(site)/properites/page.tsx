@@ -14,7 +14,7 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
-import { PropertyTypeFilters } from "@/components/produsts/PropertyFilters";
+import { PropertyTypeFiltersSite } from "@/components/produsts/PropertyFiltersSite";
 import { Loader2 } from "lucide-react";
 import { useRouter, usePathname } from "next/navigation";
 
@@ -164,7 +164,20 @@ export default function Products() {
 
   return (
     <div className="container mt-5 mx-auto space-y-6 p-4 md:p-6" dir="rtl">
-      <PropertyTypeFilters
+      {/* Header */}
+      <div className="w-full flex flex-col gap-3 justify-center items-center font-bold h-[150px]">
+        <h3 className="text-2xl">ابحث عن شقة أحلامك هنا</h3>
+        <p className="w-full text-amber-950 text-center">
+          لأنك تستحق المساحة التي تمنحك الراحة والأمان، وفرنا لك تشكيلة واسعة من
+          الشقق المميزة
+        </p>
+      </div>
+
+      {/* Divider */}
+      <div className="w-full max-w-7xl mx-auto px-6 my-4">
+        <div className="h-px bg-linear-to-r from-transparent via-gray-700 to-transparent w-full" />
+      </div>
+      <PropertyTypeFiltersSite
         active={activeFilter}
         onChange={handleFilterChange}
         counts={counts}
