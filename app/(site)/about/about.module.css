@@ -1,6 +1,0 @@
-
-.page {
-  @apply flex flex-col w-full overflow-x-hidden;
-  background-color: #ffffff;
-  direction: rtl;
-}

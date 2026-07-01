@@ -1,7 +1,11 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
-
+@layer utilities {
+  .preserve-3d {
+    transform-style: preserve-3d;
+  }
+}
 @custom-variant dark (&:is(.dark *));
 
 
@@ -128,14 +132,41 @@
 
   body {
     @apply bg-background text-foreground;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   html {
     @apply font-sans;
+    scroll-behavior: smooth;
   }
 
   h2 {
     @apply text-2xl;
   }
 
+}
+
+/* Utility classes for premium UI components */
+.rounded-inherit {
+  border-radius: inherit;
+}
+
+.scrollbar-hidden::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hidden {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Smooth gradient border animation for cards */
+@keyframes gradient-shift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+.animate-gradient-shift {
+  background-size: 200% 200%;
+  animation: gradient-shift 4s ease infinite;
 }

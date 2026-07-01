@@ -29,7 +29,6 @@ import {
   InstallmentStatus,
 } from "@/interfaces/client.interface";
 
-// ─── Local Types ─────────────────────────────────────────────────────────────
 
 interface InstallmentRow {
   amount: string;
@@ -49,9 +48,14 @@ export default function ClientsPage() {
   const [selectedClient, setSelectedClient] = useState<Client | null>(null);
   const [isInstallmentsModalOpen, setIsInstallmentsModalOpen] = useState(false);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
-
-  const [formData, setFormData] = useState<ClientFormState>(EMPTY_CLIENT_FORM);
-  const [formInstallments, setFormInstallments] = useState<InstallmentRow[]>([]);
+  const [formData, setFormData] = useState({
+    user_id: '68503c9d9f4b6c9f4c7a1234',
+    property_id: '685040b29f4b6c9f4c7a5678',
+    totalPrice: '',
+    downPayment: '',
+    notes: '',
+  });
+  const [formInstallments, setFormInstallments] = useState<{ amount: string; dueDate: string }[]>([]);
   const [submitting, setSubmitting] = useState(false);
   const [deleteLoadingId, setDeleteLoadingId] = useState<string | null>(null);
 
@@ -457,40 +461,35 @@ export default function ClientsPage() {
                     + إضافة قسط
                   </button>
                 </div>
-
-                {formInstallments.length === 0 ? (
-                  <p className="text-sm text-gray-400">لا توجد أقساط مضافة بعد</p>
-                ) : (
-                  <div className="space-y-2">
-                    {formInstallments.map((inst, index) => (
-                      <div key={index} className="flex items-center gap-2">
-                        <input
-                          type="number"
-                          placeholder="المبلغ"
-                          value={inst.amount}
-                          onChange={(e) => handleInstallmentChange(index, "amount", e.target.value)}
-                          className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent text-gray-900 text-sm"
-                          min={1}
-                          required
-                        />
-                        <input
-                          type="date"
-                          value={inst.dueDate}
-                          onChange={(e) => handleInstallmentChange(index, "dueDate", e.target.value)}
-                          className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent text-gray-900 text-sm"
-                          required
-                        />
-                        <button
-                          type="button"
-                          onClick={() => removeInstallmentRow(index)}
-                          className="text-red-500 hover:text-red-700 p-2 transition-colors shrink-0"
-                          aria-label="حذف القسط"
-                        >
-                          <X className="w-4 h-4" />
-                        </button>
-                      </div>
-                    ))}
+                {formInstallments.map((inst: any, index: number) => (
+                  <div key={index} className="flex items-center gap-2 mb-2">
+                    <input
+                      type="number"
+                      placeholder="المبلغ"
+                      value={inst.amount}
+                      onChange={(e) => handleInstallmentChange(index, 'amount', e.target.value)}
+                      className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent text-gray-900"
+                      required
+                    />
+                    <input
+                      type="date"
+                      placeholder="تاريخ الاستحقاق"
+                      value={inst.dueDate}
+                      onChange={(e) => handleInstallmentChange(index, 'dueDate', e.target.value)}
+                      className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent text-gray-900"
+                      required
+                    />
+                    <button
+                      type="button"
+                      onClick={() => removeInstallmentRow(index)}
+                      className="text-red-500 hover:text-red-700 p-2"
+                    >
+                      <X className="w-4 h-4" />
+                    </button>
                   </div>
+                ))}
+                {formInstallments.length === 0 && (
+                  <p className="text-sm text-gray-400">لا توجد أقساط مضافة بعد</p>
                 )}
               </div>
 

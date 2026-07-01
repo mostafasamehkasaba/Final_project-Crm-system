@@ -18,39 +18,56 @@ import { useInvoices } from "../../(context)/InvoiceContext";
 export default function InvoicesList() {
   const [searchQuery, setSearchQuery] = useState("");
   const [activeStatus, setActiveStatus] = useState("all");
-const {invoices} = useInvoices()
+
+
+const {invoices,loading,fetchInvoices} = useInvoices()
+ 
+  const overdueStatuses = ["UNPAID", "OVERDUE"] as const;
+
   const statuses = [
     { label: "الكل", value: "all", count: invoices.length },
     {
       label: "مدفوعة",
-      value: "paid",
-      count: invoices.filter((i) => i.status === "paid").length,
+      value: "PAID",
+      count: invoices.filter((i) => i.status === "PAID").length,
     },
     {
       label: "جزئية",
-      value: "partial",
-      count: invoices.filter((i) => i.status === "partial").length,
+      value: "PARTIAL",
+      count: invoices.filter((i) => i.status === "PARTIAL").length,
     },
     {
       label: "متأخرة",
-      value: "overdue",
-      count: invoices.filter((i) => i.status === "overdue").length,
+      value: "OVERDUE",
+      count: invoices.filter((i) =>
+        overdueStatuses.includes(i.status as typeof overdueStatuses[number])
+      ).length,
     },
   ];
 
-  const filteredInvoices = invoices.filter((invoice) => {
-    const matchesStatus =
-      activeStatus === "all" || invoice.status === activeStatus;
+const filteredInvoices = invoices.filter((invoice) => {
+  const matchesStatus =
+    activeStatus === "all" ||
+    (activeStatus === "OVERDUE"
+      ? overdueStatuses.includes(invoice.status as typeof overdueStatuses[number])
+      : invoice.status === activeStatus);
 
-    const query = searchQuery.toLowerCase();
+  const query = searchQuery.toLowerCase();
+  const matchesSearch =
+  invoice.invoiceNumber?.toLowerCase().includes(query) ||
+  invoice.customer_id?.notes?.toLowerCase().includes(query) ||
+  invoice._id?.toLowerCase().includes(query);
+  return matchesStatus && matchesSearch;
+});
 
-    const matchesSearch =
-      invoice.invoiceNumber.toLowerCase().includes(query) ||
-      invoice.customerName.toLowerCase().includes(query);
-
-    return matchesStatus && matchesSearch;
-  });
-
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-slate-50">
+        <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-green-600"></div>
+        <span className="mr-3 text-gray-600 font-medium">جاري جلب فواتير الـ CRM...</span>
+      </div>
+    );
+  }
   return (
     <div dir="rtl" className="p-6 bg-slate-50 min-h-screen font-sans">
       {/* Header */}
@@ -80,7 +97,7 @@ const {invoices} = useInvoices()
         <StatCard
           title="مدفوعة"
           value={
-            statuses.find((s) => s.value === "paid")?.count.toString() || "0"
+            statuses.find((s) => s.value === "PAID")?.count.toString() || "0"
           }
           icon={<CheckCircle2 className="text-green-500" />}
           color="bg-green-50"
@@ -89,7 +106,7 @@ const {invoices} = useInvoices()
         <StatCard
           title="جزئية"
           value={
-            statuses.find((s) => s.value === "partial")?.count.toString() ||
+            statuses.find((s) => s.value === "PARTIAL")?.count.toString() ||
             "0"
           }
           icon={<Clock className="text-orange-500" />}
@@ -99,7 +116,7 @@ const {invoices} = useInvoices()
         <StatCard
           title="متأخرة"
           value={
-            statuses.find((s) => s.value === "overdue")?.count.toString() ||
+            statuses.find((s) => s.value === "OVERDUE")?.count.toString() ||
             "0"
           }
           icon={<AlertCircle className="text-red-500" />}
@@ -157,7 +174,7 @@ const {invoices} = useInvoices()
       {/* Table */}
       <div className="bg-white rounded-b-xl shadow-sm">
         {filteredInvoices.length > 0 ? (
-          <InvoiceTable data={filteredInvoices} />
+          <InvoiceTable data={filteredInvoices}  onDelete={fetchInvoices}/>
         ) : (
           <div className="min-h-[300px] flex flex-col items-center justify-center text-gray-400 p-8 border-x border-b border-gray-100 rounded-b-xl">
             <div className="p-6 border-2 border-dashed border-gray-100 rounded-full mb-4">

@@ -1,9 +1,7 @@
-"use client";
-
-import React, { useState } from "react";
-import { X, CheckCircle2, Clock, Calendar, BadgeDollarSign } from "lucide-react";
-import { Client, Installment } from "@/interfaces/client.interface";
-import { updateInstallmentStatus } from "@/services/client.service";
+import { Client } from '@/interfaces/client.interface';
+import { X } from 'lucide-react';
+import Cookies from 'js-cookie';
+import { useState } from 'react';
 
 interface InstallmentsModalProps {
   isOpen: boolean;
@@ -23,18 +21,45 @@ export default function InstallmentsModal({
 
   if (!isOpen || !client) return null;
 
-  const handleStatusToggle = async (installment: Installment) => {
-    setUpdatingId(installment._id);
+  const installments = client.installments || [];
+
+  // دالة إغلاق المودال مع تنظيف الأخطاء
+  const handleClose = () => {
     setModalError(null);
-    
-    // عكس الحالة الحالية
-    const newStatus = installment.status === "PAID" ? "PENDING" : "PAID";
+    onClose();
+  };
+
+  const handlePayInstallment = async (installmentId: string) => {
+    setUpdatingId(installmentId);
+    setModalError(null);
 
     try {
-      await updateInstallmentStatus(client._id, installment._id, newStatus);
-      onRefresh(); // إعادة جلب البيانات لتحديث الصفحة والعدادات والكرت الرئيسي
-    } catch (err: unknown) {
-      setModalError(err instanceof Error ? err.message : "فشل في تحديث حالة القسط");
+      const token = Cookies.get('admin_token');
+
+      const response = await fetch(
+        `https://back-end-crm-project.vercel.app/api/clients/${client._id}/installments/${installmentId}`,
+        {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ status: 'PAID' }),
+        }
+      );
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.message || 'فشل في تحديث حالة القسط');
+      }
+
+      // تحديث البيانات بعد النجاح
+      await onRefresh();
+    } catch (error) {
+      console.error(error);
+      setModalError(
+        error instanceof Error ? error.message : 'حدث خطأ أثناء تحصيل القسط، يرجى المحاولة مرة أخرى'
+      );
     } finally {
       setUpdatingId(null);
     }
@@ -42,108 +67,101 @@ export default function InstallmentsModal({
 
   return (
     <div
-      className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4 animate-fade-in"
-      onClick={onClose}
-      role="dialog"
-      aria-modal="true"
+      className="fixed inset-0 bg-black/50 flex items-center justify-center z-50"
+      onClick={handleClose}
     >
       <div
-        className="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[85vh] flex flex-col animate-scale-up"
+        className="bg-white rounded-2xl shadow-2xl max-w-4xl w-full mx-4 max-h-[90vh] flex flex-col"
         onClick={(e) => e.stopPropagation()}
-        dir="rtl"
       >
-        {/* Modal Header */}
-        <div className="flex justify-between items-center p-5 border-b border-gray-100">
-          <div className="flex flex-col">
-            <h3 className="text-lg font-bold text-gray-900">
-              جدول أقساط: {client.user_id?.name ?? "عميل غير معروف"}
-            </h3>
-            <p className="text-xs text-gray-500 mt-0.5">
-              عقار: {client.property_id?.title ?? "غير محدد"} | المتبقي المطلوب: {(client.totalPrice - client.downPayment).toLocaleString("ar-EG")} ج.م
-            </p>
-          </div>
+        {/* الرأس */}
+        <div className="flex justify-between items-center p-6 border-b border-gray-100 shrink-0">
+          <h2 className="text-xl font-bold text-gray-800 truncate">
+            {client.user_id?.name || 'عميل غير معروف'} –{' '}
+            {client.property_id?.title || 'عقار غير محدد'}
+          </h2>
           <button
-            type="button"
-            onClick={onClose}
-            className="text-gray-400 hover:text-gray-600 p-1.5 rounded-lg hover:bg-gray-50 transition-colors"
+            onClick={handleClose}
+            className="text-gray-400 hover:text-gray-600 transition-colors"
+            aria-label="إغلاق"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
-        {/* Modal Body */}
-        <div className="p-6 overflow-y-auto space-y-4 flex-1">
+        {/* الجسم */}
+        <div className="overflow-y-auto p-6 flex-1">
+          {/* عرض الخطأ إن وجد */}
           {modalError && (
-            <p className="text-sm text-red-600 bg-red-50 border border-red-200 px-3 py-2 rounded-lg">
+            <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-2 rounded-lg text-sm mb-4">
               {modalError}
-            </p>
+            </div>
           )}
 
-          {client.installments.length === 0 ? (
-            <div className="text-center py-12 text-gray-400">
-              <BadgeDollarSign className="w-12 h-12 mx-auto text-gray-300 mb-2" />
-              <p className="text-sm font-medium">لم يتم إدراج خطة أقساط لهذا العقد بعد.</p>
+          {installments.length === 0 ? (
+            <div className="text-center py-12 text-gray-500">
+              لا توجد أقساط مسجلة لهذا العقد
             </div>
           ) : (
-            <div className="border border-gray-100 rounded-xl overflow-hidden shadow-sm">
-              <table className="w-full text-right border-collapse text-sm">
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm">
                 <thead>
-                  <tr className="bg-gray-50 border-b border-gray-100 text-gray-500 font-medium">
-                    <th className="p-3">مبلغ القسط</th>
-                    <th className="p-3">تاريخ الاستحقاق</th>
-                    <th className="p-3 text-center">الحالة</th>
-                    <th className="p-3 text-center">الإجراء</th>
+                  <tr className="text-right text-gray-500 border-b border-gray-100">
+                    <th className="pb-3 font-medium">القسط</th>
+                    <th className="pb-3 font-medium">المبلغ</th>
+                    <th className="pb-3 font-medium">تاريخ الاستحقاق</th>
+                    <th className="pb-3 font-medium">الحالة</th>
+                    <th className="pb-3 font-medium">إجراء</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {client.installments.map((inst, index) => {
-                    const isPaid = inst.status === "PAID";
+                  {installments.map((installment, index) => {
+                    const isPaid = installment.status === 'PAID';
+                    const isUpdating = updatingId === installment._id;
+
+                    const statusBadge = isPaid
+                      ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
+                      : 'bg-amber-50 text-amber-700 border-amber-200';
+
+                    const statusText = isPaid ? 'مدفوع' : 'غير مدفوع';
+
                     return (
-                      <tr key={inst._id} className="border-b border-gray-50 last:border-none hover:bg-gray-50/50 transition-colors">
-                        <td className="p-3 font-semibold text-gray-800">
-                          {inst.amount.toLocaleString("ar-EG")} ج.م
+                      <tr
+                        key={installment._id}
+                        className="border-b border-gray-50 last:border-0"
+                      >
+                        <td className="py-3 font-medium text-gray-800">
+                          قسط رقم {index + 1}
                         </td>
-                        <td className="p-3 text-gray-600">
-                          <div className="flex items-center gap-1.5">
-                            <Calendar className="w-3.5 h-3.5 text-gray-400" />
-                            {new Date(inst.dueDate).toLocaleDateString("ar-EG", {
-                              year: "numeric",
-                              month: "long",
-                              day: "numeric",
-                            })}
-                          </div>
+                        <td className="py-3 text-gray-800">
+                          {installment.amount.toLocaleString()} ج.م
                         </td>
-                        <td className="p-3 text-center">
+                        <td className="py-3 text-gray-600">
+                          {new Date(installment.dueDate).toLocaleDateString(
+                            'ar-EG'
+                          )}
+                        </td>
+                        <td className="py-3">
                           <span
-                            className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium border ${
-                              isPaid
-                                ? "bg-green-50 text-green-700 border-green-100"
-                                : "bg-amber-50 text-amber-700 border-amber-100"
-                            }`}
+                            className={`px-2.5 py-1 rounded-full text-xs font-medium border ${statusBadge}`}
                           >
-                            {isPaid ? <CheckCircle2 className="w-3 h-3" /> : <Clock className="w-3 h-3" />}
-                            {isPaid ? "مدفوع" : "قيد الانتظار"}
+                            {statusText}
                           </span>
                         </td>
-                        <td className="p-3 text-center">
-                          <button
-                            type="button"
-                            disabled={updatingId === inst._id}
-                            onClick={() => handleStatusToggle(inst)}
-                            className={`text-xs px-3 py-1.5 rounded-lg border font-medium transition-colors shadow-sm disabled:opacity-50 ${
-                              isPaid
-                                ? "bg-white text-amber-600 border-amber-200 hover:bg-amber-50"
-                                : "bg-green-600 text-white border-transparent hover:bg-green-700"
-                            }`}
-                          >
-                            {updatingId === inst._id ? (
-                              <span className="inline-block w-3.5 h-3.5 border-2 border-current border-t-transparent rounded-full animate-spin" />
-                            ) : isPaid ? (
-                              "تحويل لقيد الانتظار"
-                            ) : (
-                              "تعيين كمدفوع"
-                            )}
-                          </button>
+                        <td className="py-3">
+                          {!isPaid ? (
+                            <button
+                              onClick={() =>
+                                handlePayInstallment(installment._id!)
+                              }
+                              disabled={isUpdating}
+                              className="bg-green-600 hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed text-white px-3 py-1.5 text-xs font-medium rounded-lg transition-colors"
+                            >
+                              {isUpdating ? 'جاري التحصيل...' : 'تحصيل القسط'}
+                            </button>
+                          ) : (
+                            <span className="text-gray-400 text-xs">مكتمل</span>
+                          )}
                         </td>
                       </tr>
                     );
@@ -153,12 +171,12 @@ export default function InstallmentsModal({
             </div>
           )}
         </div>
-        
-        {/* Modal Footer */}
-        <div className="p-4 bg-gray-50 border-t border-gray-100 rounded-b-2xl flex justify-end">
+
+        {/* التذييل */}
+        <div className="p-4 bg-gray-50 border-t border-gray-100 rounded-b-2xl flex justify-end shrink-0">
           <button
             type="button"
-            onClick={onClose}
+            onClick={handleClose}
             className="bg-white hover:bg-gray-100 text-gray-700 border border-gray-300 font-medium px-4 py-2 rounded-xl text-sm transition-colors shadow-sm"
           >
             إغلاق النافذة

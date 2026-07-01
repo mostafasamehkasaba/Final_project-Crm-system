@@ -25,9 +25,11 @@ import {
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
 import Link from "next/link";
+import NotificationBell from "@/components/NotificationBell";
 
 export default function NavbarDash() {
   return (
+
     <div
       className="flex h-16 w-full items-center justify-between border-b border-slate-100 bg-white px-3 md:px-6 shadow-sm sticky top-0 z-50"
       dir="rtl"
@@ -99,13 +101,7 @@ export default function NavbarDash() {
         <div className="h-5 w-[1px] bg-slate-200" />
 
         {/* 2. زر الإشعارات */}
-        <button
-          type="button"
-          className="relative hover:bg-slate-50 p-2 md:p-2.5 rounded-xl transition-all cursor-pointer text-slate-500 hover:text-slate-900 shrink-0"
-        >
-          <BellRing className="size-4 md:size-5" />
-          <span className="absolute top-2 left-2 w-2 h-2 bg-red-500 rounded-full ring-2 ring-white" />
-        </button>
+        <NotificationBell/>
 
         {/* خط فاصل مرن */}
         <div className="h-5 w-[1px] bg-slate-200" />
