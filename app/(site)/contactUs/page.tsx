@@ -13,17 +13,12 @@ const ContactUs = () => {
   };
 
   return (
-<<<<<<< HEAD
-    <div className="w-full flex-1 flex flex-col font-sans" dir="rtl">
-      <div className="relative h-[100vh] w-full flex items-center justify-center text-center px-6 overflow-hidden bg-zinc-950">
-=======
     <div className='w-full flex-1 flex flex-col font-sans' dir="rtl">
       
    
       <div className='relative h-[100vh] w-full flex items-center justify-center text-center px-6 overflow-hidden bg-zinc-950'> 
         
  
->>>>>>> 9e70b406a0136c38d0c0e4874bfb7ad919d74c0f
         <motion.div
           initial={{ opacity: 0, scale: 1.1 }}
           animate={{ opacity: 1, scale: 1 }}

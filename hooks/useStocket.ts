@@ -7,13 +7,21 @@ let socket: Socket | null = null;
 
 export const getSocket = () => {
   if (!socket) {
-    socket = io("http://localhost:8000", {
+    socket = io("https://back-end-crm-project.vercel.app", {
       transports: ["websocket"],
     });
+
+    socket.on("connect", () => {
+      console.log("✅ Connected", socket.id);
+    });
+
+    socket.on("connect_error", (err) => {
+      console.log("❌ Socket Error", err.message);
+    });
   }
+
   return socket;
 };
-
 export const useSocket = () => {
   const socketRef = useRef<Socket | null>(null);
 

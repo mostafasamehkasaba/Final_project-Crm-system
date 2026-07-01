@@ -74,34 +74,6 @@ export default function LoginForm() {
   }
   return (
     <div
-<<<<<<< HEAD
-      className="relative flex h-screen items-center justify-center"
-      dir="rtl"
-    >
-      <Image
-        src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1600&q=80"
-        alt="عقار"
-        fill
-        className="object-cover"
-        priority
-      />
-
-      {/* Dark overlay */}
-      <div className="absolute inset-0 bg-black/50" />
-
-      <div className="relative z-10 w-full max-w-2xl mx-4 bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-8">
-        {/* Logo */}
-        <div className="flex flex-col items-center gap-3 mb-8">
-          <div className="w-12 h-12 bg-green-700 rounded-xl flex items-center justify-center">
-            <Building2 className="size-6 text-white" />
-          </div>
-          <div className="text-center">
-            <h1 className="text-xl text-white font-bold tracking-tight">
-              تسجيل الدخول
-            </h1>
-            <p className="text-sm text-white  mt-1">
-              أهلاً بعودتك، سجل دخولك للمتابعة
-=======
       className="relative min-h-screen w-full flex items-center justify-center overflow-hidden bg-zinc-950 px-4 py-12"
       dir="rtl"
     >
@@ -129,7 +101,6 @@ export default function LoginForm() {
             <h1 className="text-2xl font-bold tracking-tight text-white">تسجيل الدخول</h1>
             <p className="text-sm text-zinc-400 mt-1.5">
               أهلاً بعودتك، سجل دخولك للمتابعة في منصتك
->>>>>>> 9e70b406a0136c38d0c0e4874bfb7ad919d74c0f
             </p>
           </div>
         </div>
@@ -230,33 +201,12 @@ export default function LoginForm() {
           </Form>
         </div>
 
-<<<<<<< HEAD
         {/* Register link */}
         <p className="text-center text-sm text-white  mt-5">
           ليس لديك حساب؟{" "}
           <Link
             href="/register"
             className="text-white font-medium hover:underline"
-=======
-        {/* Trust strip */}
-        <div className="flex items-center justify-center gap-6 text-zinc-500 text-xs">
-          <div className="flex items-center gap-1.5">
-            <ShieldCheck size={14} className="text-green-600" />
-            <span>اتصال مشفّر وآمن</span>
-          </div>
-          <div className="flex items-center gap-1.5">
-            <KeyRound size={14} className="text-green-600" />
-            <span>بياناتك محمية</span>
-          </div>
-        </div>
-
-        {/* Register Link */}
-        <p className="text-center text-sm text-zinc-400 mt-2">
-          ليس لديك حساب؟{" "}
-          <Link
-            href="/register"
-            className="text-green-500 font-semibold hover:text-green-400 hover:underline transition-colors"
->>>>>>> 9e70b406a0136c38d0c0e4874bfb7ad919d74c0f
           >
             إنشاء حساب جديد
           </Link>

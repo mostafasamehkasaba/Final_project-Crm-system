@@ -4,12 +4,8 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useRouter } from "next/navigation";
-<<<<<<< HEAD
 import Image from "next/image";
-import { User, Mail, Phone, Lock, UserPlus, Building2 } from "lucide-react";
-=======
 import { User, Mail, Phone, Lock, UserPlus, Building2, ShieldCheck, KeyRound } from "lucide-react";
->>>>>>> 9e70b406a0136c38d0c0e4874bfb7ad919d74c0f
 import {
   Form,
   FormControl,
@@ -97,7 +93,6 @@ export default function RegisterForm() {
 
   return (
     <div
-<<<<<<< HEAD
       className="relative flex h-screen items-center justify-center"
       dir="rtl"
     >
@@ -121,38 +116,6 @@ export default function RegisterForm() {
               إنشاء حساب جديد
             </h1>
             <p className="text-sm text-white mt-1">أنشئ حسابك للبدء الآن</p>
-=======
-      className="relative min-h-screen w-full flex items-center justify-center overflow-hidden bg-zinc-950 px-4 py-12"
-      dir="rtl"
-    >
-      {/* خلفية احترافية: تدرج عميق + توهجات خضراء ناعمة + شبكة خطوط خفيفة */}
-      <div className="absolute inset-0">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_15%_20%,rgba(21,128,61,0.25),transparent_45%),radial-gradient(circle_at_85%_80%,rgba(21,128,61,0.18),transparent_45%)]" />
-        <div
-          className="absolute inset-0 opacity-[0.07]"
-          style={{
-            backgroundImage:
-              "linear-gradient(to right, white 1px, transparent 1px), linear-gradient(to bottom, white 1px, transparent 1px)",
-            backgroundSize: "48px 48px",
-          }}
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-zinc-950/40 via-zinc-950/60 to-zinc-950" />
-      </div>
-
-      <div className="relative z-10 w-full max-w-md space-y-6">
-        {/* Logo Section */}
-        <div className="flex flex-col items-center gap-3 text-center">
-          <div className="w-12 h-12 bg-green-700 rounded-xl flex items-center justify-center shadow-lg shadow-green-700/20 transition-transform hover:scale-105 duration-300">
-            <Building2 className="size-6 text-white" />
-          </div>
-          <div>
-            <h1 className="text-2xl font-bold tracking-tight text-white">
-              إنشاء حساب جديد
-            </h1>
-            <p className="text-sm text-zinc-400 mt-1.5">
-              أنشئ حسابك للبدء في استكشاف منصتنا الآن
-            </p>
->>>>>>> 9e70b406a0136c38d0c0e4874bfb7ad919d74c0f
           </div>
         </div>
 
@@ -327,14 +290,6 @@ export default function RegisterForm() {
           </Form>
         </div>
 
-<<<<<<< HEAD
-        {/* Login link */}
-        <p className="text-center text-white text-sm  mt-5">
-          لديك حساب بالفعل؟{" "}
-          <Link
-            href="/login"
-            className="text-white font-medium hover:underline"
-=======
         {/* Trust strip */}
         <div className="flex items-center justify-center gap-6 text-zinc-500 text-xs">
           <div className="flex items-center gap-1.5">
@@ -353,7 +308,6 @@ export default function RegisterForm() {
           <Link
             href="/login"
             className="text-green-500 font-semibold hover:text-green-400 hover:underline transition-colors"
->>>>>>> 9e70b406a0136c38d0c0e4874bfb7ad919d74c0f
           >
             تسجيل الدخول
           </Link>

@@ -12,14 +12,14 @@ export default function SiteLayout({
   return (
     <ThemeProvider
       attribute="class"
-      defaultTheme="system"
-      enableSystem
+      defaultTheme="light"
+      enableSystem={false}
       disableTransitionOnChange
     >
       <UserContextProvider>
         <FavoritesProvider>
           <Navbar />
-          <main suppressHydrationWarning>{children}</main>
+          <main>{children}</main>
           <Footer />
         </FavoritesProvider>
       </UserContextProvider>
